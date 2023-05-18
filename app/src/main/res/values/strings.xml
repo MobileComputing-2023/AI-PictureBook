@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">My Application</string>
+    <array name="genre">
+        <item>로맨스</item>
+        <item>판타지</item>
+        <item>무협</item>
+    </array>
+    <array name="era">
+        <item>중세 유럽</item>
+        <item>현대</item>
+        <item>르네상스</item>
+        <item>고대 로마</item>
+        <item>조선시대</item>
+        <item>19세기</item>
+        <item>20세기</item>
+        <item>현대</item>
+    </array>
 </resources>
