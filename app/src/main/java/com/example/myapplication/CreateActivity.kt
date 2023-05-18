@@ -3,15 +3,15 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.databinding.ActivitySubBinding
 
-class MainActivity : AppCompatActivity() {
+class CreateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding = ActivitySubBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        binding.test.setOnClickListener {
+        binding.btncreate.setOnClickListener {
             val intent: Intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
