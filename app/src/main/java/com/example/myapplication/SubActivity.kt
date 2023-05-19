@@ -26,7 +26,8 @@ class SubActivity : AppCompatActivity() {
         val selectedEra = intent.getStringExtra("selectedEra")
         binding.eraView.text = "시대: $selectedEra"
 
-        binding.sumView.text = "이야기 줄거리: ${intent.getStringExtra("summary")}"
+        val summary = intent.getStringExtra("summary")
+        binding.summaryTextView.text = "$summary"
 
         binding.btncreate.setOnClickListener {
             val intent: Intent = Intent(this, CreateActivity::class.java)
