@@ -78,7 +78,7 @@ class SettingActivity : AppCompatActivity() {
 
     private fun runGPT3(callback: (String) -> Unit) {
         val client = OkHttpClient()
-        val apiKey = "mykey" // Replace with your OpenAI API key
+        val apiKey = "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" // Replace with your OpenAI API key
         val url = "https://api.openai.com/v1/chat/completions"
         val json = """
             {
