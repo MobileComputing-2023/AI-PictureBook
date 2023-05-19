@@ -43,6 +43,7 @@
             tools:ignore="MissingConstraints"
             android:textSize="15dp"/>
         <TextView
+            android:id="@+id/summaryTextView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
