@@ -19,6 +19,9 @@
         <activity android:name=".SubActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".DrawActivity"
+            android:exported="true">
+        </activity>
 
         <activity
             android:name=".MainActivity"

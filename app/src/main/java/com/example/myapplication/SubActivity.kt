@@ -32,7 +32,7 @@ class SubActivity : AppCompatActivity() {
         binding.summaryTextView.text = "$summary"
 
         binding.btncreate.setOnClickListener {
-            val intent: Intent = Intent(this, CreateActivity::class.java)
+            val intent: Intent = Intent(this, DrawActivity::class.java)
             startActivity(intent)
         }
 
