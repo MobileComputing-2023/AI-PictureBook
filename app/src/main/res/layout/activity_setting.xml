@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
                 android:id="@+id/NumMan"/>
@@ -87,6 +87,7 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:id="@+id/NumWoman"/>
 
             <Button
