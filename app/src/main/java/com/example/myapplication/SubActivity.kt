@@ -26,6 +26,8 @@ class SubActivity : AppCompatActivity() {
         val selectedEra = intent.getStringExtra("selectedEra")
         binding.eraView.text = "시대: $selectedEra"
 
+        binding.sumView.text = "이야기 줄거리: ${intent.getStringExtra("key")}"
+
         val summary = intent.getStringExtra("summary")
         binding.summaryTextView.text = "$summary"
 

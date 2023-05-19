@@ -67,6 +67,7 @@ class SettingActivity : AppCompatActivity() {
                     putExtra("NumMan", NumMan)
                     putExtra("NumWoman", NumWoman)
                     putExtra("num", 30)
+                    putExtra("key", binding.writesum.text.toString())
                     putExtra("summary", responseBody)
                 }
                 startActivity(intent)
