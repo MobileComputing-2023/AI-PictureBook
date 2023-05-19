@@ -1,2 +1,2 @@
 # AI-PictureBook
-Create picture books using OpenAPI
+Create picture books using OpenAI
