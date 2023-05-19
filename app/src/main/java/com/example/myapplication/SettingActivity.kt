@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.example.myapplication.databinding.ActivitySettingBinding
+import okhttp3.*
 
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class SettingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,38 +78,41 @@ class SettingActivity : AppCompatActivity() {
     }
 
     private fun runGPT3(callback: (String) -> Unit) {
-        val client = OkHttpClient()
-        val apiKey = "mykey" // Replace with your OpenAI API key
-        val url = "https://api.openai.com/v1/chat/completions"
-        val json = """
-            {
-                "model": "gpt-3.5-turbo",
-                "messages": [
-                    {"role": "user", "content": "Can you help me with writing a story?"}
-                ]
-            }
-        """.trimIndent()
-
-        val mediaType = "application/json".toMediaType()
-        val requestBody = json.toRequestBody(mediaType)
-        val request = Request.Builder()
-            .url(url)
-            .addHeader("Authorization", "Bearer $apiKey")
-            .post(requestBody)
+        val client = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
+        val apiKey = "myKey"
+        val url = "https://api.openai.com/v1/engines/text-davinci-003/completions"
+
+        val requestBody = """
+        {
+            "prompt": "The characters are two handsome men, one pretty woman, the background is Rome, the times are 1500s, and the plot is about the universe, so please write short 10 sentences",
+            "max_tokens": 500,
+            "temperature": 0
+        }
+    """.trimIndent()
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Content-Type", "application/json")
+            .addHeader("Authorization", "Bearer $apiKey")
+            .post(requestBody.toRequestBody("application/json".toMediaTypeOrNull()))
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
                 // Handle request failure
             }
 
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                val responseBody = response.body?.string()
-                val jsonResponse = JSONObject(responseBody)
-                val choicesArray = jsonResponse.getJSONArray("choices")
-                val messageContent = choicesArray.getJSONObject(0).getJSONObject("message").getString("content")
-
-                callback(messageContent ?: "")
+            override fun onResponse(call: Call, response: Response) {
+                val body = response.body?.string()
+                val jsonObject = JSONObject(body)
+                val jsonArray = jsonObject.getJSONArray("choices")
+                val textResult = jsonArray.getJSONObject(0).getString("text")
+                callback(textResult)
             }
 
         })
