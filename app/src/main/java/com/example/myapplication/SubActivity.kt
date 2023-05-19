@@ -33,6 +33,11 @@ class SubActivity : AppCompatActivity() {
             val intent: Intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btnRewrite.setOnClickListener {
+            val intent: Intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
