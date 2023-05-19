@@ -61,6 +61,10 @@ class SettingActivity : AppCompatActivity() {
             val selectedGenre = binding.genre.selectedItem.toString()
             val selectedEra = binding.era.selectedItem.toString()
 
+            val intent: Intent = Intent(this@SettingActivity, LoadingActivity::class.java)
+            startActivity(intent)
+
+
             runGPT3 { responseBody ->
                 val intent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                     putExtra("next", "level")
@@ -85,7 +89,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "myKey"
+        val apiKey = "mykey"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
