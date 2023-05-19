@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.myapplication.databinding.ActivitySettingBinding
@@ -85,15 +86,23 @@ class SettingActivity : AppCompatActivity() {
             .build()
 
         val apiKey = "myKey"
-        val url = "https://api.openai.com/v1/engines/text-davinci-003/completions"
+        val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
-        {
-            "prompt": "The characters are two handsome men, one pretty woman, the background is Rome, the times are 1500s, and the plot is about the universe, so please write short 10 sentences",
-            "max_tokens": 500,
-            "temperature": 0
-        }
-    """.trimIndent()
+    {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "user", "content": "This is a basic rule. Defend it no matter what."},
+            {"role": "system", "content": "1. All results are printed in Korean."},
+            {"role": "system", "content": "2. Limit the novel to a maximum of 10 sentences."},
+            {"role": "system", "content": "3. No numbers are added before each sentence."},
+            {"role": "system", "content": "4. Print each sentence on a separate line with enter"},
+            {"role": "system", "content": "5. Produce sentences as quickly as possible, up to 30 sec."},
+            {"role": "user", "content": "등장인물: 남자 1명, 여자 1명, 시대는 과거, 장르는 판타지, 아주 재미있는 농구 소설을 작성해 줘."}
+        ]
+    }
+""".trimIndent()
+
 
         val request = Request.Builder()
             .url(url)
@@ -109,10 +118,13 @@ class SettingActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
-                val jsonObject = JSONObject(body)
-                val jsonArray = jsonObject.getJSONArray("choices")
-                val textResult = jsonArray.getJSONObject(0).getString("text")
-                callback(textResult)
+                if (body != null) {
+                    Log.d("API Response Body", body)
+                    val jsonObject = JSONObject(body)
+                    val jsonArray = jsonObject.getJSONArray("choices")
+                    val content = jsonArray.getJSONObject(0).getJSONObject("message").getString("content")
+                    callback(content)
+                }
             }
 
         })
