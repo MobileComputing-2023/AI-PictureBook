@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.example.myapplication.databinding.ActivitySettingBinding
 import okhttp3.*
 
@@ -60,10 +61,17 @@ class SettingActivity : AppCompatActivity() {
         binding.btnwrite.setOnClickListener {
             val selectedGenre = binding.genre.selectedItem.toString()
             val selectedEra = binding.era.selectedItem.toString()
+            val writesumText = binding.writesum.text.toString()
+
+            if (writesumText.length > 200) {
+                // 글자 수가 200자를 초과하는 경우 처리
+                // 예를 들어, 사용자에게 알림 메시지를 보여줄 수 있습니다.
+                Toast.makeText(this@SettingActivity, "글자 수를 200자 이내로 제한해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val intent: Intent = Intent(this@SettingActivity, LoadingActivity::class.java)
             startActivity(intent)
-
 
             runGPT3 { responseBody ->
                 val intent = Intent(this@SettingActivity, SubActivity::class.java).apply {
@@ -73,13 +81,13 @@ class SettingActivity : AppCompatActivity() {
                     putExtra("NumMan", NumMan)
                     putExtra("NumWoman", NumWoman)
                     putExtra("num", 30)
-                    putExtra("key", binding.writesum.text.toString())
+                    putExtra("key", writesumText)
                     putExtra("summary", responseBody)
                 }
                 startActivity(intent)
             }
-
         }
+
     }
 
     private fun runGPT3(callback: (String) -> Unit) {
