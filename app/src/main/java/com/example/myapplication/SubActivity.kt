@@ -12,7 +12,7 @@ class SubActivity : AppCompatActivity() {
         val binding = ActivitySubBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true); //뒤로가기
         getSupportActionBar()?.setTitle("그림책 콘티 확인하기");
         val numMan = intent.getIntExtra("NumMan", 0)
         binding.NManView.text = "남자 수: $numMan"
@@ -31,13 +31,13 @@ class SubActivity : AppCompatActivity() {
         val summary = intent.getStringExtra("summary")
         binding.summaryTextView.text = "$summary"
 
-        binding.btncreate.setOnClickListener {
+        binding.btnDraw.setOnClickListener {
             val intent: Intent = Intent(this, DrawActivity::class.java)
             startActivity(intent)
         }
 
-        binding.btnRewrite.setOnClickListener {
-            val intent: Intent = Intent(this, SettingActivity::class.java)
+        binding.btnAI.setOnClickListener {
+            val intent: Intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
         }
     }
