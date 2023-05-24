@@ -15,6 +15,9 @@
         <activity android:name=".SettingActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".CreateActivity"
+            android:exported="true">
+        </activity>
         <activity android:name=".LoadingActivity"
             android:exported="true">
         </activity>

@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
@@ -51,7 +52,7 @@ class DrawActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityDrawBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
         val myView = MyView(this)
         binding.drawLinear.addView(myView)
 
@@ -71,5 +72,14 @@ class DrawActivity : AppCompatActivity() {
             myView.points.clear()
             myView.invalidate()
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
