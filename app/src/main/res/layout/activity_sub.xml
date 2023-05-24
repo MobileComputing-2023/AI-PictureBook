@@ -56,18 +56,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="생성된 줄거리는 다음과 같습니다."
+            android:text="생성된 소설은 다음과 같습니다."
             android:textSize="15dp"
             android:layout_marginBottom="1dp"/>
 
-        <TextView
-            android:id="@+id/summaryTextView"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:hint="생성된 줄거리가 표시될 부분"
-            android:textSize="15dp"
-            android:background="@drawable/border"/>
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/summaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="생성된 줄거리가 표시될 부분"
+                android:textSize="15dp"
+                android:background="@drawable/border" />
+
+        </ScrollView>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,19 +85,19 @@
             android:padding="20dp">
 
             <Button
-                android:id="@+id/btncreate"
+                android:id="@+id/btnAI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="그림책 생성"
+                android:text="AI 그리기"
                 tools:ignore="MissingConstraints"
                 android:layout_marginRight="30dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnRewrite"
-                android:text="다시 만들기"
+                android:id="@+id/btnDraw"
+                android:text="직접 그리기"
                 tools:ignore="MissingConstraints"
                 android:layout_gravity="center"/>
         </LinearLayout>
