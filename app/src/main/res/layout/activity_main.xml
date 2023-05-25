@@ -10,7 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:contentDescription="home화면, 로고 이미지 들어갈 자리" />
+        android:layout_marginTop="80dp"
+        android:src="@drawable/homelogo"
+        android:contentDescription="ImageTailer_logo_img" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,14 +21,17 @@
         android:gravity="center">
         <Button
             android:id="@+id/settingBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/home_round_button"
+            android:layout_marginBottom="10dp"
             android:text="그림책 만들기"
             android:textSize="25sp"/>
         <Button
             android:id="@+id/readBookListBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/home_round_button"
             android:layout_marginBottom="100dp"
             android:text="내 그림책 읽기"
             android:textSize="25sp"/>

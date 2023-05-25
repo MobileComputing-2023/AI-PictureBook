@@ -11,8 +11,14 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
         binding.settingBtn.setOnClickListener {
             val intent: Intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.readBookListBtn.setOnClickListener {
+            val intent: Intent = Intent(this, ListActivity::class.java)
             startActivity(intent)
         }
     }
