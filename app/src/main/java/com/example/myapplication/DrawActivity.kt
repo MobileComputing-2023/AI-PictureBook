@@ -76,10 +76,12 @@ class DrawActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     private fun openColorPicker(myView: MyView) {
+        val originalColor = myView.color
+
         val colorPicker = AmbilWarnaDialog(this, myView.color, object :
             AmbilWarnaDialog.OnAmbilWarnaListener {
             override fun onCancel(dialog: AmbilWarnaDialog?) {
-                // 취소
+                myView.color = originalColor
             }
 
             override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
@@ -88,5 +90,4 @@ class DrawActivity : AppCompatActivity() {
         })
         colorPicker.show()
     }
-
 }
