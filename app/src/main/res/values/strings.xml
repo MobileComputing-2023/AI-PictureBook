@@ -29,4 +29,16 @@
         <item>"신데렐라"의 유래는 \n교황이었던 신데렐라(신데렐라라는 이름이 아닙니다)와\n 관련이 있다고 해요.</item>
         <item>조금만 더 기다려 주세요^__^!\n따끈따끈한 그림책이 만들어지고 있어요.</item>
     </string-array>
+
+    <!-- 임시로 생성한 책 제목 리스트 -->
+    <string-array name="book_titles">
+        <item>Title 1</item>
+        <item>Title 2</item>
+        <item>Title 3</item>
+        <item>Title 4</item>
+        <item>Title 5</item>
+        <item>Title 6</item>
+        <item>Title 7</item>
+    </string-array>
+
 </resources>

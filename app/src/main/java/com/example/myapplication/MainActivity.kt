@@ -16,5 +16,10 @@ class MainActivity : AppCompatActivity() {
             val intent: Intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
         }
+
+        binding.readBookListBtn.setOnClickListener {
+            val intent: Intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
