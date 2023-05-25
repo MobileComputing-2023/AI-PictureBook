@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
+import yuku.ambilwarna.AmbilWarnaDialog
 
 class DrawActivity : AppCompatActivity() {
 
@@ -56,21 +57,13 @@ class DrawActivity : AppCompatActivity() {
         val myView = MyView(this)
         binding.drawLinear.addView(myView)
 
-        binding.drawRedBtn.setOnClickListener {
-            myView.color = Color.RED
-        }
-
-        binding.drawBlueBtn.setOnClickListener {
-            myView.color = Color.BLUE
-        }
-
-        binding.drawBlackBtn.setOnClickListener {
-            myView.color = Color.BLACK
-        }
-
         binding.clearBtn.setOnClickListener {
             myView.points.clear()
             myView.invalidate()
+        }
+
+        binding.colorPickerButton.setOnClickListener{
+            openColorPicker(myView)
         }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,4 +75,18 @@ class DrawActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+    private fun openColorPicker(myView: MyView) {
+        val colorPicker = AmbilWarnaDialog(this, myView.color, object :
+            AmbilWarnaDialog.OnAmbilWarnaListener {
+            override fun onCancel(dialog: AmbilWarnaDialog?) {
+                // 취소
+            }
+
+            override fun onOk(dialog: AmbilWarnaDialog?, color: Int) {
+                myView.color = color
+            }
+        })
+        colorPicker.show()
+    }
+
 }
