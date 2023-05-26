@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="장르를 설정해주세요"
+            android:text="장르를 설정해 주세요"
             android:textStyle="bold"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +126,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시대를 설정해주세요"
+            android:text="시대를 설정해 주세요"
             android:textStyle="bold"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -161,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:hint="줄거리는 200자 이내로 작성해 주세요!"
+            android:hint="줄거리는 키워드 위주, 200자 이내로 작성해 주세요!"
             android:layout_marginBottom="15dp"
             android:textSize="16sp"
             android:gravity="top|start"/>
@@ -171,7 +171,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="콘티 작성 완료"/>
+            android:text="소설 생성"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
