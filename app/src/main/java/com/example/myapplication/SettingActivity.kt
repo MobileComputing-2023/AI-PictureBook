@@ -10,8 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivitySettingBinding
 import okhttp3.*
-
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
@@ -19,6 +17,11 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class SettingActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingBinding
+    private var numMan = 0
+    private var numWoman = 0
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -26,46 +29,45 @@ class SettingActivity : AppCompatActivity() {
                 return true
             }
         }
-        return super.onOptionsItemSelected(item)}
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySettingBinding.inflate(layoutInflater)
+        binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar()?.setTitle("그림책 만들기")
-        var minMan = findViewById<Button>(R.id.minusMan)
-        var plusMan = findViewById<Button>(R.id.plusMan)
-        var minWoman = findViewById<Button>(R.id.minusWoman)
-        var plusWoman = findViewById<Button>(R.id.plusWoman)
-        val output_man = findViewById<TextView>(R.id.NumMan)
-        val output_woman = findViewById<TextView>(R.id.NumWoman)
-        var NumMan = 0;
-        var NumWoman = 0;
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "그림책 만들기"
 
-        output_man.text = NumMan.toString()
-        output_woman.text = NumWoman.toString()
+        val outputMan = findViewById<TextView>(R.id.NumMan)
+        val outputWoman = findViewById<TextView>(R.id.NumWoman)
 
-        minMan.setOnClickListener {
-            if (NumMan == 0) {
-                output_man.setText(NumMan.toString())
-            } else {
-                NumMan-- //0일때 처리 해줘야함
-                output_man.setText(NumMan.toString())
+        updateOutputText(outputMan, numMan)
+        updateOutputText(outputWoman, numWoman)
+
+        binding.minusMan.setOnClickListener {
+            if (numMan > 0) {
+                numMan--
             }
+            updateOutputText(outputMan, numMan)
         }
-        plusMan.setOnClickListener {
-            NumMan++
-            output_man.setText(NumMan.toString())
+
+        binding.plusMan.setOnClickListener {
+            numMan++
+            updateOutputText(outputMan, numMan)
         }
-        minWoman.setOnClickListener {
-            NumWoman-- //0일때 처리 해줘야함
-            output_woman.setText(NumWoman.toString())
+
+        binding.minusWoman.setOnClickListener {
+            if (numWoman > 0) {
+                numWoman--
+            }
+            updateOutputText(outputWoman, numWoman)
         }
-        plusWoman.setOnClickListener {
-            NumWoman++
-            output_woman.setText(NumWoman.toString())
+
+        binding.plusWoman.setOnClickListener {
+            numWoman++
+            updateOutputText(outputWoman, numWoman)
         }
 
         binding.btnwrite.setOnClickListener {
@@ -74,8 +76,6 @@ class SettingActivity : AppCompatActivity() {
             val writesumText = binding.writesum.text.toString()
 
             if (writesumText.length > 200) {
-                // 글자 수가 200자를 초과하는 경우 처리
-                // 예를 들어, 사용자에게 알림 메시지를 보여줄 수 있습니다.
                 Toast.makeText(this@SettingActivity, "글자 수를 200자 이내로 제한해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -83,13 +83,13 @@ class SettingActivity : AppCompatActivity() {
             val intent: Intent = Intent(this@SettingActivity, LoadingActivity::class.java)
             startActivity(intent)
 
-            runGPT3 { responseBody ->
+            runGPT3(selectedGenre, selectedEra, numMan, numWoman, writesumText) { responseBody ->
                 val intent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                     putExtra("next", "level")
                     putExtra("selectedGenre", selectedGenre)
                     putExtra("selectedEra", selectedEra)
-                    putExtra("NumMan", NumMan)
-                    putExtra("NumWoman", NumWoman)
+                    putExtra("NumMan", numMan)
+                    putExtra("NumWoman", numWoman)
                     putExtra("num", 30)
                     putExtra("key", writesumText)
                     putExtra("summary", responseBody)
@@ -97,10 +97,20 @@ class SettingActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
     }
 
-    private fun runGPT3(callback: (String) -> Unit) {
+    private fun updateOutputText(textView: TextView, value: Int) {
+        textView.text = value.toString()
+    }
+
+    private fun runGPT3(
+        selectedGenre: String,
+        selectedEra: String,
+        numMan: Int,
+        numWoman: Int,
+        writesumText: String,
+        callback: (String) -> Unit
+    ) {
         val client = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
@@ -111,20 +121,19 @@ class SettingActivity : AppCompatActivity() {
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
-    {
-        "model": "gpt-3.5-turbo",
-        "messages": [
-            {"role": "user", "content": "This is a basic rule. Defend it no matter what."},
-            {"role": "system", "content": "1. All results are printed in Korean."},
-            {"role": "system", "content": "2. Limit the novel to a maximum of 10 sentences."},
-            {"role": "system", "content": "3. No numbers are added before each sentence."},
-            {"role": "system", "content": "4. Print each sentence on a separate line with enter"},
-            {"role": "system", "content": "5. Produce sentences as quickly as possible, up to 30 sec."},
-            {"role": "user", "content": "등장인물: 남자 1명, 여자 1명, 시대는 과거, 장르는 판타지, 아주 재미있는 농구 소설을 작성해 줘."}
-        ]
-    }
-""".trimIndent()
-
+            {
+                "model": "gpt-3.5-turbo",
+                "messages": [
+                    {"role": "user", "content": "The following are the default rules. Keep this rule no matter what."},
+                    {"role": "user", "content": "Write a novel that contains the ending and is probable."},
+                    {"role": "system", "content": "1. All results are printed in Korean."},
+                    {"role": "system", "content": "2. Limit novels to a maximum of 10 sentences."},
+                    {"role": "system", "content": "3. Novel creation time is up to 50 seconds."},
+                    {"role": "system", "content": "4. Every novel's sentence should be clearly written, and the story should be smooth without the wrong words."},
+                    {"role": "user", "content": "등장인물: 남자 `$numMan`명, 여자 `$numWoman`명, 시대: $selectedEra, 장르: $selectedGenre, 줄거리: `$writesumText`로 작성해 줘."}
+                ]
+            }
+        """.trimIndent()
 
         val request = Request.Builder()
             .url(url)
@@ -148,7 +157,6 @@ class SettingActivity : AppCompatActivity() {
                     callback(content)
                 }
             }
-
         })
     }
 }
