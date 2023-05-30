@@ -45,13 +45,20 @@ class SubActivity : AppCompatActivity() {
         val summary = intent.getStringExtra("summary")
         binding.summaryTextView.text = "$summary"
 
+        val originalsummary = intent.getStringExtra("originalsummary")
+
         binding.btnDraw.setOnClickListener {
             val intent: Intent = Intent(this, DrawActivity::class.java)
             startActivity(intent)
         }
 
         binding.btnAI.setOnClickListener {
-            val intent: Intent = Intent(this, CreateActivity::class.java)
+            val intent: Intent = Intent(this, CreateActivity::class.java).apply {
+                val summary = intent.getStringExtra("summary")
+                val originalsummary = intent.getStringExtra("originalsummary")
+                putExtra("summary", summary)
+                putExtra("originalsummary", originalsummary)
+            }
             startActivity(intent)
         }
         // DB 헬퍼 초기화

@@ -7,11 +7,22 @@ import android.view.MenuItem
 import com.example.myapplication.databinding.ActivityCreateBinding
 
 class CreateActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityCreateBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityCreateBinding.inflate(layoutInflater)
+        binding = ActivityCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "AI 그림 그리기"
+
+        val summary = intent.getStringExtra("summary")
+        val originalsummary = intent.getStringExtra("originalsummary")
+
+        binding.translatedResponseBodyTextView.text = "번역 후: $summary"
+        binding.originalResponseBodyTextView.text = "번역 전: $originalsummary"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
