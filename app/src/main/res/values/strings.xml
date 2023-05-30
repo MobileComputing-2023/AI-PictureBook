@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">ImageTailer</string>
     <array name="genre">
         <item>로맨스</item>
         <item>판타지</item>
