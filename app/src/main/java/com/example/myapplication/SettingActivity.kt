@@ -107,9 +107,20 @@ class SettingActivity : AppCompatActivity() {
                 runGPT3(customGenre, customEra, numMan, numWoman, customwritesumText) { responseBody ->
                     val originalResponseBody = responseBody
                     translateToKorean(responseBody) { translatedResponseBody ->
-                        Log.d("Response Body:", responseBody)
-                        Log.d("TranslatedRespons:", translatedResponseBody)
-                        val intent = Intent(this@SettingActivity, SubActivity::class.java).apply {
+                        // CreateActivity로 전환
+                        val createIntent = Intent(this@SettingActivity, CreateActivity::class.java).apply {
+                            putExtra("customGenre", customGenre)
+                            putExtra("customEra", customEra)
+                            putExtra("numMan", numMan)
+                            putExtra("numWoman", numWoman)
+                            putExtra("customwritesumText", customwritesumText)
+                            putExtra("translatedResponseBody", translatedResponseBody)
+                            putExtra("originalResponseBody", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
+                        }
+                        startActivity(createIntent)
+                        
+                        // SubActivity로 전환
+                        val subIntent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                             putExtra("next", "level")
                             putExtra("selectedGenre", customGenre)
                             putExtra("selectedEra", customEra)
@@ -120,7 +131,7 @@ class SettingActivity : AppCompatActivity() {
                             putExtra("summary", translatedResponseBody)
                             putExtra("originalsummary", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
                         }
-                        startActivity(intent)
+                        startActivity(subIntent)
                     }
                 }
             }
@@ -129,7 +140,7 @@ class SettingActivity : AppCompatActivity() {
 
     private fun translateToEnglish(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
-        val url = "https://openapi.naver.com/v1/papago/n2mt"
+        val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
 
         val requestBody = FormBody.Builder()
             .add("source", "ko")
@@ -140,8 +151,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-Naver-Client-Id", "Client_ID")
-            .addHeader("X-Naver-Client-Secret", "Client_Secret")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
+            .addHeader("X-NCP-APIGW-API-KEY", "pw")
             .post(requestBody)
             .build()
 
@@ -159,6 +170,8 @@ class SettingActivity : AppCompatActivity() {
                         .getString("translatedText")
 
                     callback(translatedText)
+                } else{
+
                 }
             }
         })
@@ -166,7 +179,7 @@ class SettingActivity : AppCompatActivity() {
 
     private fun translateToKorean(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
-        val url = "https://openapi.naver.com/v1/papago/n2mt"
+        val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
 
         val requestBody = FormBody.Builder()
             .add("source", "en")
@@ -177,8 +190,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-Naver-Client-Id", "Client_ID")
-            .addHeader("X-Naver-Client-Secret", "Client_Secret")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
+            .addHeader("X-NCP-APIGW-API-KEY", "pw")
             .post(requestBody)
             .build()
 
@@ -220,7 +233,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "mykey"
+        val apiKey = "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"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
