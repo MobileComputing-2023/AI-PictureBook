@@ -4,29 +4,50 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/saveTxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="그림책을 저장하시겠습니까?"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:textColor="@color/black"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/saveBtn"
-            android:layout_width="0dp"
+        android:padding="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="저장"/>
-        <Button
-            android:id="@+id/deleteBtn"
-            android:layout_width="0dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/saveTxt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="삭제"/>
+            android:text="그림책을 저장하시겠습니까?"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="20dp"
+                android:background="@drawable/save_round_button_white"
+                android:text="삭제"/>
+
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="@drawable/save_round_button_primary"
+                android:layout_marginRight="20dp"
+                android:text="저장" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
