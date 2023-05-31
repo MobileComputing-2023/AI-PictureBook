@@ -22,9 +22,13 @@ class PopupActivity : AppCompatActivity() {
         requestWindowFeature( Window.FEATURE_NO_TITLE );  // 타이틀 상태바 제거
         setContentView(binding.root)
 
-        showPopupDialog();
+        // Retrieve the title from the database
+        val myDatabase = MyDatabase.getInstance(this)
+        val title = myDatabase.getTitle()
+
+        showPopupDialog(title)
     }
-    private fun showPopupDialog() {
+    private fun showPopupDialog(title:String) {
         // 팝업창 생성
         val builder = AlertDialog.Builder(this)
 
@@ -37,7 +41,7 @@ class PopupActivity : AppCompatActivity() {
         // Disable clicks and focus for the root view
         binding.root.isClickable = false
         binding.root.isFocusable = false
-
+        binding.titleText.text = "$title 을 저장하시겠습니까?"
         // Add the view to the new parent
         container.addView(binding.root)
 
