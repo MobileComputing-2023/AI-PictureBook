@@ -14,7 +14,6 @@ Create picture books using OpenAI
 
 
 ## Commit Convention
-<p>
 ✨ [FEAT] : 새로운 기능 구현  
 ✅ [MOD] : 코드 수정 및 내부 파일 수정  
 ➕ [ADD] : 부수적인 코드 추가 및 라이브러리 추가, 새로운 파일 생성  
@@ -28,4 +27,4 @@ Create picture books using OpenAI
 ⏪️ [RENAME] : 파일 이름 변경  
 ♻️ [REFACTOR] : 전면 수정  
 📝 [DOCS] : README나 WIKI 등의 문서 개정  
-</p>
+
