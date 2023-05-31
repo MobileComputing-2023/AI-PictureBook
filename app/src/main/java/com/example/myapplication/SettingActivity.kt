@@ -79,6 +79,14 @@ class SettingActivity : AppCompatActivity() {
                 Toast.makeText(this@SettingActivity, "글자 수를 200자 이내로 제한해 주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (numMan==0 && numWoman==0) {
+                Toast.makeText(this@SettingActivity, "인물을 한 명 이상 설정해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (writesumText.length == 0 ) {
+                Toast.makeText(this@SettingActivity, "키워드를 입력해 주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             var customwritesumText: String
 
