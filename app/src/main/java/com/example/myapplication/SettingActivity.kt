@@ -114,19 +114,8 @@ class SettingActivity : AppCompatActivity() {
 
                 runGPT3(customGenre, customEra, numMan, numWoman, customwritesumText) { responseBody ->
                     val originalResponseBody = responseBody
+
                     translateToKorean(responseBody) { translatedResponseBody ->
-                        // CreateActivity로 전환
-                        val createIntent = Intent(this@SettingActivity, CreateActivity::class.java).apply {
-                            putExtra("customGenre", customGenre)
-                            putExtra("customEra", customEra)
-                            putExtra("numMan", numMan)
-                            putExtra("numWoman", numWoman)
-                            putExtra("customwritesumText", customwritesumText)
-                            putExtra("translatedResponseBody", translatedResponseBody)
-                            putExtra("originalResponseBody", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
-                        }
-                        startActivity(createIntent)
-                        
                         // SubActivity로 전환
                         val subIntent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                             putExtra("next", "level")
@@ -136,9 +125,11 @@ class SettingActivity : AppCompatActivity() {
                             putExtra("NumWoman", numWoman)
                             putExtra("num", 30)
                             putExtra("key", customwritesumText)
-                            putExtra("summary", translatedResponseBody)
+                            putExtra("summary", translatedResponseBody) // 번역 후 텍스트(전체 소설)
                             putExtra("originalsummary", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
                         }
+
+                        // 번역 및 AI 모델 호출이 모두 완료된 후에 startActivity() 호출
                         startActivity(subIntent)
                     }
                 }
@@ -241,7 +232,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "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"
+        val apiKey = "mykey"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
