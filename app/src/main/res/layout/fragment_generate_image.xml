@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner" />
+
+        </GridLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <GridLayout
+        android:id="@+id/generatedImagesGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:columnCount="2">
+
+            <ImageView
+                android:id="@+id/generatedImageView1"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/generatedImageView2"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/generatedImageView3"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/generatedImageView4"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/radius_corner"
+                android:scaleType="centerCrop" />
+    </GridLayout>
+</LinearLayout>
