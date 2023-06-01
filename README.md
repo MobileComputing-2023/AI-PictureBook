@@ -9,7 +9,7 @@ Create picture books using OpenAI
 ## Contributors
 |김소현|김지나|박성훈|최지현|
 |:---:|:---:|:---:|:---:|
-|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/566bb759-30fe-4d39-baef-9dbfc1f25f30" width="200px">|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/61a87085-5503-436e-96b2-19d42508ac9b" width="200px">|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/f5081611-6f00-4d71-bd23-296819f187db" width="200px">|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/1fc33c6f-15d5-4d90-b7fd-1038e176e86c" width="200px">|
+|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/566bb759-30fe-4d39-baef-9dbfc1f25f30" width="200px">|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/61a87085-5503-436e-96b2-19d42508ac9b" width="200px">|<img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/f5081611-6f00-4d71-bd23-296819f187db" width="200px">|<img src="https://avatars.githubusercontent.com/u/80878955?v=4" width="200px">|
 |[@KimSH39](https://github.com/KimSH39)|[@jina40](https://github.com/jina4066)|[@houony](https://github.com/houony)|[@gus1043](https://github.com/gus1043)|
 
 
