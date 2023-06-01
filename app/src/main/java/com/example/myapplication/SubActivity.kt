@@ -68,23 +68,26 @@ class SubActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             val bookId = generateBookId()
             val title = extractFirstLine(summary ?: "") // 첫 줄을 타이틀로 추출
-            val numLines = summary?.lines()?.size ?: 0 // 총 줄 수
-            val textLines = summary?.lines() ?: listOf() // 각 줄의 내용 추출
-
+            val textLines = summary?.split("[.!?\\r\\n]".toRegex())?.filter { it.isNotBlank() }// 각 줄을 나누어 리스트로 가져옴
+            val textLinesCount = textLines?.size ?: 0
             // DB에 Book 데이터 삽입
             insertBookData(bookId, title)
 
             // DB에 Draw 데이터 삽입
-            for (i in 0 until numLines) {
-                val pageNumber = i
-                val pageId = i
-                val text = textLines[i]
-                insertDrawData(pageId, pageNumber, bookId, text)
+            if (textLines != null) {
+                for (i in textLines.indices) {
+                    val line = textLines[i]
+                    val pageId = i
+                    insertDrawData(pageId, bookId, line.trim())
+                }
             }
 
             Toast.makeText(this, "Data saved successfully.", Toast.LENGTH_SHORT).show()
 
             val intent: Intent = Intent(this, DrawActivity::class.java)
+            intent.putExtra("bookId", bookId)
+            intent.putExtra("title", title)
+            intent.putExtra("lastPageId", textLinesCount)
             startActivity(intent)
         }
     }
@@ -111,26 +114,57 @@ class SubActivity : AppCompatActivity() {
         }
     }
 
-    private fun insertDrawData(pageId:Int, pageNumber: Int, bookId: String, text: String) {
-        val values = ContentValues().apply {
-            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID, pageId)
-            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_NUMBER, pageNumber)
-            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID, bookId)
-            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_TEXT, text)
+    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean {
+        val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, pageId.toString())
+
+        val cursor = db.query(
+            MyDatabase.MyDBContract.DrawEntry.TABLE_NAME,
+            null,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        val exists = cursor.count > 0
+
+        cursor.close()
+
+        return exists
+    }
+
+
+
+    private fun insertDrawData(pageId: Int, bookId: String, text: String) {
+        if (checkDrawDataExists(bookId, pageId)) {
+            Log.d("DB", "Draw data already exists for Page ID: $pageId, Book ID: $bookId")
+            return  // 이미 데이터가 존재하면 함수를 종료
+        }
+        else {
+            Log.d("DB", "$pageId, Book ID: $bookId, Text: $text")
+            val values = ContentValues().apply {
+                put(MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID, pageId)
+                put(MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID, bookId)
+                put(MyDatabase.MyDBContract.DrawEntry.COLUMN_TEXT, text)
+            }
+
+            val newRowId = db.insert(MyDatabase.MyDBContract.DrawEntry.TABLE_NAME, null, values)
+            if (newRowId != -1L) {
+                Log.d("DB", "Draw data inserted successfully. Page ID: $pageId, Book ID: $bookId, Text: $text")
+            } else {
+                Log.d("DB", "Failed to insert draw data.")
+            }
         }
 
-        val newRowId = db.insert(MyDatabase.MyDBContract.DrawEntry.TABLE_NAME, null, values)
-        if (newRowId != -1L) {
-            Log.d("DB", "Draw data inserted successfully. Page ID: $pageId, Page Number: $pageNumber, Book ID: $bookId, Text: $text")
-        } else {
-            Log.d("DB", "Failed to insert draw data.")
-        }
     }
 
     override fun onDestroy() {
         dbHelper.close()
         super.onDestroy()
     }
+
     private fun generateBookId(): String {
         val currentTime = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
@@ -138,6 +172,7 @@ class SubActivity : AppCompatActivity() {
 
         return formattedTime
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -147,4 +182,5 @@ class SubActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }
