@@ -7,13 +7,9 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivitySubBinding
-import java.util.concurrent.TimeUnit
 import android.content.ContentValues
-import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import android.widget.EditText
 import java.text.SimpleDateFormat
 import java.util.*
 
