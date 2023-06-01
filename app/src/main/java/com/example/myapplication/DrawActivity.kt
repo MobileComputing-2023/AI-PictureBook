@@ -1,8 +1,12 @@
 package com.example.myapplication
 
+import MyDatabase
 import android.R
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -16,13 +20,19 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
 import yuku.ambilwarna.AmbilWarnaDialog
+import java.io.ByteArrayOutputStream
 
 class DrawActivity : AppCompatActivity() {
+    private lateinit var myDatabase: MyDatabase
+    private lateinit var dbHelper: MyDatabase.MyDbHelper
+    private lateinit var db: SQLiteDatabase
     private var currentPageId: Int = 0
-    private val lastPageId = 10
-    private val drawingData = HashMap<Int, ArrayList<Point>>()
     private lateinit var myView: MyView
     private var overlayView: View? = null
+    private lateinit var bookId: String
+    private var lastPageId: Int = 0
+    private lateinit var title: String
+
     inner class Point(var x: Float, var y: Float, var check: Boolean, var color: Int)
 
     inner class MyView(context: Context) : View(context) {
@@ -50,7 +60,6 @@ class DrawActivity : AppCompatActivity() {
                 MotionEvent.ACTION_DOWN -> points.add(Point(x, y, false, color))
                 MotionEvent.ACTION_MOVE -> points.add(Point(x, y, true, color))
                 MotionEvent.ACTION_UP -> {
-                    drawingData[currentPageId] = ArrayList(points)
                 }
             }
             invalidate()
@@ -62,19 +71,26 @@ class DrawActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityDrawBinding.inflate(layoutInflater)
+        dbHelper = MyDatabase.MyDbHelper(this)
+        db = dbHelper.writableDatabase
         setContentView(binding.root)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         myView = MyView(this)
+        lastPageId = intent.getIntExtra("lastPageId", 0)
+        bookId = intent.getStringExtra("bookId") ?:""
+        title = intent.getStringExtra("title")?:""
+
+        Log.d("BookID", bookId)
+        Log.d("title", title)
+
         binding.drawLinear.addView(myView)
-
-
 
         binding.clearBtn.setOnClickListener {
             myView.points.clear()
             myView.invalidate()
         }
 
-        binding.colorPickerButton.setOnClickListener{
+        binding.colorPickerButton.setOnClickListener {
             openColorPicker(myView)
         }
 
@@ -82,13 +98,24 @@ class DrawActivity : AppCompatActivity() {
             // 그림 정보를 저장한 후, 다음 페이지로 이동
             saveDrawingDataAndMoveToNextPage()
         }
-
     }
     private fun saveDrawingDataAndMoveToNextPage() {
-        // drawingData에 현재 페이지의 그림 정보 저장
-        drawingData[currentPageId] = ArrayList(myView.points)
+        // 그림을 bitmap으로 저장
+        val bitmap = Bitmap.createBitmap(myView.width, myView.height, Bitmap.Config.ARGB_8888)
+        val bitmapCanvas = Canvas(bitmap)
+        myView.draw(bitmapCanvas)
+
+        // 비트맵을 바이트 배열로 변환
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+
+        // 이미지를 DB에 저장하는 코드를 추가해야 함
+        saveImageToDB(bookId, currentPageId, byteArray)
+
         myView.points.clear()
         myView.invalidate()
+
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
             showPopupActivity()
@@ -96,18 +123,38 @@ class DrawActivity : AppCompatActivity() {
             currentPageId += 1
         }
 
-        // DB에 저장되는 정보 로그로 출력
-        val drawingDataString = drawingData.entries.joinToString("\n") { entry ->
-            val pageId = entry.key
-            val points = entry.value.joinToString(", ") { point ->
-                "(${point.x}, ${point.y})"
-            }
-            "Page $pageId: $points"
-        }
-        Log.d("DrawActivity", "Drawing data:\n$drawingDataString")
     }
+    private fun saveImageToDB(bookId: String, pageId: Int, byteArray: ByteArray) {
+        val values = ContentValues().apply {
+            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_IMAGE, byteArray)
+        }
+
+        val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND " +
+                "${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, pageId.toString())
+
+        val rowsAffected = db.update(
+            MyDatabase.MyDBContract.DrawEntry.TABLE_NAME,
+            values,
+            selection,
+            selectionArgs
+        )
+
+        if (rowsAffected > 0) {
+            Log.d(
+                "DB",
+                "Image data updated successfully. Book ID: $bookId, Page ID: $pageId Bitmap: $byteArray"
+            )
+        } else {
+            Log.d("DB", "Failed to update image data.")
+        }
+    }
+
     private fun showPopupActivity() {
-        val intent = Intent(this, PopupActivity::class.java)
+        val intent = Intent(this, PopupActivity::class.java).apply {
+            putExtra("bookId", bookId)
+            putExtra("title", title)
+        }
         startActivity(intent)
 
         // 팝업이 뜰 때만 오버레이 뷰를 추가합니다.
