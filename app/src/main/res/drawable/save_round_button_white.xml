@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gray shadow. -->
+    <item android:left="3dp" android:top="5dp">
+        <shape>
+            <solid android:color="#c6c6c6" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+    <!-- White foreground. -->
+    <item android:bottom="3dp" android:right="3dp">
+        <shape>
+            <solid android:color="@android:color/white" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+</layer-list>
