@@ -41,6 +41,9 @@
         <activity android:name=".PopupActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".ReadAllPopActivity"
+            android:exported="true">
+        </activity>
 
         <activity
             android:name=".MainActivity"
