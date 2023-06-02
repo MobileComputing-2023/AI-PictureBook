@@ -86,9 +86,6 @@ class SubActivity : AppCompatActivity() {
                     insertDrawData(pageId, bookId, line.trim())
                 }
             }
-
-            Toast.makeText(this, "Data saved successfully.", Toast.LENGTH_SHORT).show()
-
             val intent: Intent = Intent(this, DrawActivity::class.java)
             intent.putExtra("bookId", bookId)
             intent.putExtra("title", title)

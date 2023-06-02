@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.ActivityReadBinding
 
@@ -27,9 +29,14 @@ class ReadActivity : AppCompatActivity() {
 
         displayImageForPage(binding)
 
-        binding.nextBtn.setOnClickListener {
+        binding.previousBtn.setOnClickListener {
+            currentPage--
             displayImageForPage(binding)
+        }
+
+        binding.nextBtn.setOnClickListener {
             currentPage++
+            displayImageForPage(binding)
         }
     }
     override fun onBackPressed() { //뒤로가기 버튼 누르면 booklist로 이동
@@ -53,11 +60,16 @@ class ReadActivity : AppCompatActivity() {
         if (currentPage > totalPages) {
             // 모든 페이지를 그림 데이터로 채웠을 때
             showPopupActivity()
-        } else {
+        } else if (currentPage == 0){
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
+            binding.previousBtn.visibility = View.GONE
             Log.d("DB","totalPage: $totalPages, currentPage: $currentPage")
-
+        }else {
+            val image = myDatabase.getImageForPage(bookId, currentPage)
+            binding.imageView.setImageBitmap(image)
+            binding.previousBtn.visibility = View.VISIBLE // Show previous button
+            Log.d("DB","totalPage: $totalPages, currentPage: $currentPage")
         }
     }
 
