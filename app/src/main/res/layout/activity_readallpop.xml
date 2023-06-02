@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black" />
+
+
+        <Button
+            android:id="@+id/toMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:background="@drawable/save_round_button_primary"
+            android:text="홈으로 돌아가기"
+            android:textColor="@color/white"
+            android:layout_marginBottom="5dp" />
+
+        <Button
+            android:id="@+id/toListBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:gravity="center"
+            android:background="@drawable/save_round_button_white"
+            android:text="서재로 돌아가기"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

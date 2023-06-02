@@ -68,8 +68,9 @@ class SubActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             val bookId = generateBookId()
             val title = extractFirstLine(summary ?: "") // 첫 줄을 타이틀로 추출
-            val textLines = summary?.split("[.!?\\r\\n]".toRegex())?.filter { it.isNotBlank() }// 각 줄을 나누어 리스트로 가져옴
-            val textLinesCount = textLines?.size ?: 0
+            val textLines = summary?.split("[.!?\\r\\n]".toRegex())
+                ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") } // 각 줄을 나누어 리스트로 가져옴(공백, '', ""는 무시)
+            val textLinesCount = textLines?.size ?: 0 //0부터 세니까 -1 해서 넘겨야함
             // DB에 Book 데이터 삽입
             insertBookData(bookId, title)
 
@@ -87,7 +88,7 @@ class SubActivity : AppCompatActivity() {
             val intent: Intent = Intent(this, DrawActivity::class.java)
             intent.putExtra("bookId", bookId)
             intent.putExtra("title", title)
-            intent.putExtra("lastPageId", textLinesCount)
+            intent.putExtra("lastPageId", textLinesCount-1)
             startActivity(intent)
         }
     }
