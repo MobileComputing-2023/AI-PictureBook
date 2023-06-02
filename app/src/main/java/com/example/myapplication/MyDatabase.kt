@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.provider.BaseColumns
+import android.util.Log
 
 class MyDatabase private constructor(context: Context) {
 
@@ -44,6 +45,7 @@ class MyDatabase private constructor(context: Context) {
     }
 
     fun deleteBook(bookId: String): Boolean {
+        Log.d("DB", "Delete bookId: $bookId")
         val selection = "${MyDBContract.BookEntry.COLUMN_BOOK_ID} = ?"
         val selectionArgs = arrayOf(bookId)
         val rowsDeleted = database.delete(

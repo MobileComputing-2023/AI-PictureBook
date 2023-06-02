@@ -19,6 +19,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
+
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.io.ByteArrayOutputStream
 
@@ -39,7 +40,6 @@ class DrawActivity : AppCompatActivity() {
 
         val points = ArrayList<Point>()
         var color = Color.BLACK
-
         override fun onDraw(canvas: Canvas) {
             val p = Paint().apply {
                 strokeWidth = 15f
@@ -67,12 +67,18 @@ class DrawActivity : AppCompatActivity() {
         }
 
     }
+    override fun onBackPressed() {
+        // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
+        myDatabase.deleteBook(bookId)
 
+        super.onBackPressed()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityDrawBinding.inflate(layoutInflater)
         dbHelper = MyDatabase.MyDbHelper(this)
         db = dbHelper.writableDatabase
+        myDatabase = MyDatabase.getInstance(this)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         myView = MyView(this)
