@@ -57,8 +57,9 @@ class PopupActivity : AppCompatActivity() {
         // Disable clicks and focus for the root view
         binding.root.isClickable = false
         binding.root.isFocusable = false
-
-        binding.titleText.text = "『$title』을 저장하시겠습니까?"
+        val image=myDatabase.getImageForPage(bookId, 0)
+        binding.cover.setImageBitmap(image)
+        binding.titleText.text = "『$title』의\n 마지막 페이지입니다."
 
         // Add the view to the new parent
         container.addView(binding.root)
@@ -72,8 +73,10 @@ class PopupActivity : AppCompatActivity() {
 
             // Toast 메시지 표시
             Toast.makeText(this, "동화가 생성되었습니다.", Toast.LENGTH_SHORT).show()
-            // 동화리스트 화면으로 가기
-            val intent = Intent(this, ListActivity::class.java)
+
+            // 동화읽는 화면으로 가기
+            val intent = Intent(this, ReadActivity::class.java)
+            intent.putExtra("bookId", bookId) // Pass the bookId as an extra
             startActivity(intent)
         }
 
