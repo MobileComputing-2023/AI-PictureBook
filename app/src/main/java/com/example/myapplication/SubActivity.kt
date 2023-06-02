@@ -157,6 +157,7 @@ class SubActivity : AppCompatActivity() {
                 Log.d("DB", "Draw data inserted successfully. Page ID: $pageId, Book ID: $bookId, Text: $text")
             } else {
                 Log.d("DB", "Failed to insert draw data.")
+                startActivity(Intent(this, ErrorActivity::class.java))
             }
         }
 

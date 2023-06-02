@@ -148,6 +148,8 @@ class DrawActivity : AppCompatActivity() {
             )
         } else {
             Log.d("DB", "Failed to update image data.")
+            val intent: Intent = Intent(this@DrawActivity, ErrorActivity::class.java)
+            startActivity(intent)
         }
     }
 

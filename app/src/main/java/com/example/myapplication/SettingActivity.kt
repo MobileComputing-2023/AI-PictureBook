@@ -22,6 +22,9 @@ class SettingActivity : AppCompatActivity() {
     private var numMan = 0
     private var numWoman = 0
 
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
