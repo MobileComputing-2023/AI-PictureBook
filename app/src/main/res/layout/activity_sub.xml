@@ -89,6 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
                 android:text="AI 그리기"
                 tools:ignore="MissingConstraints"
                 android:layout_marginRight="30dp"/>
@@ -98,6 +100,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btnDraw"
                 android:text="직접 그리기"
+                android:textColor="@color/white"
+                android:background="@drawable/round_button"
                 tools:ignore="MissingConstraints"
                 android:layout_gravity="center"/>
         </LinearLayout>

@@ -5,7 +5,8 @@
     tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -26,6 +27,7 @@
             android:background="@drawable/home_round_button"
             android:layout_marginBottom="10dp"
             android:text="그림책 만들기"
+            android:textColor="@color/white"
             android:textSize="25sp"/>
         <Button
             android:id="@+id/readBookListBtn"
@@ -34,6 +36,7 @@
             android:background="@drawable/home_round_button"
             android:layout_marginBottom="100dp"
             android:text="내 그림책 읽기"
+            android:textColor="@color/white"
             android:textSize="25sp"/>
     </LinearLayout>
 </LinearLayout>
