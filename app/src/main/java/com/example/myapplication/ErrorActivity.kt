@@ -15,7 +15,7 @@ class ErrorActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        Glide.with(this).load(R.drawable.loading).into(binding.errorGif)
+        Glide.with(this).load(R.drawable.error).into(binding.errorGif)
         binding.restartBtn.setOnClickListener {
             restartApp()
         }
