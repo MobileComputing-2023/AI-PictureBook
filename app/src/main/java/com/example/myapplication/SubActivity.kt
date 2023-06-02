@@ -71,9 +71,11 @@ class SubActivity : AppCompatActivity() {
         // 저장 버튼 클릭 이벤트 처리
         saveButton.setOnClickListener {
             val bookId = generateBookId()
-            val title = extractFirstLine(summary ?: "") // 첫 줄을 타이틀로 추출
+            val title = extractTitle(summary ?: "") // 첫 줄을 타이틀로 추출
             val textLines = summary?.split("[.!?\\r\\n]".toRegex())
-                ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") } // 각 줄을 나누어 리스트로 가져옴(공백, '', ""는 무시)
+                ?.filter { it.isNotBlank()}
+                ?.map { if (it.startsWith("제목:")) it.substring(4) else it }
+                ?.map { it.replace("\"", "")}// 각 줄을 나누어 리스트로 가져옴(공백, "", 제목: 는 무시)
             val textLinesCount = textLines?.size ?: 0 //0부터 세니까 -1 해서 넘겨야함
             // DB에 Book 데이터 삽입
             insertBookData(bookId, title)
@@ -93,14 +95,19 @@ class SubActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun extractFirstLine(text: String): String {
-        val firstLineEnd = text.indexOf('\n') // 첫 번째 줄의 개행 문자 위치
-        return if (firstLineEnd != -1) {
-            text.substring(0, firstLineEnd) // 개행 문자 이전까지의 부분 문자열 반환
-        } else {
-            text // 개행 문자가 없으면 전체 문자열 반환
+    private fun extractTitle(summary: String?): String {
+        val lines = summary?.split("[.!?\\r\\n]".toRegex())
+            ?.filter { it.isNotBlank()}
+            ?.map { if (it.startsWith("제목:")) it.substring(4) else it }
+            ?.map { it.replace("\"", "")}
+        var title = ""
+        if (!lines.isNullOrEmpty()) {
+            title = lines[0]
         }
+        return title
+
     }
+
 
     private fun insertBookData(bookId: String, title: String) {
         val values = ContentValues().apply {
