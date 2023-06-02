@@ -3,6 +3,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.provider.BaseColumns
 
 class MyDatabase private constructor(context: Context) {
@@ -51,6 +53,56 @@ class MyDatabase private constructor(context: Context) {
         )
         return rowsDeleted > 0
     }
+
+    fun getTotalPages(bookId: String): Int {
+        val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_PAGE_ID)
+        val selection = "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ?"
+        val selectionArgs = arrayOf(bookId)
+
+        val cursor = database.query(
+            MyDBContract.DrawEntry.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        val totalPages = cursor.count -1
+
+        cursor.close()
+        return totalPages
+    }
+
+
+    fun getImageForPage(bookId: String, page: Int): Bitmap? {
+        val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_IMAGE)
+        val selection =
+            "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, page.toString())
+
+        val cursor = database.query(
+            MyDBContract.DrawEntry.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var image: Bitmap? = null
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndex(MyDBContract.DrawEntry.COLUMN_IMAGE)
+            val imageByteArray = cursor.getBlob(columnIndex)
+            image = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+        }
+
+        cursor.close()
+        return image
+    }
+
 
     fun getTitle(bookId: String): String? {
         val projection = arrayOf(MyDBContract.BookEntry.COLUMN_TITLE)
