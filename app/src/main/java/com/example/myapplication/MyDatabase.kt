@@ -157,8 +157,8 @@ class MyDatabase private constructor(context: Context) {
 
         override fun onCreate(db: SQLiteDatabase) {
             //실행하면 drop 되게
-            db.execSQL(SQL_DELETE_DRAW_ENTRIES)
-            db.execSQL(SQL_DELETE_BOOK_ENTRIES)
+//            db.execSQL(SQL_DELETE_DRAW_ENTRIES)
+//            db.execSQL(SQL_DELETE_BOOK_ENTRIES)
 
             // Create the tables
             db.execSQL(SQL_CREATE_BOOK_ENTRIES)
