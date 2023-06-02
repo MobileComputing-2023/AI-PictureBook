@@ -25,6 +25,9 @@
         <activity android:name=".LoadingActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".ErrorActivity"
+            android:exported="true">
+        </activity>
 
         <activity android:name=".SubActivity"
             android:exported="true">

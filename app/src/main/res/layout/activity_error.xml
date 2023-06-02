@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoadingActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/error_gif"
+            android:src="@drawable/error"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/errorView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error!!"
+            android:textColor="#4AB3FF"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp" />
+
+        <TextView
+            android:id="@+id/additionalTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="앱을 재실행해 주세요!"
+            android:textColor="#4AB3FF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"/>
+
+        <Button
+            android:id="@+id/restartBtn"
+            android:layout_width="150sp"
+            android:layout_height="35sp"
+            android:text="앱 재실행하기"
+            android:backgroundTint="#0896FE"
+            android:background="@drawable/home_round_button"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="150dp"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
