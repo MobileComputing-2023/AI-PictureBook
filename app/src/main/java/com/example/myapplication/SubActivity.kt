@@ -17,6 +17,10 @@ class SubActivity : AppCompatActivity() {
     private lateinit var dbHelper: MyDatabase.MyDbHelper
     private lateinit var db: SQLiteDatabase
     private lateinit var saveButton: Button
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, SettingActivity::class.java))
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivitySubBinding.inflate(layoutInflater)
@@ -177,7 +181,8 @@ class SubActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                //뒤로 가기 버튼 누르면 setting으로 이동
+                startActivity(Intent(this, SettingActivity::class.java))
                 return true
             }
         }

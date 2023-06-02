@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.ActivityReadBinding
 
@@ -13,6 +14,7 @@ class ReadActivity : AppCompatActivity() {
     private lateinit var myDatabase: MyDatabase
     private var currentPage = 0
     private lateinit var title: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityReadBinding.inflate(layoutInflater)
@@ -29,7 +31,20 @@ class ReadActivity : AppCompatActivity() {
             displayImageForPage(binding)
             currentPage++
         }
+    }
+    override fun onBackPressed() { //뒤로가기 버튼 누르면 booklist로 이동
+        startActivity(Intent(this, ListActivity::class.java))
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                //actionbar 뒤로가기 버튼 누르면 booklist로 이동
+                startActivity(Intent(this, ListActivity::class.java))
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun displayImageForPage(binding: ActivityReadBinding) {

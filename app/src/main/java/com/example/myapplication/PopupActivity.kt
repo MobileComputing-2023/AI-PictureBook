@@ -47,6 +47,9 @@ class PopupActivity : AppCompatActivity() {
         // 팝업창 생성
         val builder = AlertDialog.Builder(this)
 
+        //버튼 외 화면, backpress 눌러도 화면 꺼지지않음
+        builder.setCancelable(false)
+
         // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
         val container = LinearLayout(this)
 
