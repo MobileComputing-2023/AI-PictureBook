@@ -6,6 +6,9 @@ import android.os.Bundle
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    override fun onBackPressed() {
+        //super.onBackPressed() 백프레스 안되게 막음
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
