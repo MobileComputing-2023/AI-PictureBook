@@ -79,6 +79,7 @@ class DrawActivity : AppCompatActivity() {
         lastPageId = intent.getIntExtra("lastPageId", 0)
         bookId = intent.getStringExtra("bookId") ?:""
         title = intent.getStringExtra("title")?:""
+        supportActionBar?.title = "$title"
 
         Log.d("BookID", bookId)
         Log.d("title", title)
