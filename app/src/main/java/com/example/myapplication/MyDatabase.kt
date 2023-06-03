@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.provider.BaseColumns
 import android.util.Log
+import com.example.myapplication.MyElement
 
 class MyDatabase private constructor(context: Context) {
 
@@ -178,6 +179,26 @@ class MyDatabase private constructor(context: Context) {
         companion object {
             const val DATABASE_VERSION = 3
             const val DATABASE_NAME = "myDBfile.db"
+        }
+
+        fun selectAll(): MutableList<MyElement> {
+            val readList = mutableListOf<MyElement>()
+            val db = readableDatabase
+            val cursor = db.rawQuery("SELECT * FROM "+ MyDBContract.BookEntry.TABLE_NAME+";", null)
+            with(cursor){
+                while(moveToNext()){
+                    readList.add(MyElement(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getBlob(2),
+                        cursor.getString(3),
+                        cursor.getInt(4))
+                    )
+                }
+            }
+            cursor.close()
+            db.close()
+            return readList
         }
     }
 }
