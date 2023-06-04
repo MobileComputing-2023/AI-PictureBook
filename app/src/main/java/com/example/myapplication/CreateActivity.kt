@@ -37,8 +37,9 @@ class CreateActivity : AppCompatActivity() {
     private lateinit var imageView4: ImageView
     private lateinit var generatedImagesGrid: GridLayout
 
-    private val apiKey = "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"
+    private val apiKey = "mykey"
     private val numImages = 4
+
     private var nextPromptIndex: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,14 +55,18 @@ class CreateActivity : AppCompatActivity() {
 
         val summary = sharedPrefs.getString("summary", "")
 
-        nextPromptIndex = intent.getIntExtra("nextPromptIndex", 1)
+        nextPromptIndex = sharedPrefs.getInt("nextPromptIndex", 1) // 저장된 값을 가져옴
 
         initializeViews()
         extractIntentData(lastPageId, bookId, title)
         setupActionBar()
 
-        generateImagesFromSummary(originalSummary)
+        generateImagesFromSummary(originalSummary, nextPromptIndex)
         generateLinesFromSummary(summary, nextPromptIndex)
+
+        val editor = sharedPrefs.edit()
+        editor.putInt("nextPromptIndex", nextPromptIndex)
+        editor.apply()
 
     }
 
@@ -95,23 +100,24 @@ class CreateActivity : AppCompatActivity() {
         textLines?.let { lines ->
             if (index >= 0 && index < lines.size) {
                 val line = lines[index]
-                Log.d("CreateActivity", line)
+                Log.d("CreateActivity_한국어", line)
                 generatedImageText1.text = line
             }
 
             Log.d("지금 몇 번째 문장을 띄우고 있나요???", index.toString())
-            Log.d("4장 사진 뜰 때 보이는 한글 문장.", summary)
+            Log.d("4장 사진 뜰 때 보이는 한글 문장.", lines[index])
 
         }
     }
 
-    private fun generateImagesFromSummary(originalSummary: String?) {
+    private fun generateImagesFromSummary(originalSummary: String?, index: Int) {
         val textLines = originalSummary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") }
 
         textLines?.let { lines ->
-            lines.forEach { line ->
-                Log.d("CreateActivity", line)
+            if (index >= 0 && index < lines.size) {
+                val line = lines[index]
+                Log.d("CreateActivity_영어", line)
             }
 
             val prompt = buildPrompt(lines, nextPromptIndex)

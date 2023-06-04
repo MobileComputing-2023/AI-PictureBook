@@ -98,6 +98,11 @@ class SubActivity : AppCompatActivity() {
         // AI 그리기 부분
         AIsaveButton.setOnClickListener {
 
+            val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPrefs.edit()
+            editor.putInt("nextPromptIndex", 1)
+            editor.apply()
+
             val bookId = generateBookId()
             val title = extractTitle(summary ?: "") // 첫 줄을 타이틀로 추출
             val textLines = summary?.split("[.!?\\r\\n]".toRegex())
@@ -126,8 +131,6 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("selectedGenre", selectedGenre)
             intent.putExtra("selectedEra", selectedEra)
 
-            val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-            val editor = sharedPrefs.edit()
             editor.putString("originalSummary", originalsummary)
             editor.putString("summary", summary)
             editor.putString("bookId", bookId)
