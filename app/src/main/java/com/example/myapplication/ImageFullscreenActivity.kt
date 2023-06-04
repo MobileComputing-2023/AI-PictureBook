@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 
 class ImageFullscreenActivity : AppCompatActivity() {
+
+    private lateinit var sharedPrefs: SharedPreferences
 
     private lateinit var bookId: String
     private var lastPageId: Int = 0
@@ -28,14 +31,15 @@ class ImageFullscreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_fullscreen)
 
-        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         val summary = sharedPrefs.getString("summary", "")
 
         bookId = intent.getStringExtra("bookId") ?: ""
         title = intent.getStringExtra("title") ?: ""
         lastPageId = intent.getIntExtra("lastPageId", 0)
         originalsummary = intent.getStringExtra("originalsummary") ?: ""
-        nextPromptIndex = intent.getIntExtra("nextPromptIndex", 1)
+
+        nextPromptIndex = sharedPrefs.getInt("nextPromptIndex", 1) // 이전 저장된 값을 가져옴
 
         fullscreenImageView = findViewById(R.id.fullImageView)
 
@@ -54,12 +58,18 @@ class ImageFullscreenActivity : AppCompatActivity() {
             Log.d("지금 몇 번째 문장을 읽고 있나요? (전)", nextPromptIndex.toString())
 
             nextPromptIndex++
+            val editor = sharedPrefs.edit()
+            editor.putInt("nextPromptIndex", nextPromptIndex) // 증가된 값을 다시 저장
+            editor.apply()
+
             val intent = Intent(this, CreateActivity::class.java)
             intent.putExtra("nextPromptIndex", nextPromptIndex)
 
+            startActivity(intent)
+
             Log.d("지금 몇 번째 문장을 읽고 있나요?", nextPromptIndex.toString())
             displayLineFromSummary(summary, nextPromptIndex)
-            startActivity(intent)
+
         }
     }
 
