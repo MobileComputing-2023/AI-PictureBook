@@ -22,9 +22,6 @@ class SettingActivity : AppCompatActivity() {
     private var numMan = 0
     private var numWoman = 0
 
-    override fun onBackPressed() {
-        startActivity(Intent(this, MainActivity::class.java))
-    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -153,8 +150,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "fNjMSaIeR7TYzNWIeHmHxqyUvfArzgPp4HFObJhp")
             .post(requestBody)
             .build()
 
@@ -192,8 +189,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "fNjMSaIeR7TYzNWIeHmHxqyUvfArzgPp4HFObJhp")
             .post(requestBody)
             .build()
 
@@ -235,7 +232,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "mykey"
+        val apiKey = "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"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """

@@ -7,6 +7,14 @@
     android:orientation="vertical"
     android:padding="10dp">
 
+    <TextView
+        android:id="@+id/generatedImageText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sample Text"
+        android:layout_marginBottom="50dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"
         android:layout_width="match_parent"
@@ -58,40 +66,80 @@
         android:layout_marginTop="10dp"
         android:columnCount="2">
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/generatedImageCard1"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/margin_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="@dimen/card_elevation_small">
+
             <ImageView
                 android:id="@+id/generatedImageView1"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/radius_corner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/generatedImageCard2"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/margin_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="@dimen/card_elevation_small">
 
             <ImageView
                 android:id="@+id/generatedImageView2"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/radius_corner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/generatedImageCard3"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/margin_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="@dimen/card_elevation_small">
 
             <ImageView
                 android:id="@+id/generatedImageView3"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/radius_corner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/generatedImageCard4"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/margin_small"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="@dimen/card_elevation_small">
 
             <ImageView
                 android:id="@+id/generatedImageView4"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@drawable/radius_corner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
     </GridLayout>
 </LinearLayout>

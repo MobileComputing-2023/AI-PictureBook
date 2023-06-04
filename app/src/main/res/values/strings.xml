@@ -38,4 +38,7 @@
         <item>Title 7</item>
     </string-array>
 
+    <string name="close">닫기</string>
+    <string name="download">선택하기</string>
+
 </resources>

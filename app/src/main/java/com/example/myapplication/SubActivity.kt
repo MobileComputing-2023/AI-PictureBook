@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivitySubBinding
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import java.text.SimpleDateFormat
@@ -17,10 +18,12 @@ class SubActivity : AppCompatActivity() {
     private lateinit var dbHelper: MyDatabase.MyDbHelper
     private lateinit var db: SQLiteDatabase
     private lateinit var saveButton: Button
+    private lateinit var AIsaveButton: Button
 
     override fun onBackPressed() {
         startActivity(Intent(this, SettingActivity::class.java))
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivitySubBinding.inflate(layoutInflater)
@@ -53,20 +56,17 @@ class SubActivity : AppCompatActivity() {
         }
 
         binding.btnAI.setOnClickListener {
-            val intent: Intent = Intent(this, CreateActivity::class.java).apply {
-                val summary = intent.getStringExtra("summary")
-                val originalsummary = intent.getStringExtra("originalsummary")
-                putExtra("summary", summary)
-                putExtra("originalsummary", originalsummary)
-            }
+            val intent: Intent = Intent(this, CreateActivity::class.java)
             startActivity(intent)
         }
+
         // DB 헬퍼 초기화
         dbHelper = MyDatabase.MyDbHelper(this)
         db = dbHelper.writableDatabase
 
         // 뷰 초기화
         saveButton = findViewById<Button>(R.id.btnDraw)
+        AIsaveButton = findViewById<Button>(R.id.btnAI)
 
         // 저장 버튼 클릭 이벤트 처리
         saveButton.setOnClickListener {
@@ -94,7 +94,51 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("lastPageId", textLinesCount-1)
             startActivity(intent)
         }
+
+        // AI 그리기 부분
+        AIsaveButton.setOnClickListener {
+
+            val bookId = generateBookId()
+            val title = extractTitle(summary ?: "") // 첫 줄을 타이틀로 추출
+            val textLines = summary?.split("[.!?\\r\\n]".toRegex())
+                ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") } // 각 줄을 나누어 리스트로 가져옴(공백, '', ""는 무시)
+            val textLinesCount = textLines?.size ?: 0 //0부터 세니까 -1 해서 넘겨야함
+            // DB에 Book 데이터 삽입
+            insertBookData(bookId, title)
+
+            // DB에 Draw 데이터 삽입
+            if (textLines != null) {
+                for (i in textLines.indices) {
+                    val line = textLines[i]
+                    val pageId = i
+                    insertDrawData(pageId, bookId, line.trim())
+                }
+            }
+
+            Toast.makeText(this, "Data saved successfully.", Toast.LENGTH_SHORT).show()
+
+            val intent: Intent = Intent(this, CreateActivity::class.java)
+            intent.putExtra("bookId", bookId)
+            intent.putExtra("title", title)
+            intent.putExtra("lastPageId", textLinesCount-1)
+            intent.putExtra("summary", summary)
+            intent.putExtra("originalsummary", originalsummary)
+            intent.putExtra("selectedGenre", selectedGenre)
+            intent.putExtra("selectedEra", selectedEra)
+
+            val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            val editor = sharedPrefs.edit()
+            editor.putString("originalSummary", originalsummary)
+            editor.putString("summary", summary)
+            editor.putString("bookId", bookId)
+            editor.putString("title", title)
+            editor.putString("lastPageId", (textLinesCount-1).toString())
+            editor.apply()
+
+            startActivity(intent)
+        }
     }
+
     private fun extractTitle(summary: String?): String {
         val lines = summary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank()}
