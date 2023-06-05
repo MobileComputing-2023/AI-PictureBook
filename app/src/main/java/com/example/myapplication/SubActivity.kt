@@ -100,7 +100,7 @@ class SubActivity : AppCompatActivity() {
 
             val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
             val editor = sharedPrefs.edit()
-            editor.putInt("nextPromptIndex", 1)
+            editor.putInt("nextPromptIndex", 0)
             editor.apply()
 
             val bookId = generateBookId()
@@ -131,12 +131,8 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("selectedGenre", selectedGenre)
             intent.putExtra("selectedEra", selectedEra)
 
-            editor.putString("originalSummary", originalsummary)
-            editor.putString("summary", summary)
-            editor.putString("bookId", bookId)
-            editor.putString("title", title)
-            editor.putString("lastPageId", (textLinesCount-1).toString())
-            editor.apply()
+            val lastPageId = textLinesCount-1
+            Log.d("lastPageId는 이렇게 만들어졌습니다", lastPageId.toString())
 
             startActivity(intent)
         }

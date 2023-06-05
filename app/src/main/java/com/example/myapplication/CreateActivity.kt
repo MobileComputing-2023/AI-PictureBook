@@ -1,8 +1,7 @@
 package com.example.myapplication
 
-import MyDatabase
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,12 +22,11 @@ class CreateActivity : AppCompatActivity() {
 
     private lateinit var generatedImageText1: TextView
 
-    private lateinit var myDatabase: MyDatabase
-    private lateinit var dbHelper: MyDatabase.MyDbHelper
-    private lateinit var db: SQLiteDatabase
     private lateinit var bookId: String
     private var lastPageId: Int = 0
     private lateinit var title: String
+
+    private var nextPromptIndex: Int = 0
 
     private lateinit var shimmerLayout: ShimmerFrameLayout
     private lateinit var imageView1: ImageView
@@ -40,34 +38,36 @@ class CreateActivity : AppCompatActivity() {
     private val apiKey = "mykey"
     private val numImages = 4
 
-    private var nextPromptIndex: Int = 1
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_generate_image)
 
-        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val originalSummary = sharedPrefs.getString("originalSummary", "")
-        val bookId = sharedPrefs.getString("bookId", "")
-        val title = sharedPrefs.getString("title", "")
-        val lastPageId = sharedPrefs.getString("lastPageId", "")
+        val intent = intent
+        val originalsummary = intent.getStringExtra("originalsummary")
+        val summary = intent.getStringExtra("summary")
+        this.bookId = intent.getStringExtra("bookId") ?: ""
+        this.lastPageId = intent.getIntExtra("lastPageId", 0)
+        this.title = intent.getStringExtra("title") ?: ""
 
-        val summary = sharedPrefs.getString("summary", "")
-
-        nextPromptIndex = sharedPrefs.getInt("nextPromptIndex", 1) // 저장된 값을 가져옴
+        nextPromptIndex = intent.getIntExtra("nextPromptIndex", 0)
 
         initializeViews()
-        extractIntentData(lastPageId, bookId, title)
         setupActionBar()
 
-        generateImagesFromSummary(originalSummary, nextPromptIndex)
+        generateImagesFromSummary(originalsummary, nextPromptIndex)
         generateLinesFromSummary(summary, nextPromptIndex)
 
-        val editor = sharedPrefs.edit()
-        editor.putInt("nextPromptIndex", nextPromptIndex)
-        editor.apply()
-
+        if (originalsummary != null) {
+            Log.d("originalsummary", originalsummary)
+        } else {
+            Log.d("originalsummary", "originalsummary null")
+        }
+        Log.d("nextPromptIndex", nextPromptIndex.toString())
+        if (summary != null) {
+            Log.d("summary", summary)
+        } else {
+            Log.d("summary", "summary null")
+        }
     }
 
     private fun initializeViews() {
@@ -78,15 +78,6 @@ class CreateActivity : AppCompatActivity() {
         imageView4 = findViewById(R.id.generatedImageView4)
         generatedImagesGrid = findViewById(R.id.generatedImagesGrid)
         generatedImageText1 = findViewById(R.id.generatedImageText1)
-    }
-
-    private fun extractIntentData(lastPageId: String?, bookId: String?, title: String?) {
-        this.lastPageId = intent.getIntExtra("lastPageId", 0)
-        this.bookId = intent.getStringExtra("bookId") ?: ""
-        this.title = intent.getStringExtra("title") ?: ""
-
-        Log.d("BookID", this.bookId)
-        Log.d("title", this.title)
     }
 
     private fun setupActionBar() {
@@ -118,21 +109,16 @@ class CreateActivity : AppCompatActivity() {
             if (index >= 0 && index < lines.size) {
                 val line = lines[index]
                 Log.d("CreateActivity_영어", line)
+                generateImages(line)
+
+                Log.d("지금 이 영어 문장으로 만들어졌어요", line)
             }
 
-            val prompt = buildPrompt(lines, nextPromptIndex)
-            generateImages(prompt)
-
-            Log.d("지금 몇 번째 문장으로 그림을 만들었나요? (generateImagesFromSummary)", nextPromptIndex.toString())
+            Log.d("지금 몇 번째 문장으로 그림을 만들었나요? (generateImagesFromSummary)", index.toString())
 
         } ?: Log.d("CreateActivity", "textLines is null")
     }
 
-
-    private fun buildPrompt(lines: List<String>, nextPromptIndex: Int): String {
-        val promptIndex = nextPromptIndex % lines.size
-        return lines.getOrNull(promptIndex) ?: ""
-    }
 
     private fun generateImages(prompt: String) {
 
@@ -169,14 +155,13 @@ class CreateActivity : AppCompatActivity() {
                 val imageUrls = extractImageUrlsFromResponse(json)
 
                 runOnUiThread {
-                    displayImages(imageUrls)
-                    setClickListeners(imageUrls)
+                    displayImages(imageUrls, prompt)
+                    setClickListeners(imageUrls, prompt)
                 }
             }
         })
     }
 
-    // 응답에서 이미지 URL 추출
     private fun extractImageUrlsFromResponse(json: String?): List<String> {
         val urls = mutableListOf<String>()
 
@@ -196,7 +181,7 @@ class CreateActivity : AppCompatActivity() {
         return urls
     }
 
-    private fun displayImages(imageUrls: List<String>) {
+    private fun displayImages(imageUrls: List<String>, prompt: String) {
         val imageViews: List<ImageView> = listOf(imageView1, imageView2, imageView3, imageView4)
 
         for (i in imageUrls.indices) {
@@ -214,38 +199,47 @@ class CreateActivity : AppCompatActivity() {
         generatedImagesGrid.visibility = View.VISIBLE
     }
 
-    private fun setClickListeners(imageUrls: List<String>) {
+    private fun setClickListeners(imageUrls: List<String>, prompt: String) {
         imageView1.setOnClickListener {
             if (imageUrls.isNotEmpty()) {
-                showImageDetail(imageUrls[0])
+                showImageDetail(imageUrls[0], prompt)
             }
         }
         imageView2.setOnClickListener {
             if (imageUrls.size > 1) {
-                showImageDetail(imageUrls[1])
+                showImageDetail(imageUrls[1], prompt)
             }
         }
         imageView3.setOnClickListener {
             if (imageUrls.size > 2) {
-                showImageDetail(imageUrls[2])
+                showImageDetail(imageUrls[2], prompt)
             }
         }
         imageView4.setOnClickListener {
             if (imageUrls.size > 3) {
-                showImageDetail(imageUrls[3])
+                showImageDetail(imageUrls[3], prompt)
             }
         }
     }
 
-    private fun showImageDetail(imageUrl: String) {
+    private fun showImageDetail(imageUrl: String, prompt: String) {
         val fragment = ImageDetailFragment()
-        val bundle = Bundle()
-        bundle.putString("imageUrl", imageUrl)
+        val bundle = Bundle().apply {
+            putString("imageUrl", imageUrl)
+            putString("prompt", prompt)
+            putString("bookId", bookId) // bookId 전달
+            putInt("lastPageId", lastPageId) // lastPageId 전달
+            putInt("nextPromptIndex", nextPromptIndex) // Pass the current nextPromptIndex value
+        }
         fragment.arguments = bundle
+
+        Log.d("showImageDetail에 전달되는 nextPromptIndex", nextPromptIndex.toString())
 
         supportFragmentManager.beginTransaction()
             .replace(android.R.id.content, fragment)
             .addToBackStack(null)
             .commit()
     }
+
+
 }

@@ -32,6 +32,10 @@ class SettingActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingBinding.inflate(layoutInflater)
@@ -242,6 +246,7 @@ class SettingActivity : AppCompatActivity() {
                 {"role": "system", "content": "The following are the modified rules for creating a logical and coherent novel."},
                 {"role": "system", "content": "write the title. form is title: title"},
                 {"role": "system", "content": "Limit novels to a maximum of 10 sentences. The sentence should be short and simple."},
+                {"role": "system", "content": "Don't put a number before each sentence."},
                 {"role": "system", "content": "Every novel's sentence should be clearly written, and the story should be smooth without any illogical or inconsistent elements."},
                 {"role": "user", "content": "the number of male characters: $numMan, the number of female characters: $numWoman, the novel's background period: $customEra, a novel genre of fiction: $customGenre, a rough novel or keywords $customwritesumText"}
             ]
