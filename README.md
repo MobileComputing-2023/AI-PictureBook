@@ -9,7 +9,7 @@ Create picture books using OpenAI
  
 
 
- ## 1. dependencies
+ ## Dependencies
  + **OpenAI**
   ```
  implementation 'com.yat3s.openai:openai-android:0.0.3'
@@ -29,7 +29,7 @@ implementation 'com.facebook.shimmer:shimmer:0.5.0'
 implementation 'com.github.yukuku:ambilwarna:2.0.1'
 ```
  
- + **gif 삽입**
+ + **이미지 처리(Dall-e 생성 이미지, Gif 삽입)**
  ```
  implementation 'com.github.bumptech.glide:glide:4.12.0' 
  annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
