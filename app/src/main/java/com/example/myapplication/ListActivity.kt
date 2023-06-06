@@ -69,7 +69,6 @@ class ListActivity : AppCompatActivity() {
                 } else {
                     adapter.setDeletePosition(position)
 
-                    // dialog 띄우고 확인 받기
                     Toast.makeText(applicationContext, "삭제하시겠습니까?", Toast.LENGTH_SHORT)
 
                     var db = dbHelper.writableDatabase
