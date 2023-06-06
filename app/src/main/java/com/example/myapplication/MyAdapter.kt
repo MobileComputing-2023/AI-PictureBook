@@ -30,12 +30,26 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
         this.itemClickListener = onItemClickListener
     }
 
+   /// private var selectedItemPosition = RecyclerView.NO_POSITION
+    private var deletePosition: Int = -1
+    fun setDeletePosition(position: Int) {
+        deletePosition = position
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val binding = (holder as MyViewHolder).binding
         val database = MyDatabase.getInstance(binding.root.context)
 
         val coverImg = database.getImageForPage(dataSet[position].bookId.toString(), 0)
         binding.bookButton.setImageBitmap(coverImg)
+
+        // 삭제하기 선택 후 버튼 클릭 시 테두리 색상 변경
+        if (deletePosition == position) {
+            binding.bookButton.setBackgroundResource(R.drawable.selected_book_button_border)
+        } else {
+            binding.bookButton.setBackgroundResource(R.drawable.default_book_button_border)
+        }
 
         binding.bookButton.setOnClickListener {
             itemClickListener.onClick(it, position)
