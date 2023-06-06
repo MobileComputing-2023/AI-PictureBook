@@ -80,11 +80,17 @@ class TermsActivity : AppCompatActivity() {
             if (!isChecked) {
                 binding.selectAll.isChecked = false
             }
+            else if (isChecked && binding.readTerms.isChecked){
+                binding.selectAll.isChecked = true
+            }
         }
 
         binding.readTerms.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 binding.selectAll.isChecked = false
+            }
+            else if (isChecked && binding.readUS.isChecked){
+                binding.selectAll.isChecked = true
             }
         }
 
