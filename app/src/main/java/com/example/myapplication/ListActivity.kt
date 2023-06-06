@@ -61,25 +61,30 @@ class ListActivity : AppCompatActivity() {
 
         adapter.setItemClickListener(object : MyAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
-                if (!isDeleteMenuChecked) {
-                    val selectedElement = adapter.getElement(position)
-                    val bookId = selectedElement.bookId.toString()
+                val selectedElement = adapter.getElement(position)
+                val bookId = selectedElement.bookId.toString()
 
+                if (!isDeleteMenuChecked) {
+                    //클릭 시 ReadActivity로 이동
                     val intent = Intent(this@ListActivity, ReadActivity::class.java)
                     intent.putExtra("bookId", bookId)
                     startActivity(intent)
                 } else {
+                    // 삭제하기 선택 후 클릭 시 내용
                     adapter.setDeletePosition(position)
 
-                    Toast.makeText(applicationContext, "삭제하시겠습니까?", Toast.LENGTH_SHORT)
+                    // AlertDialog로 사용자에게 확인 받기
                     val builder = AlertDialog.Builder(this@ListActivity)
                         .setTitle("삭제하시겠습니까?")
                         .setMessage("내 그림책 목록에서 이 책을 삭제하시겠습니까? 한 번 삭제한 책은 다시 불러올 수 없습니다.")
                         .setPositiveButton("삭제", DialogInterface.OnClickListener {dialog, which ->
-                            var db = dbHelper.writableDatabase
-                            db?.delete(MyDatabase.MyDBContract.BookEntry.TABLE_NAME, "${MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID}=?",
-                                arrayOf(adapter.getElement(position).bookId.toString())
-                            )
+                            // AlertDialog의 삭제 버튼 눌렀을 경우 DB에서 삭제
+                            var myDatabase = MyDatabase.getInstance(this@ListActivity)
+                            myDatabase.deleteBook(bookId)
+//                            var db = dbHelper.writableDatabase
+//                            db?.delete(MyDatabase.MyDBContract.BookEntry.TABLE_NAME, "${MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID}=?",
+//                                arrayOf(adapter.getElement(position).bookId.toString())
+//                            )
 
                             adapter.setDeletePosition(-1)
                             isDeleteMenuChecked = false
@@ -87,9 +92,9 @@ class ListActivity : AppCompatActivity() {
                             val newList = dbHelper.selectAll()
                             adapter.setList(newList)
                             adapter.notifyDataSetChanged()
-                        }
-                        )
+                        })
                         .setNegativeButton("취소", DialogInterface.OnClickListener{dialog, which ->
+                            // AlertDialog의 취소 버튼 눌렀을 경우 원상태로 복귀
                             adapter.setDeletePosition(-1)
                             isDeleteMenuChecked = false
                         } )
