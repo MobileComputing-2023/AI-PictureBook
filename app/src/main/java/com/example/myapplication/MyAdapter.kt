@@ -30,11 +30,6 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
         this.itemClickListener = onItemClickListener
     }
 
-<<<<<<< HEAD
-    /// private var selectedItemPosition = RecyclerView.NO_POSITION
-=======
-   /// private var selectedItemPosition = RecyclerView.NO_POSITION
->>>>>>> 04302d94d5ef7f013e348437940e79da541e0896
     private var deletePosition: Int = -1
     fun setDeletePosition(position: Int) {
         deletePosition = position
