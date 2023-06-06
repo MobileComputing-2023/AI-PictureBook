@@ -35,7 +35,7 @@ class CreateActivity : AppCompatActivity() {
     private lateinit var imageView4: ImageView
     private lateinit var generatedImagesGrid: GridLayout
 
-    private val apiKey = "mykey"
+    private val apiKey = "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"
     private val numImages = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {

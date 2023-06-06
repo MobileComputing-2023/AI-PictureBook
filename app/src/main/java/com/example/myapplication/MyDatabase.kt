@@ -188,8 +188,8 @@ class MyDatabase private constructor(context: Context) {
                 while(moveToNext()){
                     readList.add(MyElement(
                         // bookId와 bookTitle만 cursor 연결
-                        cursor.getInt(0),
                         0,
+                        cursor.getInt(0),
                         null,
                         cursor.getString(1),
                         0)

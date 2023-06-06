@@ -154,8 +154,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "KmZQIXUqeOhofbG1ervncAxaMA9AwJtcqcOscy94")
             .post(requestBody)
             .build()
 
@@ -193,8 +193,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "KmZQIXUqeOhofbG1ervncAxaMA9AwJtcqcOscy94")
             .post(requestBody)
             .build()
 
@@ -228,7 +228,7 @@ class SettingActivity : AppCompatActivity() {
         numWoman: Int,
         customwritesumText: String,
         callback: (String) -> Unit
-    ) {
+    ) { 
 
         val client = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
@@ -236,7 +236,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "mykey"
+        val apiKey = "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"
         val url = "https://api.openai.com/v1/chat/completions"
 
         val requestBody = """
