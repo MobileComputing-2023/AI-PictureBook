@@ -40,7 +40,7 @@
 
     <string name="close">닫기</string>
     <string name="download">선택하기</string>
-
+    <string name="termsbtn"> <u>이용약관 확인</u> </string>
     <string name="welcome">
        "ImageTailer"을 이용해주신 여러분을 \n 진심으로 환영합니다. \n
          저희 어플리케이션을 통해 \n 창의적이고 아름다운 그림책을 만들어보세요!  \n
