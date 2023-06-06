@@ -30,6 +30,7 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
         this.itemClickListener = onItemClickListener
     }
 
+    //ListActivity에서 삭제하기 메뉴 선택 시, onClick 메소드에서 구분 위한 Boolean
     private var deletePosition: Int = -1
     fun setDeletePosition(position: Int) {
         deletePosition = position
@@ -56,6 +57,9 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
 
         val title = database.getTitle(dataSet[position].bookId.toString())
         binding.bookTitle.text = title ?: ""
+
+//        val bookDate = dataSet[position].bookId.toString()
+//        binding.bookDate.text = bookDate ?: ""
 
     }
 }
