@@ -23,10 +23,9 @@ class ImageDetailFragment : DialogFragment() {
     private var nextPromptIndex: Int = 0
 
     private lateinit var imageView: ImageView
-    private lateinit var imageUrl: String
     private lateinit var bookId: String
-    private var lastPageId: Int = 0
     private lateinit var title: String
+    private var lastPageId: Int = 0
 
     private lateinit var summary: String
     private lateinit var originalsummary: String
@@ -48,7 +47,6 @@ class ImageDetailFragment : DialogFragment() {
 
         // Arguments로 전달된 데이터 가져오기
         val imageUrl = arguments?.getString("imageUrl")
-        val prompt = arguments?.getString("prompt")
 
         // 이미지 로드
         imageUrl?.let {
@@ -69,6 +67,10 @@ class ImageDetailFragment : DialogFragment() {
 
         val downloadButton = view.findViewById<AppCompatButton>(R.id.download)
         downloadButton.setOnClickListener {
+
+            Log.d("title_1", title)
+            Log.d("bookId_1", bookId)
+
             Log.d("ImageDetailFragment", "Download button clicked")
 
             // 이미지를 Bitmap으로 변환
@@ -95,6 +97,7 @@ class ImageDetailFragment : DialogFragment() {
                 nextPromptIndex += 1
                 val intent = Intent(requireContext(), CreateActivity::class.java).apply {
                     putExtra("bookId", bookId)
+                    putExtra("title", title)
                     putExtra("lastPageId", lastPageId)
                     putExtra("originalsummary", originalsummary)
                     putExtra("summary", summary)
@@ -115,23 +118,16 @@ class ImageDetailFragment : DialogFragment() {
     }
 
     private fun showPopupActivity() {
+
         val intent = Intent(requireContext(), PopupActivity::class.java).apply {
             putExtra("bookId", bookId)
             putExtra("title", title)
         }
+
+        Log.d("title_2", title)
+        Log.d("bookId_2", bookId)
+
         startActivity(intent)
-
-        nextPromptIndex++
-
-        // CreateActivity 호출하여 nextPromptIndex 증가시킴
-        val createActivityIntent = Intent(requireContext(), CreateActivity::class.java).apply {
-            putExtra("originalSummary", originalsummary)
-            putExtra("summary", summary)
-            putExtra("bookId", bookId)
-            putExtra("lastPageId", lastPageId)
-            putExtra("nextPromptIndex", nextPromptIndex) // Pass the incremented nextPromptIndex value
-        }
-        startActivity(createActivityIntent)
     }
 
 
