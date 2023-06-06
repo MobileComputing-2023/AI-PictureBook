@@ -22,7 +22,7 @@
         android:gravity="center">
         <Button
             android:id="@+id/settingBtn"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/home_round_button"
             android:layout_marginBottom="10dp"
@@ -31,12 +31,22 @@
             android:textSize="25sp"/>
         <Button
             android:id="@+id/readBookListBtn"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/home_round_button"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="5dp"
             android:text="내 그림책 읽기"
             android:textColor="@color/white"
             android:textSize="25sp"/>
+        <Button
+            android:id="@+id/readTerms"
+            android:layout_width="350dp"
+            android:layout_height="20sp"
+            android:background="@android:color/transparent"
+            android:text="@string/termsbtn"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="#5b5b5b"/>
+
     </LinearLayout>
 </LinearLayout>
