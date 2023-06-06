@@ -55,8 +55,13 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
             itemClickListener.onClick(it, position)
         }
 
-        val title = database.getTitle(dataSet[position].bookId.toString())
-        binding.bookTitle.text = title ?: ""
+        //val title = database.getTitle(dataSet[position].bookId.toString())
+        binding.bookTitle.text = dataSet[position].text
+
+        val bookId = dataSet[position].bookId.toString()
+        //val bookDate = bookId.substring(0,4) + "년 " + bookId.substring(4,6) + "월 " + bookId.substring(6,8) + "일"
+        //binding.bookDate.text = bookDate
+        binding.bookDate.text = bookId
 
 //        val bookDate = dataSet[position].bookId.toString()
 //        binding.bookDate.text = bookDate ?: ""
