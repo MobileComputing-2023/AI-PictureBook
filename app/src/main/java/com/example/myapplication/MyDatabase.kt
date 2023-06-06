@@ -182,15 +182,16 @@ class MyDatabase private constructor(context: Context) {
         fun selectAll(): MutableList<MyElement> {
             val readList = mutableListOf<MyElement>()
             val db = readableDatabase
-            val cursor = db.rawQuery("SELECT * FROM "+ MyDBContract.BookEntry.TABLE_NAME+";", null)
+            val cursor = db.rawQuery("SELECT ${MyDBContract.BookEntry.COLUMN_BOOK_ID}, ${MyDBContract.BookEntry.COLUMN_TITLE} FROM "
+                    + MyDBContract.BookEntry.TABLE_NAME+";", null)
             with(cursor){
                 while(moveToNext()){
                     readList.add(MyElement(
                         cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getBlob(2),
-                        cursor.getString(3),
-                        cursor.getInt(4))
+                        0,
+                        null,
+                        cursor.getString(1),
+                        0)
                     )
                 }
             }

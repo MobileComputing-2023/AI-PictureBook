@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,9 +34,13 @@ class MyAdapter(private var dataSet: MutableList<MyElement>): RecyclerView.Adapt
         val binding = (holder as MyViewHolder).binding
         val database = MyDatabase.getInstance(binding.root.context)
 
+        val coverImg = database.getImageForPage(dataSet[position].bookId.toString(), 0)
+        binding.bookButton.setImageBitmap(coverImg)
+
         binding.bookButton.setOnClickListener {
             itemClickListener.onClick(it, position)
         }
+
         val title = database.getTitle(dataSet[position].bookId.toString())
         binding.bookTitle.text = title ?: ""
 
