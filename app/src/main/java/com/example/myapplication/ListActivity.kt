@@ -29,7 +29,7 @@ class ListActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 //actionbar 뒤로가기 버튼 누르면 main으로 이동
-                startActivity(Intent(this, ListActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
                 return true
             }
             1 -> {
