@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.databinding.ActivityListBinding
@@ -70,17 +72,28 @@ class ListActivity : AppCompatActivity() {
                     adapter.setDeletePosition(position)
 
                     Toast.makeText(applicationContext, "삭제하시겠습니까?", Toast.LENGTH_SHORT)
+                    val builder = AlertDialog.Builder(this@ListActivity)
+                        .setTitle("삭제하시겠습니까?")
+                        .setMessage("내 그림책 목록에서 이 책을 삭제하시겠습니까? 한 번 삭제한 책은 다시 불러올 수 없습니다.")
+                        .setPositiveButton("삭제", DialogInterface.OnClickListener {dialog, which ->
+                            var db = dbHelper.writableDatabase
+                            db?.delete(MyDatabase.MyDBContract.BookEntry.TABLE_NAME, "${MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID}=?",
+                                arrayOf(adapter.getElement(position).bookId.toString())
+                            )
 
-                    var db = dbHelper.writableDatabase
-                    db?.delete(MyDatabase.MyDBContract.BookEntry.TABLE_NAME, "${MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID}=?",
-                        arrayOf(adapter.getElement(position).bookId.toString())
-                    )
-                    val newList = dbHelper.selectAll()
-                    adapter.setList(newList)
-                    adapter.notifyDataSetChanged()
+                            adapter.setDeletePosition(-1)
+                            isDeleteMenuChecked = false
 
-                    adapter.setDeletePosition(-1)
-                    isDeleteMenuChecked = false
+                            val newList = dbHelper.selectAll()
+                            adapter.setList(newList)
+                            adapter.notifyDataSetChanged()
+                        }
+                        )
+                        .setNegativeButton("취소", DialogInterface.OnClickListener{dialog, which ->
+                            adapter.setDeletePosition(-1)
+                            isDeleteMenuChecked = false
+                        } )
+                    builder.show()
                 }
             }
         })
