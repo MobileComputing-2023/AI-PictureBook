@@ -93,6 +93,8 @@ class CreateActivity : AppCompatActivity() {
                 val line = lines[index]
                 Log.d("CreateActivity_한국어", line)
                 generatedImageText1.text = line
+            } else {
+                Log.d("문장 끝", index.toString())
             }
 
             Log.d("지금 몇 번째 문장을 띄우고 있나요???", index.toString())
@@ -112,6 +114,13 @@ class CreateActivity : AppCompatActivity() {
                 generateImages(line)
 
                 Log.d("지금 이 영어 문장으로 만들어졌어요", line)
+            } else if (index == lines.size - 1){
+                val line = lines.lastOrNull()
+                if(line != null){
+                    Log.d("CreateActivity_영어, 마지막", line)
+                    generateImages(line)
+                    Log.d("지금 이 영어 문장(마지막)으로 만들어졌어요", line)
+                }
             }
 
             Log.d("지금 몇 번째 문장으로 그림을 만들었나요? (generateImagesFromSummary)", index.toString())
