@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import MyDatabase
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,6 +23,7 @@ import java.io.IOException
 class CreateActivity : AppCompatActivity() {
 
     private lateinit var generatedImageText1: TextView
+    private lateinit var myDatabase: MyDatabase
 
     private lateinit var bookId: String
     private var lastPageId: Int = 0
@@ -48,6 +51,7 @@ class CreateActivity : AppCompatActivity() {
         this.bookId = intent.getStringExtra("bookId") ?: ""
         this.lastPageId = intent.getIntExtra("lastPageId", 0)
         this.title = intent.getStringExtra("title") ?: ""
+        myDatabase = MyDatabase.getInstance(this)
 
         nextPromptIndex = intent.getIntExtra("nextPromptIndex", 0)
 
@@ -249,6 +253,15 @@ class CreateActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
+
+
+    private fun showPopupActivity() {
+        val intent = Intent(this, PopupActivity::class.java)
+        startActivity(intent)
+    }
+
+
+
 
 
 }
