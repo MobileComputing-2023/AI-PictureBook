@@ -9,16 +9,16 @@
         android:id="@+id/bookButton"
         android:layout_width="150dp"
         android:layout_height="210dp"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="5dp"
         android:contentDescription="CoverImage" />
     <TextView
         android:id="@+id/bookTitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/bookDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"/>
 </LinearLayout>
-
