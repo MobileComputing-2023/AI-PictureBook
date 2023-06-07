@@ -7,12 +7,12 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\hooni\.android\avd\AI-Picturebook.avd" />
+            <value value="C:\Users\hooni\.android\avd\AI-PictureBook.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2023-06-06T11:15:57.632207700Z" />
+    <timeTargetWasSelectedWithDropDown value="2023-06-07T15:34:54.432032600Z" />
     <runningDeviceTargetsSelectedWithDialog>
       <Target>
         <type value="RUNNING_DEVICE_TARGET" />
