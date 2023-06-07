@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
+import android.graphics.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +36,6 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
         this.itemClickListener = onItemClickListener
     }
 
-    // ListActivity에서 삭제하기 메뉴 선택 시, onClick 메소드에서 구분 위한 Boolean
     private var deletePosition: Int = -1
 
     fun setDeletePosition(position: Int) {
@@ -70,11 +70,8 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
         val year = bookId.substring(0, 4) // 연도
         val month = bookId.substring(4, 6) // 월
         val day = bookId.substring(6, 8) // 일
-        val hour = bookId.substring(8, 10) // 시간
-        val minute = bookId.substring(10, 12) // 분
-        val second = bookId.substring(12, 14) // 초
 
-        val formattedDate = "$year 년 $month 월 $day 일\n$hour 시 $minute 분 $second 초"
+        val formattedDate = "$year 년 $month 월 $day 일"
         binding.bookDate.text = formattedDate
 
 
