@@ -49,21 +49,15 @@ class TermsPopActivity : AppCompatActivity() {
         val parent = binding.root.parent as? ViewGroup
         parent?.removeView(binding.root)
 
-        // Disable clicks and focus for the root view
+        // 클릭, 포커스 막음
         binding.root.isClickable = false
         binding.root.isFocusable = false
 
-
-        // Add the view to the new parent
         container.addView(binding.root)
 
         binding.closeBtn.setOnClickListener {
             // 팝업창 닫기
             finish()
-
-//            // 동화리스트 화면으로 가기
-//            val intent = Intent(this, ListActivity::class.java)
-//            startActivity(intent)
         }
         // 팝업창 생성 및 표시
         if (!isFinishing) {

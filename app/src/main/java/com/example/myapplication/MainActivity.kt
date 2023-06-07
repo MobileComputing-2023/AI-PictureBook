@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    //2초 내에 두 번 backpress하면 꺼지도록 설정
     private var backPressedTime: Long = 0
     private val backPressedTimeout: Long = 2000
 
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        // isFirstTime이랑 TermsActivity의 termsAgreed랑은 반대임
+        // isFirstTime가 termsAgree받은 거니까 false일 때 동의한 거
         val sharedPreferences = getSharedPreferences("TermsAgree", Context.MODE_PRIVATE)
         val isFirstTime = sharedPreferences.getBoolean("termsAgreed", false)
 
