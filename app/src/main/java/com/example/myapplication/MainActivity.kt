@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        binding.readTerms.setOnClickListener {
+            val intent = Intent(this, TermsPopActivity::class.java)
+            startActivity(intent)
+        }
+
         val sharedPreferences = getSharedPreferences("TermsAgree", Context.MODE_PRIVATE)
         val isFirstTime = sharedPreferences.getBoolean("termsAgreed", false)
 

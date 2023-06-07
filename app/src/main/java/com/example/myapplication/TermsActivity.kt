@@ -45,7 +45,7 @@ class TermsActivity : AppCompatActivity() {
 
         val tab = binding.tab
         tab.addTab(tab.newTab().setText("Image Tailer"))
-        tab.addTab(tab.newTab().setText("약관 읽기"))
+        tab.addTab(tab.newTab().setText("이용약관"))
 
         tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -80,11 +80,17 @@ class TermsActivity : AppCompatActivity() {
             if (!isChecked) {
                 binding.selectAll.isChecked = false
             }
+            else if (isChecked && binding.readTerms.isChecked){
+                binding.selectAll.isChecked = true
+            }
         }
 
         binding.readTerms.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 binding.selectAll.isChecked = false
+            }
+            else if (isChecked && binding.readUS.isChecked){
+                binding.selectAll.isChecked = true
             }
         }
 

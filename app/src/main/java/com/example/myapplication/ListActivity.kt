@@ -1,18 +1,23 @@
 package com.example.myapplication
 
 import MyDatabase
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.databinding.ActivityListBinding
 
 class ListActivity : AppCompatActivity() {
     private val dbHelper = MyDatabase.MyDbHelper(this)
+    //private val db = dbHelper.writableDatabase
+    private var isDeleteMenuChecked:Boolean = false
     override fun onBackPressed() {//뒤로가기 누르면 main으로 이동
         startActivity(Intent(this, MainActivity::class.java))
     }
@@ -25,11 +30,12 @@ class ListActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 //actionbar 뒤로가기 버튼 누르면 main으로 이동
-                startActivity(Intent(this, ListActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
                 return true
             }
             1 -> {
                 Log.d("TAG", "DELETE TAB CLICKED")
+                isDeleteMenuChecked = true
             }
         }
         return super.onOptionsItemSelected(item)
@@ -47,7 +53,6 @@ class ListActivity : AppCompatActivity() {
         val adapter = MyAdapter(getList)
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.recyclerView.adapter = adapter
-        //binding.recyclerView.addItemDecoration(DividerItemDecoration(this, GridLayoutManager.HORIZONTAL))
 
         if (adapter.itemCount == 0) {
             binding.noBooksTextView.visibility = View.VISIBLE
@@ -59,10 +64,48 @@ class ListActivity : AppCompatActivity() {
             override fun onClick(v: View, position: Int) {
                 val selectedElement = adapter.getElement(position)
                 val bookId = selectedElement.bookId.toString()
+                val myDatabase = MyDatabase.getInstance(this@ListActivity)
+                Log.d("ListActivity, book is cliked", "BookCount: ${adapter.itemCount}")
+                Log.d("ListActivity, book is cliked", "element 1: ${adapter.getElement(0)}")
+                Log.d("ListActivity, book is cliked", "element 2: ${adapter.getElement(1)}")
+                Log.d("ListActivity, book is cliked", "BookId: $bookId")
 
-                val intent = Intent(this@ListActivity, ReadActivity::class.java)
-                intent.putExtra("bookId", bookId)
-                startActivity(intent)
+                if (!isDeleteMenuChecked) {
+                    //클릭 시 ReadActivity로 이동
+                    val intent = Intent(this@ListActivity, ReadActivity::class.java)
+                    intent.putExtra("bookId", bookId)
+                    startActivity(intent)
+                } else {
+                    // 삭제하기 선택 후 클릭 시 내용
+                    adapter.setDeletePosition(position)
+
+                    // AlertDialog로 사용자에게 확인 받기
+                    val builder = AlertDialog.Builder(this@ListActivity)
+                        .setTitle("${myDatabase.getTitle(bookId)}을 삭제하시겠습니까?")
+                        .setMessage("내 그림책 목록에서 이 책을 삭제하시겠습니까? 한 번 삭제한 책은 다시 불러올 수 없습니다.")
+                        .setPositiveButton("삭제", DialogInterface.OnClickListener {dialog, which ->
+                            // AlertDialog의 삭제 버튼 눌렀을 경우 DB에서 삭제
+                            //var myDatabase = MyDatabase.getInstance(this@ListActivity)
+                            myDatabase.deleteBook(bookId)
+//                            var db = dbHelper.writableDatabase
+//                            db?.delete(MyDatabase.MyDBContract.BookEntry.TABLE_NAME, "${MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID}=?",
+//                                arrayOf(adapter.getElement(position).bookId.toString())
+//                            )
+
+                            adapter.setDeletePosition(-1)
+                            isDeleteMenuChecked = false
+
+                            val newList = dbHelper.selectAll()
+                            adapter.setList(newList)
+                            adapter.notifyDataSetChanged()
+                        })
+                        .setNegativeButton("취소", DialogInterface.OnClickListener{dialog, which ->
+                            // AlertDialog의 취소 버튼 눌렀을 경우 원상태로 복귀
+                            adapter.setDeletePosition(-1)
+                            isDeleteMenuChecked = false
+                        } )
+                    builder.show()
+                }
             }
         })
     }
