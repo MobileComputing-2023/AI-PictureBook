@@ -61,6 +61,18 @@
             android:exported="true">
         </activity>
 
+        <activity android:name=".AI_EditActivity"
+            android:exported="true">
+        </activity>
+
+        <activity android:name=".AI_PopupActivity"
+            android:exported="true">
+        </activity>
+
+        <activity android:name=".AI_EditPopupActivity"
+            android:exported="true">
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
