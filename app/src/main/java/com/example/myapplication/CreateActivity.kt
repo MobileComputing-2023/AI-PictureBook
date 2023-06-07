@@ -114,7 +114,7 @@ class CreateActivity : AppCompatActivity() {
                 generateImages(line)
 
                 Log.d("지금 이 영어 문장으로 만들어졌어요", line)
-            } else if (index == lines.size - 1){
+            } else if (index == lines.size){
                 val line = lines.lastOrNull()
                 if(line != null){
                     Log.d("CreateActivity_영어, 마지막", line)
