@@ -12,7 +12,7 @@ import com.example.myapplication.databinding.ActivityTermsBinding
 import com.google.android.material.tabs.TabLayout
 
 class TermsActivity : AppCompatActivity() {
-    // 앱 상태(동의여부) 저장
+    // 앱 상태(동의여부) 저장 : 앱 내부 초기 값 설정
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onBackPressed() {
@@ -40,6 +40,7 @@ class TermsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "약관 동의"
 
+        //termsAgree false로 지정
         sharedPreferences = getSharedPreferences("TermsAgree", Context.MODE_PRIVATE)
         val termsAgreed = sharedPreferences.getBoolean("termsAgreed", false)
 
@@ -97,7 +98,7 @@ class TermsActivity : AppCompatActivity() {
         val termsAgreeButton = binding.termsAgree
         termsAgreeButton.setOnClickListener {
             val isAgree = binding.selectAll.isChecked
-
+            //전체 동의 클릭되어 있으면 sharedPreference true로 변경
             if (isAgree) {
                 sharedPreferences.edit {
                     putBoolean("termsAgreed", true)

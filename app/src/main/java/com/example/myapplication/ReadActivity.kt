@@ -17,7 +17,7 @@ import android.view.MotionEvent
 class ReadActivity : AppCompatActivity() {
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
-    private var currentPage = 0
+    private var currentPage = 0 //읽기 위해 현재 위치 count
     private lateinit var title: String
     private lateinit var binding: ActivityReadBinding
     private lateinit var gestureDetector: GestureDetector
@@ -44,6 +44,7 @@ class ReadActivity : AppCompatActivity() {
             displayImageForPage(binding)
         }
 
+        //제스쳐 감지
         gestureDetector = GestureDetector(this, SwipeGestureListener())
 
         binding.root.setOnTouchListener { _, event ->
@@ -81,7 +82,7 @@ class ReadActivity : AppCompatActivity() {
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
             binding.previousBtn.visibility = View.VISIBLE
-            binding.nextBtn.visibility = View.GONE
+            binding.nextBtn.visibility = View.VISIBLE
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
         } else { //2-마지막장 앞
             val image = myDatabase.getImageForPage(bookId, currentPage)
@@ -115,17 +116,17 @@ class ReadActivity : AppCompatActivity() {
         private val SWIPE_VELOCITY_THRESHOLD = 100 //스와이프로 간주 최소 속도
 
         override fun onFling(
-            e1: MotionEvent,
-            e2: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
+            e1: MotionEvent, //시작점
+            e2: MotionEvent, //끝점
+            velocityX: Float, //x속도
+            velocityY: Float //y속도
         ): Boolean {
             val diffX = e2.x - e1.x
             val diffY = e2.y - e1.y
 
-            if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (Math.abs(diffX) > Math.abs(diffY)) { //좌우로 움직이는게 맞는지 확인
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) {
+                    if (diffX > 0) { //x 기리 속도가 양수
                         onSwipeLeft()
                     } else {
                         onSwipeRight()
