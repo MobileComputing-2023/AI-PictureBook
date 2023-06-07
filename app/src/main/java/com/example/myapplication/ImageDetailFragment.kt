@@ -119,7 +119,7 @@ class ImageDetailFragment : DialogFragment() {
 
     private fun showPopupActivity() {
 
-        val intent = Intent(requireContext(), PopupActivity::class.java).apply {
+        val intent = Intent(requireContext(), AI_PopupActivity::class.java).apply {
             putExtra("bookId", bookId)
             putExtra("title", title)
         }
