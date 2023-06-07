@@ -9,6 +9,7 @@
         android:id="@+id/bookButton"
         android:layout_width="150dp"
         android:layout_height="210dp"
+        android:scaleType="fitXY"
         android:paddingHorizontal="5dp"
         android:paddingVertical="5dp"
         android:contentDescription="CoverImage" />
