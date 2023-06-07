@@ -81,7 +81,7 @@ class SettingActivity : AppCompatActivity() {
 
             if (writesumText.length > 200) {
                 Toast.makeText(this@SettingActivity, "글자 수를 200자 이내로 제한해 주세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                return@setOnClickListener //setOnClickListener 빠져나감(실행되지않음)
             }
             if (numMan==0 && numWoman==0) {
                 Toast.makeText(this@SettingActivity, "인물을 한 명 이상 설정해 주세요.", Toast.LENGTH_SHORT).show()
@@ -161,20 +161,26 @@ class SettingActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Translation request failed
+                val intent: Intent = Intent(this@SettingActivity, ErrorActivity::class.java)
+                startActivity(intent)
             }
 
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 if (body != null) {
                     val jsonObject = JSONObject(body)
-                    val translatedText = jsonObject.getJSONObject("message")
-                        .getJSONObject("result")
-                        .getString("translatedText")
-
-                    callback(translatedText)
-                } else{
-
+                    if (jsonObject.has("message")) {
+                        val translatedText = jsonObject.getJSONObject("message")
+                            .getJSONObject("result")
+                            .getString("translatedText")
+                        callback(translatedText)
+                    } else {
+                        val intent: Intent = Intent(this@SettingActivity, ErrorActivity::class.java)
+                        startActivity(intent)
+                    }
+                } else {
+                    val intent: Intent = Intent(this@SettingActivity, ErrorActivity::class.java)
+                    startActivity(intent)
                 }
             }
         })
@@ -262,7 +268,8 @@ class SettingActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Handle request failure
+                val intent: Intent = Intent(this@SettingActivity, ErrorActivity::class.java)
+                startActivity(intent)
             }
 
             override fun onResponse(call: Call, response: Response) {
