@@ -64,14 +64,22 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
             itemClickListener.onClick(it, position)
         }
 
-        binding.bookTitle.text = "『${dataSet[position].title}』"
+        ///8글자 넘으면 8글자...으로 표현
+        val title = dataSet[position].title
+        val shortenedTitle = if (title.length > 8) {
+            "${title.substring(0, 8)}..."
+        } else {
+            title
+        }
+        binding.bookTitle.text = "『$shortenedTitle』"
+
 
         val bookId = dataSet[position].bookId
-        val year = bookId.substring(0, 4) // 연도
+        val year = bookId.substring(2, 4) // 연도
         val month = bookId.substring(4, 6) // 월
         val day = bookId.substring(6, 8) // 일
 
-        val formattedDate = "$year 년 $month 월 $day 일"
+        val formattedDate = "$year/$month/$day"
         binding.bookDate.text = formattedDate
 
 
