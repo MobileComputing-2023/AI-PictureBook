@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -19,6 +20,8 @@ class TextBoxFragment : DialogFragment() {
     private var textBoxText: String = ""
     private var isEditing = false
 
+    private var isPinActivated = true // pin 클릭 여부 저장
+
     private var isLinearLayoutDragging = false
     private var initialLinearLayoutY = 0f
     private var initialTouchLinearLayoutY = 0f
@@ -26,7 +29,6 @@ class TextBoxFragment : DialogFragment() {
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
     private var currentPage = 0 //읽기 위해 현재 위치 count
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -49,6 +51,7 @@ class TextBoxFragment : DialogFragment() {
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myDatabase = MyDatabase.getInstance(requireContext())
@@ -59,10 +62,6 @@ class TextBoxFragment : DialogFragment() {
 
         val text = myDatabase.getTextForPage(bookId, currentPage)
         binding.textBox.text = text
-
-        binding.linearLayout.setOnTouchListener { view, event ->
-            handleLinearLayoutTouch(view, event)
-        }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -113,6 +112,39 @@ class TextBoxFragment : DialogFragment() {
 
         binding.colorBtn5.setOnClickListener {
             openColorPicker()
+        }
+
+        binding.pinBtn.visibility = View.GONE
+        binding.unpinBtn.visibility = View.VISIBLE // pin 모양
+
+        binding.pinBtn.setOnClickListener {
+            isPinActivated = !isPinActivated
+            if (isPinActivated) {
+                // 고정 상태
+                binding.pinBtn.visibility = View.GONE
+                binding.unpinBtn.visibility = View.VISIBLE
+            } else {
+                // 고정되지 않은 상태
+                binding.unpinBtn.visibility = View.GONE
+                binding.pinBtn.visibility = View.VISIBLE
+            }
+        }
+
+        binding.unpinBtn.setOnClickListener {
+            isPinActivated = !isPinActivated
+            if (!isPinActivated) {
+                // 고정되지 않은 상태
+                binding.unpinBtn.visibility = View.GONE
+                binding.pinBtn.visibility = View.VISIBLE
+            }
+        }
+
+        binding.linearLayout.setOnTouchListener { view, event ->
+            if (isPinActivated) {
+                return@setOnTouchListener false // 고정된 상태에서는 터치 이벤트를 처리하지 않음
+            } else {
+                return@setOnTouchListener handleLinearLayoutTouch(view, event)
+            }
         }
 
         binding.editBtn.setOnClickListener {
