@@ -1,8 +1,10 @@
 package com.example.myapplication
 
+import MyDatabase
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +21,8 @@ import com.bumptech.glide.request.RequestOptions
 import java.io.ByteArrayOutputStream
 
 class ImageDetailFragment : DialogFragment() {
+
+    private var currentPageId: Int = 0
 
     private var nextPromptIndex: Int = 0
 
@@ -68,8 +72,7 @@ class ImageDetailFragment : DialogFragment() {
         val downloadButton = view.findViewById<AppCompatButton>(R.id.download)
         downloadButton.setOnClickListener {
 
-            Log.d("title_1", title)
-            Log.d("bookId_1", bookId)
+            currentPageId++
 
             Log.d("ImageDetailFragment", "Download button clicked")
 
@@ -81,16 +84,12 @@ class ImageDetailFragment : DialogFragment() {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             val byteArray = stream.toByteArray()
 
-            Log.d("현재 상황", nextPromptIndex.toString())
-            Log.d("현재 상황", lastPageId.toString())
-
             // DB에 이미지 저장
             saveImageToDB(bookId, nextPromptIndex, byteArray)
 
             if (nextPromptIndex == lastPageId) {
                 // 마지막 페이지일 경우 팝업 액티비티 호출
-                Log.d("마지막 페이지", nextPromptIndex.toString())
-                Log.d("마지막 페이지", lastPageId.toString())
+
                 showPopupActivity()
             } else {
                 // 다음 페이지로 이동하여 CreateActivity 호출
@@ -103,8 +102,6 @@ class ImageDetailFragment : DialogFragment() {
                     putExtra("summary", summary)
                     putExtra("nextPromptIndex", nextPromptIndex)
                 }
-                Log.d("마지막 페이지 아님", nextPromptIndex.toString())
-                Log.d("마지막 페이지 아님", lastPageId.toString())
                 startActivity(intent)
             }
         }
@@ -123,9 +120,6 @@ class ImageDetailFragment : DialogFragment() {
             putExtra("bookId", bookId)
             putExtra("title", title)
         }
-
-        Log.d("title_2", title)
-        Log.d("bookId_2", bookId)
 
         startActivity(intent)
     }

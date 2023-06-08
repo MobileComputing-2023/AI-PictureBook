@@ -79,6 +79,7 @@ class TextBoxFragment : DialogFragment() {
         })
 
         binding.colorBtn1.setOnClickListener {
+
             val color = Color.parseColor("#E55B62")
             binding.textBox.setBackgroundColor(color)
             textBoxText = binding.textBox.text.toString()
