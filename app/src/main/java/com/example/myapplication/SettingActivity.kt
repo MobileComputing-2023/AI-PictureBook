@@ -142,6 +142,7 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    // 집어넣은 설정들 영어로 변환(변환 후 gpt로 넘김)
     private fun translateToEnglish(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
         val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
@@ -187,6 +188,7 @@ class SettingActivity : AppCompatActivity() {
         })
     }
 
+    // 출력된 소설 한국어로 바꿈
     private fun translateToKorean(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
         val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
@@ -207,7 +209,7 @@ class SettingActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Translation request failed
+                // 실패
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -246,6 +248,7 @@ class SettingActivity : AppCompatActivity() {
         val apiKey = "mykey"
         val url = "https://api.openai.com/v1/chat/completions"
 
+        // gpt에 보내는 role
         val requestBody = """
         {
          "model": "gpt-3.5-turbo",
