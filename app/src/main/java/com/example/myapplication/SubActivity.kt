@@ -76,6 +76,7 @@ class SubActivity : AppCompatActivity() {
             val textLines = summary?.split("[.!?\\r\\n]".toRegex())
                 ?.filter { it.isNotBlank()}
                 ?.map { if (it.startsWith("제목:")) it.substring(4) else it }
+                ?.map { if (it.startsWith("제목 :")) it.substring(4) else it }
                 ?.map { it.replace("\"", "")}// 각 줄을 나누어 리스트로 가져옴(공백, "", 제목: 는 무시)
             val textLinesCount = textLines?.size ?: 0 //0부터 세니까 -1 해서 넘겨야함
             // DB에 Book 데이터 삽입
@@ -146,6 +147,7 @@ class SubActivity : AppCompatActivity() {
         val lines = summary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank()}
             ?.map { if (it.startsWith("제목:")) it.substring(4) else it }
+            ?.map { if (it.startsWith("제목 :")) it.substring(4) else it }
             ?.map { it.replace("\"", "")}
         var title = ""
         if (!lines.isNullOrEmpty()) {
@@ -170,7 +172,7 @@ class SubActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean { //같은 DB데이터가 있는지 확인.
+    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean { //같은 DB 데이터가 있는지 확인.
         val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
         val selectionArgs = arrayOf(bookId, pageId.toString())
 

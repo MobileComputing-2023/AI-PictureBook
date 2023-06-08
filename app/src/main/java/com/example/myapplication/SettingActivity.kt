@@ -142,6 +142,7 @@ class SettingActivity : AppCompatActivity() {
         }
     }
 
+    // 집어넣은 설정들 영어로 변환(변환 후 gpt로 넘김)
     private fun translateToEnglish(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
         val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
@@ -187,6 +188,7 @@ class SettingActivity : AppCompatActivity() {
         })
     }
 
+    // 출력된 소설 한국어로 바꿈
     private fun translateToKorean(inputText: String, callback: (String) -> Unit) {
         val client = OkHttpClient.Builder().build()
         val url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
@@ -207,7 +209,7 @@ class SettingActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Translation request failed
+                // 실패
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -246,12 +248,13 @@ class SettingActivity : AppCompatActivity() {
         val apiKey = "mykey"
         val url = "https://api.openai.com/v1/chat/completions"
 
+        // gpt에 보내는 role
         val requestBody = """
         {
          "model": "gpt-3.5-turbo",
             "messages": [
                 {"role": "system", "content": "The following are the modified rules for creating a logical and coherent novel."},
-                {"role": "system", "content": "write the title. form is title: title"},
+                {"role": "system", "content": "write the title. form is title: title. Do not include double quotation marks."},
                 {"role": "system", "content": "Limit novels to a maximum of 10 sentences. The sentence should be short and simple."},
                 {"role": "system", "content": "Don't put a number before each sentence."},
                 {"role": "system", "content": "Every novel's sentence should be clearly written, and the story should be smooth without any illogical or inconsistent elements."},
