@@ -42,9 +42,9 @@
                 android:id="@+id/saveTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="변경 사항을 저장하시겠습니까?"
+                android:text="변경 사항을 저장하고 \n 텍스트 수정 페이지로 이동하시겠습니까?"
                 android:gravity="center"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textColor="@color/black"/>
 
             <LinearLayout

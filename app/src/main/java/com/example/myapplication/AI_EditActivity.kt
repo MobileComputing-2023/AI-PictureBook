@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
+import TextBoxFragment
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,7 @@ class AI_EditActivity : AppCompatActivity() {
         private lateinit var title: String
         private lateinit var binding: ActivityReadBinding
         private lateinit var gestureDetector: GestureDetector
+        private var currentPageId: Int = 0
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -76,12 +78,14 @@ class AI_EditActivity : AppCompatActivity() {
                 binding.imageView.setImageBitmap(image)
                 binding.nextBtn.visibility = View.VISIBLE
                 binding.previousBtn.visibility = View.GONE
+                showTextBoxEdit(bookId, currentPageId)
                 Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
             } else if (currentPage == totalPages) { // 마지막 페이지
                 val image = myDatabase.getImageForPage(bookId, currentPage)
                 binding.imageView.setImageBitmap(image)
                 binding.previousBtn.visibility = View.VISIBLE
                 binding.nextBtn.visibility = View.VISIBLE
+                showTextBoxEdit(bookId, currentPageId)
                 Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
             } else { //2-마지막장 앞
                 val image = myDatabase.getImageForPage(bookId, currentPage)
@@ -89,6 +93,7 @@ class AI_EditActivity : AppCompatActivity() {
                 binding.nextBtn.visibility = View.VISIBLE
                 binding.previousBtn.visibility = View.VISIBLE
                 binding.imageView.alpha = 0f
+                showTextBoxEdit(bookId, currentPageId)
 
                 val fadeInAnimator = ObjectAnimator.ofFloat(binding.imageView, "alpha", 0f, 1f).apply {
                     duration = 500 // 애니메이션의 지속 시간
@@ -101,6 +106,20 @@ class AI_EditActivity : AppCompatActivity() {
                 Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
             }
         }
+
+    private fun showTextBoxEdit(bookId: String, currentPageId:Int) {
+        val fragment = TextBoxFragment().apply {
+            arguments = Bundle().apply {
+                putInt("currentPageID", currentPageId)
+                putString("bookId", bookId)
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
         private fun showPopupActivity() {
             val intent = Intent(this, AI_EditPopupActivity::class.java).apply {
