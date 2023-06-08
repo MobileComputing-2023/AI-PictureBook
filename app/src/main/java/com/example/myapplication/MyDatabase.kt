@@ -25,12 +25,8 @@ class MyDatabase private constructor(context: Context) {
             const val COLUMN_BOOK_ID = "book_id"
             const val COLUMN_TEXT = "text"
             const val COLUMN_IMAGE = "image"
-        }
-        object TextEntry : BaseColumns {
-            const val TABLE_NAME = "TextBox"
-            const val COLUMN_PAGE_ID = "page_id"
-            const val COLUMN_BOOK_ID = "book_id"
-            const val COLUMN_TEXT = "text"
+            const val COLUMN_TEXT_IMAGE = "textimage"
+            const val COLUMN_TEXT_POSITION = "text_position"
         }
     }
 
@@ -81,14 +77,15 @@ class MyDatabase private constructor(context: Context) {
         cursor.close()
         return totalPages
     }
-    fun getText(bookId: String, page: Int): String? {
-        val projection = arrayOf(MyDBContract.TextEntry.COLUMN_TEXT)
+
+    fun getTextForPage(bookId: String, page: Int): String? {
+        val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_TEXT)
         val selection =
-            "${MyDBContract.TextEntry.COLUMN_BOOK_ID} = ? AND ${MyDBContract.TextEntry.COLUMN_PAGE_ID} = ?"
+            "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
         val selectionArgs = arrayOf(bookId, page.toString())
 
         val cursor = database.query(
-            MyDBContract.TextEntry.TABLE_NAME,
+            MyDBContract.DrawEntry.TABLE_NAME,
             projection,
             selection,
             selectionArgs,
@@ -99,14 +96,13 @@ class MyDatabase private constructor(context: Context) {
 
         var text: String? = null
         if (cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndex(MyDBContract.TextEntry.COLUMN_TEXT)
+            val columnIndex = cursor.getColumnIndex(MyDBContract.DrawEntry.COLUMN_TEXT)
             text = cursor.getString(columnIndex)
         }
 
         cursor.close()
         return text
     }
-
 
     fun getImageForPage(bookId: String, page: Int): Bitmap? {
         val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_IMAGE)
@@ -175,18 +171,10 @@ class MyDatabase private constructor(context: Context) {
                     "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} TEXT," +
                     "${MyDBContract.DrawEntry.COLUMN_TEXT} TEXT," +
                     "${MyDBContract.DrawEntry.COLUMN_IMAGE} BLOB," +
+                    "${MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE} BLOB," +
+                    "${MyDBContract.DrawEntry.COLUMN_TEXT_POSITION} INT," +
                     "PRIMARY KEY (${MyDBContract.DrawEntry.COLUMN_BOOK_ID}, ${MyDBContract.DrawEntry.COLUMN_PAGE_ID})," +
                     "FOREIGN KEY (${MyDBContract.DrawEntry.COLUMN_BOOK_ID}) " +
-                    "REFERENCES ${MyDBContract.BookEntry.TABLE_NAME}(${MyDBContract.BookEntry.COLUMN_BOOK_ID}) " +
-                    "ON DELETE CASCADE)"
-
-        private val SQL_CREATE_TEXTBOX_ENTRIES =
-            "CREATE TABLE ${MyDBContract.TextEntry.TABLE_NAME} (" +
-                    "${MyDBContract.TextEntry.COLUMN_BOOK_ID} TEXT," +
-                    "${MyDBContract.TextEntry.COLUMN_PAGE_ID} INTEGER," +
-                    "${MyDBContract.TextEntry.COLUMN_TEXT} TEXT," +
-                    "PRIMARY KEY (${MyDBContract.TextEntry.COLUMN_BOOK_ID}, ${MyDBContract.TextEntry.COLUMN_PAGE_ID})," +
-                    "FOREIGN KEY (${MyDBContract.TextEntry.COLUMN_BOOK_ID}) " +
                     "REFERENCES ${MyDBContract.BookEntry.TABLE_NAME}(${MyDBContract.BookEntry.COLUMN_BOOK_ID}) " +
                     "ON DELETE CASCADE)"
 
@@ -195,9 +183,6 @@ class MyDatabase private constructor(context: Context) {
 
         private val SQL_DELETE_DRAW_ENTRIES =
             "DROP TABLE IF EXISTS ${MyDBContract.DrawEntry.TABLE_NAME}"
-
-        private val SQL_DELETE_TEXTBOX_ENTRIES =
-            "DROP TABLE IF EXISTS ${MyDBContract.TextEntry.TABLE_NAME}"
 
         override fun onCreate(db: SQLiteDatabase) {
             //실행하면 drop 되게
@@ -208,13 +193,11 @@ class MyDatabase private constructor(context: Context) {
             // Create the tables
             db.execSQL(SQL_CREATE_BOOK_ENTRIES)
             db.execSQL(SQL_CREATE_DRAW_ENTRIES)
-            db.execSQL(SQL_CREATE_TEXTBOX_ENTRIES)
         }
 
         override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
             db.execSQL(SQL_DELETE_DRAW_ENTRIES)
             db.execSQL(SQL_DELETE_BOOK_ENTRIES)
-            db.execSQL(SQL_DELETE_TEXTBOX_ENTRIES)
             onCreate(db)
         }
 
@@ -223,7 +206,7 @@ class MyDatabase private constructor(context: Context) {
         }
 
         companion object {
-            const val DATABASE_VERSION = 4
+            const val DATABASE_VERSION = 5
             const val DATABASE_NAME = "myDBfile.db"
         }
 
