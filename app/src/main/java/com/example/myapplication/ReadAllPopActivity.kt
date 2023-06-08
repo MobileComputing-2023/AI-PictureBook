@@ -69,6 +69,7 @@ class ReadAllPopActivity : AppCompatActivity() {
             // 동화리스트 화면으로 가기
             val intent = Intent(this, ListActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         binding.toMainBtn.setOnClickListener {
@@ -78,6 +79,7 @@ class ReadAllPopActivity : AppCompatActivity() {
             // 메인 화면으로 돌아가기
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         // 팝업창 생성 및 표시
