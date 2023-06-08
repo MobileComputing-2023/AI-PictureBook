@@ -172,7 +172,7 @@ class MyDatabase private constructor(context: Context) {
                     "${MyDBContract.DrawEntry.COLUMN_TEXT} TEXT," +
                     "${MyDBContract.DrawEntry.COLUMN_IMAGE} BLOB," +
                     "${MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE} BLOB," +
-                    "${MyDBContract.DrawEntry.COLUMN_TEXT_POSITION} DOUBLE," +
+                    "${MyDBContract.DrawEntry.COLUMN_TEXT_POSITION} REAL," +
                     "PRIMARY KEY (${MyDBContract.DrawEntry.COLUMN_BOOK_ID}, ${MyDBContract.DrawEntry.COLUMN_PAGE_ID})," +
                     "FOREIGN KEY (${MyDBContract.DrawEntry.COLUMN_BOOK_ID}) " +
                     "REFERENCES ${MyDBContract.BookEntry.TABLE_NAME}(${MyDBContract.BookEntry.COLUMN_BOOK_ID}) " +
