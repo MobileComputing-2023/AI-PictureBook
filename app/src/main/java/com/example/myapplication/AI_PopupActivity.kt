@@ -53,18 +53,18 @@ class AI_PopupActivity : AppCompatActivity() {
         // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
         val container = LinearLayout(this)
 
-        // Remove the view from its current parent
+        // view를 현재 parent에서 제거
         val parent = binding.root.parent as? ViewGroup
         parent?.removeView(binding.root)
 
-        // Disable clicks and focus for the root view
+        // view의 클릭, 포커스 비활성화
         binding.root.isClickable = false
         binding.root.isFocusable = false
         val image=myDatabase.getImageForPage(bookId, 0)
         binding.cover.setImageBitmap(image)
         binding.titleText.text = "『$title』의\n 마지막 페이지입니다."
 
-        // Add the view to the new parent
+        // view를 새로운 parent에 추가
         container.addView(binding.root)
 
         binding.saveBtn.setOnClickListener {

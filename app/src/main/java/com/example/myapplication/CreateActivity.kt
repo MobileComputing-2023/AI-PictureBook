@@ -64,7 +64,9 @@ class CreateActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_generate_image)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val intent = intent
         val originalsummary = intent.getStringExtra("originalsummary")
         val summary = intent.getStringExtra("summary")
@@ -109,54 +111,46 @@ class CreateActivity : AppCompatActivity() {
     }
 
     private fun generateLinesFromSummary(summary: String?, index: Int) {
+        // summary를 문장 단위로 분할해 textLines에 저장
         val textLines = summary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") }
 
         textLines?.let { lines ->
             if (index >= 0 && index < lines.size) {
+                // 현재 인덱스에 해당하는 문장
                 val line = lines[index]
-                Log.d("CreateActivity_한국어", line)
                 generatedImageText1.text = line
             } else {
                 Log.d("문장 끝", index.toString())
             }
-
-            Log.d("지금 몇 번째 문장을 띄우고 있나요???", index.toString())
-            Log.d("4장 사진 뜰 때 보이는 한글 문장.", lines[index])
-
         }
     }
 
     private fun generateImagesFromSummary(originalSummary: String?, index: Int) {
+        // originalSummary를 문장 단위로 분할해 textLines에 저장
         val textLines = originalSummary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") }
 
         textLines?.let { lines ->
             if (index >= 0 && index < lines.size) {
+                // 현재 인덱스에 해당하는 문장
                 val line = lines[index]
-                Log.d("CreateActivity_영어", line)
+                // 해당 문장을 기반으로 이미지를 생성
                 generateImages(line)
-
-                Log.d("지금 이 영어 문장으로 만들어졌어요", line)
             } else if (index == lines.size){
+                // 인덱스가 마지막인 경우, 마지막 문장
                 val line = lines.lastOrNull()
                 if(line != null){
-                    Log.d("CreateActivity_영어, 마지막", line)
+                    // 마지막 문장을 기반으로 이미지를 생성
                     generateImages(line)
-                    Log.d("지금 이 영어 문장(마지막)으로 만들어졌어요", line)
                 }
             }
-
-            Log.d("지금 몇 번째 문장으로 그림을 만들었나요? (generateImagesFromSummary)", index.toString())
-
         } ?: Log.d("CreateActivity", "textLines is null")
     }
 
 
     private fun generateImages(prompt: String) {
-
-        Log.d("지금 무슨 문장으로 이미지를 만들고 있나요?", prompt)
-
+        // shimmerLayout을 보이도록 설정하고 Shimmer 애니메이션 시작
         shimmerLayout.visibility = View.VISIBLE
         shimmerLayout.startShimmer()
 
@@ -188,6 +182,7 @@ class CreateActivity : AppCompatActivity() {
                 val imageUrls = extractImageUrlsFromResponse(json)
 
                 runOnUiThread {
+                    // 이미지를 표시하는 함수와 클릭 리스너를 설정
                     displayImages(imageUrls, prompt)
                     setClickListeners(imageUrls, prompt)
                 }
@@ -214,6 +209,7 @@ class CreateActivity : AppCompatActivity() {
         return urls
     }
 
+    // 이미지 띄워 줌
     private fun displayImages(imageUrls: List<String>, prompt: String) {
         val imageViews: List<ImageView> = listOf(imageView1, imageView2, imageView3, imageView4)
 
@@ -232,6 +228,7 @@ class CreateActivity : AppCompatActivity() {
         generatedImagesGrid.visibility = View.VISIBLE
     }
 
+    // 이미지 하나하나당 clickListener 달아 줌
     private fun setClickListeners(imageUrls: List<String>, prompt: String) {
         imageView1.setOnClickListener {
             if (imageUrls.isNotEmpty()) {
