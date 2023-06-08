@@ -254,7 +254,7 @@ class SettingActivity : AppCompatActivity() {
          "model": "gpt-3.5-turbo",
             "messages": [
                 {"role": "system", "content": "The following are the modified rules for creating a logical and coherent novel."},
-                {"role": "system", "content": "write the title. form is title: title"},
+                {"role": "system", "content": "write the title. form is title: title. Do not include double quotation marks."},
                 {"role": "system", "content": "Limit novels to a maximum of 10 sentences. The sentence should be short and simple."},
                 {"role": "system", "content": "Don't put a number before each sentence."},
                 {"role": "system", "content": "Every novel's sentence should be clearly written, and the story should be smooth without any illogical or inconsistent elements."},
