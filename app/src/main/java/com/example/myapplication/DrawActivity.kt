@@ -18,8 +18,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.databinding.ActivityDrawBinding
 
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -110,11 +108,19 @@ class DrawActivity : AppCompatActivity() {
             saveDrawingDataAndMoveToNextPage()
         }
 
-        showTextBoxEdit()
+        if (currentPageId == 0) {
+            showTextBoxEdit(bookId, currentPageId)
+        }
+
     }
 
-    private fun showTextBoxEdit(){
-        val fragment = TextBoxFragment()
+    private fun showTextBoxEdit(bookId: String, currentPageId:Int) {
+        val fragment = TextBoxFragment().apply {
+            arguments = Bundle().apply {
+                putInt("currentPageID", currentPageId)
+                putString("bookId", bookId)
+            }
+        }
 
         supportFragmentManager.beginTransaction()
             .replace(android.R.id.content, fragment)
@@ -141,8 +147,10 @@ class DrawActivity : AppCompatActivity() {
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
             showPopupActivity()
+
         } else {
             currentPageId += 1
+            showTextBoxEdit(bookId, currentPageId)
         }
 
     }
