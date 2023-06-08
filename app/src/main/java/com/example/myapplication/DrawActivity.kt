@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
+import TextBoxFragment
 import android.R
 import android.content.ContentValues
 import android.content.Context
@@ -17,6 +18,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.databinding.ActivityDrawBinding
 
 import yuku.ambilwarna.AmbilWarnaDialog
@@ -32,6 +35,7 @@ class DrawActivity : AppCompatActivity() {
     private lateinit var bookId: String
     private var lastPageId: Int = 0
     private lateinit var title: String
+    private var textBoxFragment: TextBoxFragment? = null
 
     inner class Point(var x: Float, var y: Float, var check: Boolean, var color: Int)
 
@@ -103,7 +107,15 @@ class DrawActivity : AppCompatActivity() {
         binding.nextBtn.setOnClickListener {
             // 그림 정보를 저장한 후, 다음 페이지로 이동
             saveDrawingDataAndMoveToNextPage()
+            textBoxFragment = TextBoxFragment()
+            textBoxFragment?.show(supportFragmentManager, "TextBoxFragment")
         }
+
+        // TextBoxFragment를 생성하고 표시
+        textBoxFragment = TextBoxFragment()
+        textBoxFragment?.show(supportFragmentManager, "TextBoxFragment")
+
+
     }
     private fun saveDrawingDataAndMoveToNextPage() {
         // 그림을 bitmap으로 저장
@@ -236,4 +248,5 @@ class DrawActivity : AppCompatActivity() {
         })
         colorPicker.show()
     }
+
 }
