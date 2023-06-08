@@ -10,6 +10,7 @@ import android.view.GestureDetector
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityReadBinding
 
@@ -76,6 +77,10 @@ class AI_EditActivity : AppCompatActivity() {
         } else if (currentPageId == 0) { // 1페이지(표지)
             val image = myDatabase.getImageForPage(bookId, currentPageId)
             binding.imageView.setImageBitmap(image)
+            binding.imageView.adjustViewBounds = true
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기, 아래 경우 전체 적용
+
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.GONE
             showTextBoxEdit(bookId, currentPageId)
