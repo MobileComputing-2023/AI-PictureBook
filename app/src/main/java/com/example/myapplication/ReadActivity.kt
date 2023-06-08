@@ -13,6 +13,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.ActivityReadBinding
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.widget.ImageView
 
 class ReadActivity : AppCompatActivity() {
     private lateinit var bookId: String
@@ -77,6 +78,10 @@ class ReadActivity : AppCompatActivity() {
         } else if (currentPage == 0) { // 1페이지(표지)
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
+            binding.imageView.adjustViewBounds = true
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기, 아래 경우 전체 적용
+
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.GONE
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
