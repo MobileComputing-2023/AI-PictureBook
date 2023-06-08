@@ -22,6 +22,7 @@ class SubActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         startActivity(Intent(this, SettingActivity::class.java))
+        overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +94,7 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("title", title)
             intent.putExtra("lastPageId", textLinesCount-1)
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         // AI 그리기 부분
@@ -135,6 +137,7 @@ class SubActivity : AppCompatActivity() {
             Log.d("lastPageId는 이렇게 만들어졌습니다", lastPageId.toString())
 
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
     }
 
@@ -231,6 +234,7 @@ class SubActivity : AppCompatActivity() {
             android.R.id.home -> {
                 //뒤로 가기 버튼 누르면 setting으로 이동
                 startActivity(Intent(this, SettingActivity::class.java))
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 return true
             }
         }

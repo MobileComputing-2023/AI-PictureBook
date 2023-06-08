@@ -3,9 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivitySettingBinding
@@ -25,6 +23,7 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 finish()
                 return true
             }
@@ -34,6 +33,7 @@ class SettingActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
+        overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,8 +97,9 @@ class SettingActivity : AppCompatActivity() {
             translateToEnglish(writesumText) { translatedText ->
                 customwritesumText = translatedText
 
-                val intent: Intent = Intent(this@SettingActivity, LoadingActivity::class.java)
+                val intent = Intent(this@SettingActivity, LoadingActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
 
                 val customGenre = when (selectedGenre) { // 장르 영어로 변경
                     "로맨스" -> "Romance"

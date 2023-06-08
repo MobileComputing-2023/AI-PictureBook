@@ -19,6 +19,7 @@ class ListActivity : AppCompatActivity() {
     private var isDeleteMenuChecked:Boolean = false
     override fun onBackPressed() {//뒤로가기 누르면 main으로 이동
         startActivity(Intent(this, MainActivity::class.java))
+        overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -30,6 +31,7 @@ class ListActivity : AppCompatActivity() {
             android.R.id.home -> {
                 //actionbar 뒤로가기 버튼 누르면 main으로 이동
                 startActivity(Intent(this, MainActivity::class.java))
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 return true
             }
             1 -> {
