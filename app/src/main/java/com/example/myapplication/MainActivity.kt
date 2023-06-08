@@ -55,11 +55,13 @@ class MainActivity : AppCompatActivity() {
             binding.settingBtn.setOnClickListener {
                 val intent: Intent = Intent(this, SettingActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
             }
 
             binding.readBookListBtn.setOnClickListener {
                 val intent: Intent = Intent(this, ListActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
             }
         }
     }

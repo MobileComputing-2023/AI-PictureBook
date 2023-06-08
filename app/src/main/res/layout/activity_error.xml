@@ -52,6 +52,17 @@
             android:layout_gravity="center"
             android:layout_marginTop="110dp"/>
 
+        <TextView
+            android:id="@+id/additionalTextView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="그림책 콘티 설정 단계에서 오류가 뜬다면\n개발자에게 문의해주세요!"
+            android:textColor="#4AB3FF"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="145dp"/>
+
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

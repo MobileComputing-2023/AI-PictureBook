@@ -75,6 +75,7 @@ class DrawActivity : AppCompatActivity() {
         myDatabase.deleteBook(bookId)
 
         super.onBackPressed()
+        overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -227,6 +228,7 @@ class DrawActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
                 finish()
                 return true
             }

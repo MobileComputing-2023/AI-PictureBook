@@ -55,12 +55,14 @@ class ReadActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         startActivity(Intent(this, ListActivity::class.java))
+        overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 startActivity(Intent(this, ListActivity::class.java))
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 return true
             }
         }

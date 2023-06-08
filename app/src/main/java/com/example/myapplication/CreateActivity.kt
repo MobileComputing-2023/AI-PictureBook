@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageView
@@ -41,10 +42,29 @@ class CreateActivity : AppCompatActivity() {
     private val apiKey = "mykey"
     private val numImages = 4
 
+    override fun onBackPressed() {
+        // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
+        myDatabase.deleteBook(bookId)
+
+        super.onBackPressed()
+        overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_generate_image)
-
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intent = intent
         val originalsummary = intent.getStringExtra("originalsummary")
         val summary = intent.getStringExtra("summary")
