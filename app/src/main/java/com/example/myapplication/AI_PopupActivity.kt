@@ -10,10 +10,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.databinding.ActivityPopupBinding
+import com.example.myapplication.databinding.ActivityAiPopupBinding
 
 class AI_PopupActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityPopupBinding
+    private lateinit var binding: ActivityAiPopupBinding
     private lateinit var bookId: String
     private lateinit var title: String
     private lateinit var myDatabase: MyDatabase
@@ -21,7 +21,7 @@ class AI_PopupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPopupBinding.inflate(layoutInflater)
+        binding = ActivityAiPopupBinding.inflate(layoutInflater)
         requestWindowFeature(Window.FEATURE_NO_TITLE) // 타이틀 상태바 제거
         setContentView(binding.root)
         bookId = intent.getStringExtra("bookId") ?: ""

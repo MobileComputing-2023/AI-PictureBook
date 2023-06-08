@@ -33,7 +33,6 @@ class DrawActivity : AppCompatActivity() {
     private lateinit var bookId: String
     private var lastPageId: Int = 0
     private lateinit var title: String
-    private var textBoxFragment: TextBoxFragment? = null
 
     inner class Point(var x: Float, var y: Float, var check: Boolean, var color: Int)
 
