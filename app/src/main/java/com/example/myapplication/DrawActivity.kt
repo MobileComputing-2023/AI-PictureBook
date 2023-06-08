@@ -108,15 +108,18 @@ class DrawActivity : AppCompatActivity() {
         binding.nextBtn.setOnClickListener {
             // 그림 정보를 저장한 후, 다음 페이지로 이동
             saveDrawingDataAndMoveToNextPage()
-            textBoxFragment = TextBoxFragment()
-            textBoxFragment?.show(supportFragmentManager, "TextBoxFragment")
         }
 
-        // TextBoxFragment를 생성하고 표시
-        textBoxFragment = TextBoxFragment()
-        textBoxFragment?.show(supportFragmentManager, "TextBoxFragment")
+        showTextBoxEdit()
+    }
 
+    private fun showTextBoxEdit(){
+        val fragment = TextBoxFragment()
 
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, fragment)
+            .addToBackStack(null)
+            .commit()
     }
     private fun saveDrawingDataAndMoveToNextPage() {
         // 그림을 bitmap으로 저장
