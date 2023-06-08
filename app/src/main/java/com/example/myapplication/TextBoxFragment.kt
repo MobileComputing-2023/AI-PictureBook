@@ -23,6 +23,10 @@ class TextBoxFragment : DialogFragment() {
     private var initialLinearLayoutY = 0f
     private var initialTouchLinearLayoutY = 0f
 
+    private lateinit var bookId: String
+    private lateinit var myDatabase: MyDatabase
+    private var currentPage = 0 //읽기 위해 현재 위치 count
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -30,6 +34,9 @@ class TextBoxFragment : DialogFragment() {
         val view = binding.root
 
         builder.setView(view)
+
+        myDatabase = MyDatabase.getInstance(requireContext()) // myDatabase 초기화
+
         return builder.create()
     }
 
@@ -44,6 +51,14 @@ class TextBoxFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        myDatabase = MyDatabase.getInstance(requireContext())
+
+        // bookId와 currentPage 초기화
+        bookId = arguments?.getString("bookId") ?: ""
+        currentPage = arguments?.getInt("currentPageID") ?: 0
+
+        val text = myDatabase.getTextForPage(bookId, currentPage)
+        binding.textBox.text = text
 
         binding.linearLayout.setOnTouchListener { view, event ->
             handleLinearLayoutTouch(view, event)
