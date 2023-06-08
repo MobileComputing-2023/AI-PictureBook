@@ -5,93 +5,102 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="350sp"
-        android:layout_height="100sp"
-        android:layout_gravity="center">
-
-        <ImageButton
-            android:id="@+id/editBtn"
-            android:background="@drawable/edit"
-            android:scaleType="fitCenter"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="top|right"
-            android:text="편집"
-            android:textSize="6sp" />
-
-        <TextView
-            android:id="@+id/textBox"
-            android:layout_width="350sp"
-            android:layout_height="100sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="소설 내용을 입력하세요." />
-
-    </FrameLayout>
-
     <LinearLayout
-        android:layout_width="350sp"
-        android:layout_height="80sp"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        >
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100sp"
+            android:layout_gravity="center">
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="131sp"
-            android:layout_height="30sp"
-            android:layout_gravity="top|right" />
+            <TextView
+                android:id="@+id/textBox"
+                android:layout_width="350sp"
+                android:layout_height="100sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="소설 내용을 입력하세요." />
+
+            <ImageButton
+                android:id="@+id/editBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|right"
+                android:background="@drawable/edit"
+                android:scaleType="fitCenter"
+                android:text="편집"
+                android:textSize="6sp" />
+
+        </FrameLayout>
 
         <LinearLayout
-            android:id="@+id/buttons"
-            android:layout_width="155sp"
-            android:layout_height="30sp"
-            android:orientation="horizontal"
-            android:layout_gravity="right"
-            android:gravity="center|right">
+            android:layout_width="350sp"
+            android:layout_height="80sp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/colorBtn1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@color/white"
-                android:src="@drawable/colorbtn1"
-                android:text="Button" />
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="150dp"
+                android:layout_height="30sp"
+                android:layout_gravity="top|right"
+                android:background="@color/white"/>
 
-            <ImageButton
-                android:id="@+id/colorBtn2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="#FFFFFF"
-                android:src="@drawable/colorbtn2"
-                android:text="Button" />
+            <LinearLayout
+                android:id="@+id/buttons"
+                android:layout_width="150dp"
+                android:layout_height="30sp"
+                android:orientation="horizontal"
+                android:layout_gravity="right"
+                android:gravity="center|right">
 
-            <ImageButton
-                android:id="@+id/colorBtn3"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="#FFFFFF"
-                android:src="@drawable/colorbtn3"
-                android:text="Button" />
+                <ImageButton
+                    android:id="@+id/colorBtn1"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/white"
+                    android:src="@drawable/colorbtn1"
+                    android:text="Button" />
 
-            <ImageButton
-                android:id="@+id/colorBtn4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="#FFFFFF"
-                android:src="@drawable/colorbtn4"
-                android:text="Button" />
+                <ImageButton
+                    android:id="@+id/colorBtn2"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/colorbtn2"
+                    android:text="Button" />
 
-            <ImageButton
-                android:id="@+id/colorBtn5"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="#FFFFFF"
-                android:src="@drawable/color_search_btn"
-                android:text="Button" />
+                <ImageButton
+                    android:id="@+id/colorBtn3"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/colorbtn3"
+                    android:text="Button" />
+
+                <ImageButton
+                    android:id="@+id/colorBtn4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/colorbtn4"
+                    android:text="Button" />
+
+                <ImageButton
+                    android:id="@+id/colorBtn5"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/color_search_btn"
+                    android:text="Button" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>
