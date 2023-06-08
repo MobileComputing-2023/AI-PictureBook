@@ -36,7 +36,7 @@ class PopupActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 다이얼로그를 닫기 위해 onDestroy에서 호출합니다.
+        // 다이얼로그를 닫기 위해 onDestroy에서 호출
         alertDialog?.dismiss()
     }
 
@@ -50,10 +50,9 @@ class PopupActivity : AppCompatActivity() {
         //버튼 외 화면, backpress 눌러도 화면 꺼지지않음
         builder.setCancelable(false)
 
-        // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
+        // LinearLayout을 생성하고 binding의 루트 뷰를 추가
         val container = LinearLayout(this)
 
-        // Remove the view from its current parent
         val parent = binding.root.parent as? ViewGroup
         parent?.removeView(binding.root)
 
@@ -64,12 +63,10 @@ class PopupActivity : AppCompatActivity() {
         binding.cover.setImageBitmap(image)
         binding.titleText.text = "『$title』의\n 마지막 페이지입니다."
 
-        // Add the view to the new parent
         container.addView(binding.root)
 
         binding.saveBtn.setOnClickListener {
             // 저장 버튼 클릭 시 동작을 구현
-            // TODO: 저장 버튼 동작 구현
 
             // 팝업창 닫기
             finish()
