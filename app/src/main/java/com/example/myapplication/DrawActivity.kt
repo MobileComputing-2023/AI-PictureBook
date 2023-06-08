@@ -178,7 +178,7 @@ class DrawActivity : AppCompatActivity() {
         }
         startActivity(intent)
 
-        // 팝업이 뜰 때만 오버레이 뷰를 추가합니다.
+        // 팝업이 뜰 때만 오버레이 뷰를 추가
         addOverlayView()
     }
     private fun addOverlayView() {
@@ -186,7 +186,7 @@ class DrawActivity : AppCompatActivity() {
         if (overlayView == null) {
             overlayView = object : View(this) {
                 override fun onTouchEvent(event: MotionEvent): Boolean {
-                    // 오버레이 영역의 터치 이벤트를 소비하여 아무런 동작이 발생하지 않도록 합니다.
+                    // 오버레이 영역의 터치 이벤트를 소비하여 아무런 동작이 발생X
                     return true
                 }
             }
@@ -196,8 +196,8 @@ class DrawActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 setBackgroundColor(Color.TRANSPARENT)
-                isClickable = true // 오버레이 위를 클릭할 수 없도록 설정합니다.
-                isFocusable = true // 오버레이 위를 포커스할 수 없도록 설정합니다.
+                isClickable = true // 오버레이 위를 클릭할 수 없도록 설정
+                isFocusable = true // 오버레이 위를 포커스할 수 없도록 설정
             }
             (rootLayout as ViewGroup).addView(overlayView)
         }
@@ -212,7 +212,7 @@ class DrawActivity : AppCompatActivity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        // 팝업이 열려있고 오버레이가 추가되었을 때만 터치 이벤트를 소비하여 아무런 동작이 발생하지 않도록 합니다.
+        // 팝업이 열려있고 오버레이가 추가되었을 때만 터치 이벤트를 소비하여 아무런 동작이 발생X
         if (overlayView != null) {
             return true
         }
@@ -221,7 +221,7 @@ class DrawActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 액티비티가 종료될 때 오버레이 뷰를 제거합니다.
+        // 액티비티가 종료될 때 오버레이 뷰를 제거
         removeOverlayView()
     }
 

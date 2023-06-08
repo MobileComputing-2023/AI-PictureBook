@@ -141,6 +141,7 @@ class SubActivity : AppCompatActivity() {
         }
     }
 
+    //전체 라인을 구분하고 첫번째 줄("제목:"은 제외)
     private fun extractTitle(summary: String?): String {
         val lines = summary?.split("[.!?\\r\\n]".toRegex())
             ?.filter { it.isNotBlank()}
@@ -169,7 +170,7 @@ class SubActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean {
+    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean { //같은 DB데이터가 있는지 확인.
         val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
         val selectionArgs = arrayOf(bookId, pageId.toString())
 
@@ -189,7 +190,6 @@ class SubActivity : AppCompatActivity() {
 
         return exists
     }
-
 
 
     private fun insertDrawData(pageId: Int, bookId: String, text: String) {
@@ -221,6 +221,7 @@ class SubActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    //bookid는 생성 시점의 년월분초
     private fun generateBookId(): String {
         val currentTime = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
