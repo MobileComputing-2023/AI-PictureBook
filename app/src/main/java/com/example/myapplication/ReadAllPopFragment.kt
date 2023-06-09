@@ -1,32 +1,48 @@
 package com.example.myapplication
 
 import MyDatabase
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.DialogFragment
 import com.example.myapplication.databinding.ActivityReadallpopBinding
 
-class ReadAllPopActivity : AppCompatActivity() {
+class ReadAllPopFragment : DialogFragment() {
     private lateinit var binding: ActivityReadallpopBinding
     private lateinit var title: String
     private lateinit var myDatabase: MyDatabase
     private var alertDialog: AlertDialog? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityReadallpopBinding.inflate(layoutInflater)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(binding.root)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = AlertDialog.Builder(requireActivity())
+        binding = ActivityReadallpopBinding.inflate(requireActivity().layoutInflater)
+        val view = binding.root
 
+        builder.setView(view)
 
-        title = intent.getStringExtra("title") ?: ""
-        myDatabase = MyDatabase.getInstance(this)
-        if (!isFinishing) {
+        myDatabase = MyDatabase.getInstance(requireContext()) // myDatabase 초기화
+
+        return builder.create()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ActivityReadallpopBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        title = arguments?.getString("title") ?: ""
+        myDatabase = MyDatabase.getInstance(requireContext())
+
+        if (!requireActivity().isFinishing) {
             showPopupDialog(title)
         }
     }
@@ -38,16 +54,16 @@ class ReadAllPopActivity : AppCompatActivity() {
     }
 
     private fun showPopupDialog(title: String) {
-        Log.d("ReadAllPopActivity", "Title: $title")
+        Log.d("ReadAllPopFragment", "Title: $title")
 
         // 팝업창 생성
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(requireContext())
 
         //버튼 외 화면, backpress 눌러도 화면 꺼지지않음
         builder.setCancelable(false)
 
         // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
-        val container = LinearLayout(this)
+        val container = LinearLayout(requireContext())
 
         // Remove the view from its current parent
         val parent = binding.root.parent as? ViewGroup
@@ -64,26 +80,26 @@ class ReadAllPopActivity : AppCompatActivity() {
 
         binding.toListBtn.setOnClickListener {
             // 팝업창 닫기
-            finish()
+            dismiss()
 
             // 동화리스트 화면으로 가기
-            val intent = Intent(this, ListActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
+            val intent = Intent(requireContext(), ListActivity::class.java)
+            requireActivity().startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         binding.toMainBtn.setOnClickListener {
             // 팝업창 닫기
-            finish()
+            dismiss()
 
             // 메인 화면으로 돌아가기
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            requireActivity().startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         // 팝업창 생성 및 표시
-        if (!isFinishing) {
+        if (!requireActivity().isFinishing) {
             alertDialog = builder.create()
             alertDialog?.setView(container)
             alertDialog?.show()
