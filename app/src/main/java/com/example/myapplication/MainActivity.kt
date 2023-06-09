@@ -31,8 +31,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        termsPopFragment()
-
         binding.readTerms.setOnClickListener {
             termsPopFragment()
 

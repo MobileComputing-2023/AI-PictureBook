@@ -46,6 +46,7 @@ class TermsPopFragment : DialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         // 다이얼로그를 닫기 위해 onDestroy에서 호출합니다.
+        dismiss()
         alertDialog?.dismiss()
     }
 
@@ -72,6 +73,7 @@ class TermsPopFragment : DialogFragment() {
         binding.closeBtn.setOnClickListener {
             // 팝업창 닫기
             dismiss()
+            alertDialog?.dismiss()
         }
 
         // 팝업창 생성 및 표시
