@@ -1,9 +1,7 @@
 package com.example.myapplication
 
 import MyDatabase
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -273,7 +271,7 @@ class CreateActivity : AppCompatActivity() {
 
 
     private fun showPopupActivity() {
-        val intent = Intent(this, PopupActivity::class.java)
+        val intent = Intent(this, PopupFragment::class.java)
         startActivity(intent)
     }
 
