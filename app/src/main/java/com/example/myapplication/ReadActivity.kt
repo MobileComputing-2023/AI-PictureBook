@@ -111,6 +111,7 @@ class ReadActivity : AppCompatActivity() {
     private fun showPopupFragment() {
         val fragment = ReadAllPopFragment().apply {
         arguments = Bundle().apply {
+            putString("title", title)
         }
     }
 
