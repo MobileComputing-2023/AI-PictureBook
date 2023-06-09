@@ -17,8 +17,10 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
+import com.example.myapplication.databinding.FragmentTextboxBinding
 
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.io.ByteArrayOutputStream
@@ -83,6 +85,7 @@ class DrawActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         myView = MyView(this)
+
         lastPageId = intent.getIntExtra("lastPageId", 0)
         bookId = intent.getStringExtra("bookId") ?:""
         title = intent.getStringExtra("title")?:""
@@ -127,6 +130,7 @@ class DrawActivity : AppCompatActivity() {
             .commit()
     }
     private fun saveDrawingDataAndMoveToNextPage() {
+        val binding = ActivityDrawBinding.inflate(layoutInflater)
         // 그림을 bitmap으로 저장
         val bitmap = Bitmap.createBitmap(myView.width, myView.height, Bitmap.Config.ARGB_8888)
         val bitmapCanvas = Canvas(bitmap)
@@ -146,6 +150,7 @@ class DrawActivity : AppCompatActivity() {
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
             showPopupFragment(bookId, title)
+            binding.relativeLayout.visibility = View.INVISIBLE
 
         } else {
             currentPageId += 1
@@ -182,6 +187,7 @@ class DrawActivity : AppCompatActivity() {
     }
 
     private fun showPopupFragment(bookId: String, title:String) {
+        val binding = ActivityDrawBinding.inflate(layoutInflater)
         val fragment = PopupFragment().apply {
             arguments = Bundle().apply {
                 putString("title", title)
@@ -196,6 +202,7 @@ class DrawActivity : AppCompatActivity() {
 
         // 팝업이 뜰 때만 오버레이 뷰를 추가
         addOverlayView()
+        binding.relativeLayout.visibility = View.GONE
     }
     private fun addOverlayView() {
         val rootLayout = findViewById<ViewGroup>(R.id.content).getChildAt(0)
