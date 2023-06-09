@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.readTerms.setOnClickListener {
-            val intent = Intent(this, TermsPopActivity::class.java)
+            val intent = Intent(this, TermsPopFragment::class.java)
             startActivity(intent)
         }
 
