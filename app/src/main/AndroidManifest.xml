@@ -38,7 +38,7 @@
             android:exported="true">
         </activity>
 
-        <activity android:name=".PopupActivity"
+        <activity android:name=".PopupFragment"
             android:exported="true">
         </activity>
 

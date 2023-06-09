@@ -145,7 +145,7 @@ class DrawActivity : AppCompatActivity() {
 
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
-            showPopupActivity()
+            showPopupFragment(bookId, currentPageId)
 
         } else {
             currentPageId += 1
@@ -181,12 +181,18 @@ class DrawActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPopupActivity() {
-        val intent = Intent(this, PopupActivity::class.java).apply {
-            putExtra("bookId", bookId)
-            putExtra("title", title)
+    private fun showPopupFragment(bookId: String, currentPageId:Int) {
+        val fragment = PopupFragment().apply {
+            arguments = Bundle().apply {
+                putInt("currentPageID", currentPageId)
+                putString("bookId", bookId)
+            }
         }
-        startActivity(intent)
+
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, fragment)
+            .addToBackStack(null)
+            .commit()
 
         // 팝업이 뜰 때만 오버레이 뷰를 추가
         addOverlayView()
