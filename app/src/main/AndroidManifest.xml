@@ -46,7 +46,7 @@
             android:exported="true">
         </activity>
 
-        <activity android:name=".ReadAllPopActivity"
+        <activity android:name=".ReadAllPopFragment"
             android:exported="true">
         </activity>
         <activity android:name=".ImageDetailFragment"

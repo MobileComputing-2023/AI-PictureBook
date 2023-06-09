@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.databinding.ActivityReadBinding
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -74,7 +72,7 @@ class ReadActivity : AppCompatActivity() {
         val totalPages = myDatabase.getTotalPages(bookId)
 
         if (currentPage > totalPages) {
-            showPopupActivity()
+            showPopupFragment()
         } else if (currentPage == 0) { // 1페이지(표지)
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
@@ -110,8 +108,8 @@ class ReadActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPopupActivity() {
-        val intent = Intent(this, ReadAllPopActivity::class.java).apply {
+    private fun showPopupFragment() {
+        val intent = Intent(this, ReadAllPopFragment::class.java).apply {
             putExtra("bookId", bookId)
             putExtra("title", title)
         }
