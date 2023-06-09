@@ -150,7 +150,6 @@ class DrawActivity : AppCompatActivity() {
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
             showPopupFragment(bookId, title)
-            binding.relativeLayout.visibility = View.INVISIBLE
 
         } else {
             currentPageId += 1
@@ -187,7 +186,6 @@ class DrawActivity : AppCompatActivity() {
     }
 
     private fun showPopupFragment(bookId: String, title:String) {
-        val binding = ActivityDrawBinding.inflate(layoutInflater)
         val fragment = PopupFragment().apply {
             arguments = Bundle().apply {
                 putString("title", title)
@@ -199,31 +197,6 @@ class DrawActivity : AppCompatActivity() {
             .replace(android.R.id.content, fragment)
             .addToBackStack(null)
             .commit()
-
-        // 팝업이 뜰 때만 오버레이 뷰를 추가
-        addOverlayView()
-        binding.relativeLayout.visibility = View.GONE
-    }
-    private fun addOverlayView() {
-        val rootLayout = findViewById<ViewGroup>(R.id.content).getChildAt(0)
-        if (overlayView == null) {
-            overlayView = object : View(this) {
-                override fun onTouchEvent(event: MotionEvent): Boolean {
-                    // 오버레이 영역의 터치 이벤트를 소비하여 아무런 동작이 발생X
-                    return true
-                }
-            }
-            overlayView?.apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                setBackgroundColor(Color.TRANSPARENT)
-                isClickable = true // 오버레이 위를 클릭할 수 없도록 설정
-                isFocusable = true // 오버레이 위를 포커스할 수 없도록 설정
-            }
-            (rootLayout as ViewGroup).addView(overlayView)
-        }
     }
 
     private fun removeOverlayView() {
