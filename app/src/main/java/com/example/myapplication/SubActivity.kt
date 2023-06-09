@@ -29,6 +29,7 @@ class SubActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivitySubBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
 
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true); //뒤로가기
         getSupportActionBar()?.setTitle("그림책 콘티 확인하기");

@@ -43,7 +43,6 @@ class CreateActivity : AppCompatActivity() {
     override fun onBackPressed() {
         // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
         myDatabase.deleteBook(bookId)
-
         super.onBackPressed()
         overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
     }
@@ -51,8 +50,8 @@ class CreateActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
                 finish()
+                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
                 return true
             }
         }
@@ -172,6 +171,8 @@ class CreateActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 // 요청 실패 처리
+                val intent: Intent = Intent(this@CreateActivity, ErrorActivity::class.java)
+                startActivity(intent)
             }
 
             override fun onResponse(call: Call, response: Response) {

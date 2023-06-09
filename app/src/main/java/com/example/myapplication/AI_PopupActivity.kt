@@ -81,6 +81,7 @@ class AI_PopupActivity : AppCompatActivity() {
             val intent = Intent(this, AI_EditActivity::class.java) // 가서 edit 페이지
             intent.putExtra("bookId", bookId) // Pass the bookId as an extra
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         binding.deleteBtn.setOnClickListener {
@@ -95,6 +96,7 @@ class AI_PopupActivity : AppCompatActivity() {
             // 메인 화면으로 돌아가기
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
         }
 
         // 팝업창 생성 및 표시

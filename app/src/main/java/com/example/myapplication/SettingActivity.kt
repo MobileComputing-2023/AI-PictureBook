@@ -23,8 +23,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                startActivity(Intent(this, MainActivity::class.java))
                 overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
-                finish()
                 return true
             }
         }
@@ -245,7 +245,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "mykey"
+        val apiKey = "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"
         val url = "https://api.openai.com/v1/chat/completions"
 
         // gpt에 보내는 role
