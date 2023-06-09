@@ -35,6 +35,26 @@
                 android:text="편집"
                 android:textSize="6sp" />
 
+            <ImageButton
+                android:id="@+id/unpinBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|left"
+                android:background="@drawable/baseline_push_pin_24"
+                android:scaleType="fitCenter"
+                android:text="고정"
+                android:textSize="6sp" />
+
+            <ImageButton
+                android:id="@+id/pinBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|left"
+                android:background="@drawable/baseline_import_export_24"
+                android:scaleType="fitCenter"
+                android:text="고정"
+                android:textSize="6sp" />
+
         </FrameLayout>
 
         <LinearLayout
