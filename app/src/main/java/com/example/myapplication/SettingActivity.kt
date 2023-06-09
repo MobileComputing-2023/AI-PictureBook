@@ -245,7 +245,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "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"
+        val apiKey = "mykey"
         val url = "https://api.openai.com/v1/chat/completions"
 
         // gpt에 보내는 role
