@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import com.example.myapplication.databinding.ActivityDrawBinding
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +31,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        termsPopFragment()
+
         binding.readTerms.setOnClickListener {
-            val intent = Intent(this, TermsPopFragment::class.java)
-            startActivity(intent)
+            termsPopFragment()
+
         }
 
         // isFirstTime이랑 TermsActivity의 termsAgreed랑은 반대임
@@ -65,4 +69,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun termsPopFragment() {
+        val fragment = TermsPopFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }
