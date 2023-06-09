@@ -33,9 +33,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:padding="10dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/download"
@@ -57,12 +57,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_bg2"
-                    android:backgroundTint="#A32828"
+                    android:backgroundTint="@color/white"
                     android:text="@string/close"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     app:rippleColor="@color/white" />

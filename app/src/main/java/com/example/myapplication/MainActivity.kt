@@ -46,11 +46,13 @@ class MainActivity : AppCompatActivity() {
             binding.settingBtn.setOnClickListener {
                 val intent = Intent(this, TermsActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
             }
 
             binding.readBookListBtn.setOnClickListener {
                 val intent = Intent(this, TermsActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
             }
 
         } else {
@@ -71,10 +73,8 @@ class MainActivity : AppCompatActivity() {
     private fun termsPopFragment() {
         val fragment = TermsPopFragment().apply {
             arguments = Bundle().apply {
-
             }
         }
-
         supportFragmentManager.beginTransaction()
             .replace(android.R.id.content, fragment)
             .addToBackStack(null)

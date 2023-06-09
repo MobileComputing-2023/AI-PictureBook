@@ -18,6 +18,7 @@ class TermsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
         finish()
     }
 
@@ -26,6 +27,7 @@ class TermsActivity : AppCompatActivity() {
             android.R.id.home -> {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 finish()
                 return true
             }
@@ -105,6 +107,7 @@ class TermsActivity : AppCompatActivity() {
                 }
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
                 finish()
             } else {
                 Toast.makeText(this, "모든 약관에 동의해야 합니다.", Toast.LENGTH_SHORT).show()
