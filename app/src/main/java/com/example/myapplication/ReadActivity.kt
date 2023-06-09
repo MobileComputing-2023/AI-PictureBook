@@ -109,12 +109,16 @@ class ReadActivity : AppCompatActivity() {
     }
 
     private fun showPopupFragment() {
-        val intent = Intent(this, ReadAllPopFragment::class.java).apply {
-            putExtra("bookId", bookId)
-            putExtra("title", title)
+        val fragment = ReadAllPopFragment().apply {
+        arguments = Bundle().apply {
         }
-        startActivity(intent)
     }
+
+    supportFragmentManager.beginTransaction()
+        .replace(android.R.id.content, fragment)
+        .addToBackStack(null)
+        .commit()
+}
 
     private inner class SwipeGestureListener : GestureDetector.SimpleOnGestureListener() {
         private val SWIPE_THRESHOLD = 100 //스와이프로 간주 최소 거리

@@ -38,21 +38,18 @@ class TermsPopFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = ActivityTermspopBinding.inflate(layoutInflater)
 
         if (!requireActivity().isFinishing) {
-            showPopupDialog()
+            showPopupDialog(binding)
         }
-
     }
-
     override fun onDestroy() {
         super.onDestroy()
         // 다이얼로그를 닫기 위해 onDestroy에서 호출합니다.
         alertDialog?.dismiss()
     }
 
-    private fun showPopupDialog() {
+    private fun showPopupDialog(binding: ActivityTermspopBinding) {
         // 팝업창 생성
         val builder = AlertDialog.Builder(requireActivity())
 
