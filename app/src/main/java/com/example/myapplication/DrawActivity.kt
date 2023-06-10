@@ -149,7 +149,7 @@ class DrawActivity : AppCompatActivity() {
 
         if (currentPageId == lastPageId) {
             // 모든 페이지를 그림 데이터로 채웠을 때
-            showPopupFragment(bookId, title)
+            showPopupFragment(bookId, currentPageId)
 
         } else {
             currentPageId += 1
@@ -185,10 +185,10 @@ class DrawActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPopupFragment(bookId: String, title:String) {
+    private fun showPopupFragment(bookId: String, currentPageId: Int) {
         val fragment = PopupFragment().apply {
             arguments = Bundle().apply {
-                putString("title", title)
+                putInt("currentPageId", currentPageId)
                 putString("bookId", bookId)
             }
         }

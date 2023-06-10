@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:id="@+id/linearLayout"
-        >
+        android:id="@+id/linearLayout">
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="100sp"
@@ -24,6 +24,16 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="소설 내용을 입력하세요." />
+
+            <ImageButton
+                android:id="@+id/saveBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|left"
+                android:background="@drawable/baseline_save_24"
+                android:scaleType="fitCenter"
+                android:text="저장"
+                android:textSize="6sp" />
 
             <ImageButton
                 android:id="@+id/editBtn"
@@ -39,7 +49,8 @@
                 android:id="@+id/unpinBtn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="top|left"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="top|right"
                 android:background="@drawable/baseline_push_pin_24"
                 android:scaleType="fitCenter"
                 android:text="고정"
@@ -49,7 +60,8 @@
                 android:id="@+id/pinBtn"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_gravity="top|left"
+                android:layout_marginRight="30dp"
+                android:layout_gravity="top|right"
                 android:background="@drawable/baseline_import_export_24"
                 android:scaleType="fitCenter"
                 android:text="고정"
