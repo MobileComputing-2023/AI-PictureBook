@@ -24,15 +24,6 @@
         android:layout_gravity="bottom">
 
         <ImageButton
-            android:id="@+id/previousBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/baseline_chevron_left_24"
-            android:contentDescription="다음 페이지"
-            android:background="@android:color/transparent"
-            android:layout_alignParentLeft="true" />
-
-        <ImageButton
             android:id="@+id/nextBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"

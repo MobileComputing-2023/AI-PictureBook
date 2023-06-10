@@ -35,11 +35,6 @@ class AI_EditActivity : AppCompatActivity() {
 
         displayImageForPage(binding)
 
-        binding.previousBtn.setOnClickListener {
-            currentPageId--
-            displayImageForPage(binding)
-        }
-
         binding.nextBtn.setOnClickListener {
             currentPageId++
             displayImageForPage(binding)
@@ -82,14 +77,12 @@ class AI_EditActivity : AppCompatActivity() {
             binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기, 아래 경우 전체 적용
 
             binding.nextBtn.visibility = View.VISIBLE
-            binding.previousBtn.visibility = View.GONE
             showTextBoxEdit(bookId, currentPageId)
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPageId")
 
         } else if (currentPageId == totalPages) { // 마지막 페이지
             val image = myDatabase.getImageForPage(bookId, currentPageId)
             binding.imageView.setImageBitmap(image)
-            binding.previousBtn.visibility = View.VISIBLE
             binding.nextBtn.visibility = View.VISIBLE
             showTextBoxEdit(bookId, currentPageId)
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPageId")
@@ -98,7 +91,6 @@ class AI_EditActivity : AppCompatActivity() {
             val image = myDatabase.getImageForPage(bookId, currentPageId)
             binding.imageView.setImageBitmap(image)
             binding.nextBtn.visibility = View.VISIBLE
-            binding.previousBtn.visibility = View.VISIBLE
             binding.imageView.alpha = 0f
             showTextBoxEdit(bookId, currentPageId)
 
@@ -108,7 +100,6 @@ class AI_EditActivity : AppCompatActivity() {
             fadeInAnimator.start()
 
             // 애니메이션 없이 즉시 버튼 나타내기
-            binding.previousBtn.post { binding.previousBtn.visibility = View.VISIBLE }
             binding.nextBtn.post { binding.nextBtn.visibility = View.VISIBLE }
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPageId")
         }
