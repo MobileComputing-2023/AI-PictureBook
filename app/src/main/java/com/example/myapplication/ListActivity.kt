@@ -75,6 +75,7 @@ class ListActivity : AppCompatActivity() {
                     val intent = Intent(this@ListActivity, ReadActivity::class.java)
                     intent.putExtra("bookId", bookId)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
                 } else {
                     // 삭제하기 선택 후 클릭 시 내용
                     adapter.setDeletePosition(position)
