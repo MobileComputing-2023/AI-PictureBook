@@ -79,19 +79,39 @@ class ReadActivity : AppCompatActivity() {
             binding.imageView.adjustViewBounds = true
             binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
             binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기, 아래 경우 전체 적용
-
+            val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
+            if (textImageWithPosition != null) {
+                val textImage = myDatabase.getTextImageForPage(bookId, currentPage)
+                val yCoordinate = myDatabase.getTextPositionForPage(bookId, currentPage)
+                binding.textImageView.setImageBitmap(textImage)
+                binding.textImageView.translationY = yCoordinate?: 0f
+            }
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.GONE
-            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
+            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
         } else if (currentPage == totalPages) { // 마지막 페이지
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
+            val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
+            if (textImageWithPosition != null) {
+                val textImage = myDatabase.getTextImageForPage(bookId, currentPage)
+                val yCoordinate = myDatabase.getTextPositionForPage(bookId, currentPage)
+                binding.textImageView.setImageBitmap(textImage)
+                binding.textImageView.translationY = yCoordinate?: 0f
+            }
             binding.previousBtn.visibility = View.VISIBLE
             binding.nextBtn.visibility = View.VISIBLE
-            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
+            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
         } else { //2-마지막장 앞
             val image = myDatabase.getImageForPage(bookId, currentPage)
             binding.imageView.setImageBitmap(image)
+            val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
+            if (textImageWithPosition != null) {
+                val textImage = myDatabase.getTextImageForPage(bookId, currentPage)
+                val yCoordinate = myDatabase.getTextPositionForPage(bookId, currentPage)
+                binding.textImageView.setImageBitmap(textImage)
+                binding.textImageView.translationY = yCoordinate?: 0f
+            }
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.VISIBLE
             binding.imageView.alpha = 0f
@@ -104,7 +124,7 @@ class ReadActivity : AppCompatActivity() {
             // 애니메이션 없이 즉시 버튼 나타내기
             binding.previousBtn.post { binding.previousBtn.visibility = View.VISIBLE }
             binding.nextBtn.post { binding.nextBtn.visibility = View.VISIBLE }
-            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage")
+            Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
         }
     }
 

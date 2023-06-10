@@ -9,6 +9,12 @@ import com.example.myapplication.MyElement
 
 class MyDatabase private constructor(context: Context) {
 
+    val db: SQLiteDatabase
+
+    init {
+        val dbHelper = MyDbHelper(context)
+        db = dbHelper.writableDatabase
+    }
     private val dbHelper: MyDbHelper = MyDbHelper(context)
     val database: SQLiteDatabase = dbHelper.writableDatabase
 
@@ -131,6 +137,61 @@ class MyDatabase private constructor(context: Context) {
         return image
     }
 
+    fun getTextImageForPage(bookId: String, page: Int): Bitmap? {
+        val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE)
+        val selection =
+            "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, page.toString())
+
+        val cursor = database.query(
+            MyDBContract.DrawEntry.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var image: Bitmap? = null
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndex(MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE)
+            val imageByteArray = cursor.getBlob(columnIndex)
+            if (imageByteArray != null && imageByteArray.isNotEmpty()) { // Check for null or empty array
+                image = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+            }
+        }
+
+        cursor.close()
+        return image
+    }
+
+
+    fun getTextPositionForPage(bookId: String, page: Int): Float? {
+        val projection = arrayOf(MyDBContract.DrawEntry.COLUMN_TEXT_POSITION)
+        val selection =
+            "${MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, page.toString())
+
+        val cursor = database.query(
+            MyDBContract.DrawEntry.TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var textPosition: Float? = null
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndex(MyDBContract.DrawEntry.COLUMN_TEXT_POSITION)
+            textPosition = cursor.getFloat(columnIndex)
+        }
+
+        cursor.close()
+        return textPosition
+    }
 
     fun getTitle(bookId: String): String? {
         val projection = arrayOf(MyDBContract.BookEntry.COLUMN_TITLE)

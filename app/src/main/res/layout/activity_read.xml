@@ -3,20 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DrawActivity">
+    tools:context=".ReadActivity">
 
-    <!-- 이미지 나오는 부분 -->
-    <LinearLayout
-        android:id="@+id/draw_linear"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView"/>
+        android:layout_height="match_parent" />
 
-    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/textImageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/textImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +33,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/baseline_chevron_left_24"
-            android:contentDescription="다음 페이지"
+            android:contentDescription="이전 페이지"
             android:background="@android:color/transparent"
             android:layout_alignParentLeft="true" />
 

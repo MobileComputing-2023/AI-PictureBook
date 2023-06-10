@@ -1,5 +1,9 @@
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -8,9 +12,11 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import java.io.ByteArrayOutputStream
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.example.myapplication.ErrorActivity
 import com.example.myapplication.databinding.FragmentTextboxBinding
 import yuku.ambilwarna.AmbilWarnaDialog
 
@@ -28,6 +34,7 @@ class TextBoxFragment : DialogFragment() {
 
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
+    private lateinit var db: SQLiteDatabase
     private var currentPage = 0 //읽기 위해 현재 위치 count
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -37,10 +44,12 @@ class TextBoxFragment : DialogFragment() {
 
         builder.setView(view)
 
-        myDatabase = MyDatabase.getInstance(requireContext()) // myDatabase 초기화
+        myDatabase = MyDatabase.getInstance(requireContext())
+        db = myDatabase.db // Initialize the db variable with the SQLiteDatabase instance
 
         return builder.create()
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTextboxBinding.inflate(inflater, container, false)
@@ -139,6 +148,15 @@ class TextBoxFragment : DialogFragment() {
             }
         }
 
+        binding.saveBtn.setOnClickListener {
+            val (bitmap, yCoordinate) = captureFragmentContent()
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            val byteArray = outputStream.toByteArray()
+
+            saveImageToDB(bookId, currentPage, byteArray, yCoordinate)
+        }
+
         binding.linearLayout.setOnTouchListener { view, event ->
             if (isPinActivated) {
                 return@setOnTouchListener false // 고정된 상태에서는 터치 이벤트를 처리하지 않음
@@ -167,6 +185,77 @@ class TextBoxFragment : DialogFragment() {
         }
 
         adjustTextBoxTransparency(0)
+    }
+
+    private fun saveImageToDB(bookId: String, pageId: Int, byteArray: ByteArray, yCoordinate: Int) {
+        // Save the bitmap and y-coordinate to the database
+        val values = ContentValues().apply {
+            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE, byteArray)
+            put(MyDatabase.MyDBContract.DrawEntry.COLUMN_TEXT_POSITION, yCoordinate)
+        }
+
+        val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND " +
+                "${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
+        val selectionArgs = arrayOf(bookId, pageId.toString())
+
+        val rowsAffected = myDatabase.db.update(
+            MyDatabase.MyDBContract.DrawEntry.TABLE_NAME,
+            values,
+            selection,
+            selectionArgs
+        )
+
+        if (rowsAffected > 0) {
+            // Update the visibility of UI elements
+            binding.seekBar.visibility = View.GONE
+            binding.colorBtn1.visibility = View.GONE
+            binding.colorBtn2.visibility = View.GONE
+            binding.colorBtn3.visibility = View.GONE
+            binding.colorBtn4.visibility = View.GONE
+            binding.colorBtn5.visibility = View.GONE
+            binding.unpinBtn.visibility = View.GONE
+            binding.pinBtn.visibility = View.GONE
+            binding.saveBtn.visibility = View.GONE
+
+            Log.d(
+                "DB",
+                "Image data updated successfully. Book ID: $bookId, Page ID: $pageId, Y Coordinate: $yCoordinate"
+            )
+        } else {
+            Log.d("DB", "Failed to update image data.")
+        }
+    }
+
+    private fun captureFragmentContent(): Pair<Bitmap, Int> {
+        val textBoxWidth = binding.textBox.width
+        val textBoxHeight = binding.textBox.height
+
+        val bitmap = Bitmap.createBitmap(textBoxWidth, textBoxHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+
+        val textBoxLeft = binding.textBox.left
+        val textBoxTop = binding.textBox.top
+        val textBoxRight = textBoxLeft + textBoxWidth
+        val textBoxBottom = textBoxTop + textBoxHeight
+
+        // Draw the background of the textBox
+        val background = binding.textBox.background
+        if (background is ColorDrawable) {
+            val backgroundColor = background.color
+            canvas.drawColor(backgroundColor)
+        }
+
+        // Draw the text on the canvas
+        val textPaint = binding.textBox.paint
+        val textColor = binding.textBox.currentTextColor
+        val textY = binding.textBox.baseline.toFloat() // Use the baseline of the TextView
+        canvas.drawText(binding.textBox.text.toString(), 0f, textY, textPaint.apply {
+            color = textColor
+        })
+
+        val yCoordinate = textBoxTop // Use the top coordinate of the textBox as the y-coordinate
+
+        return Pair(bitmap, yCoordinate)
     }
 
     private fun handleLinearLayoutTouch(view: View, event: MotionEvent): Boolean {
