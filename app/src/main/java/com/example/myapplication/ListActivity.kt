@@ -35,7 +35,6 @@ class ListActivity : AppCompatActivity() {
                 return true
             }
             1 -> {
-                Log.d("TAG", "DELETE TAB CLICKED")
                 isDeleteMenuChecked = true
                 Toast.makeText(this@ListActivity, "삭제하려는 책을 선택해주세요", Toast.LENGTH_SHORT).show()
             }
