@@ -151,16 +151,26 @@ class CreateActivity : AppCompatActivity() {
 
 
     private fun generateImages(prompt: String) {
+
+        val customEra = intent.getStringExtra("customEra")
+        val customGenre = intent.getStringExtra("customGenre")
+
         // shimmerLayout을 보이도록 설정하고 Shimmer 애니메이션 시작
         shimmerLayout.visibility = View.VISIBLE
         shimmerLayout.startShimmer()
 
         val client = OkHttpClient()
 
+        val role = "sentence: ${prompt}, The genre of this image is ${customGenre}, and the era is ${customEra}."
+
+        val requests  = listOf(
+            role
+        )
+
         val mediaType = "application/json".toMediaTypeOrNull()
         val requestBodyJson = JSONObject()
         requestBodyJson.put("n", numImages)
-        requestBodyJson.put("prompt", prompt)
+        requestBodyJson.put("prompt", requests)
         requestBodyJson.put("size", "256x256")
 
         Log.d("CreateActivity", "Request Body: $requestBodyJson")

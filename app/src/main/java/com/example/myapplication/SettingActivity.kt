@@ -133,6 +133,9 @@ class SettingActivity : AppCompatActivity() {
                             putExtra("key", writesumText)
                             putExtra("summary", translatedResponseBody) // 번역 후 텍스트(전체 소설)
                             putExtra("originalsummary", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
+
+                            putExtra("customGenre", customGenre)
+                            putExtra("customEra", customEra)
                         } // layout에 띄워지는 건 한국어
 
                         // 번역 및 AI 모델 호출이 모두 완료된 후에 startActivity() 호출

@@ -130,7 +130,9 @@ class MyDatabase private constructor(context: Context) {
         if (cursor.moveToFirst()) {
             val columnIndex = cursor.getColumnIndex(MyDBContract.DrawEntry.COLUMN_IMAGE)
             val imageByteArray = cursor.getBlob(columnIndex)
-            image = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+            if (imageByteArray != null && imageByteArray.isNotEmpty()) { // Check for null or empty array
+                image = BitmapFactory.decodeByteArray(imageByteArray, 0, imageByteArray.size)
+            }
         }
 
         cursor.close()

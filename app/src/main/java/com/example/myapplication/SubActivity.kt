@@ -53,6 +53,8 @@ class SubActivity : AppCompatActivity() {
         binding.summaryTextView.text = "$summary"
 
         val originalsummary = intent.getStringExtra("originalsummary")
+        val customGenre = intent.getStringExtra("customGenre")
+        val customEra = intent.getStringExtra("customEra")
 
         binding.btnDraw.setOnClickListener { // 직접 그리기
             val intent: Intent = Intent(this, DrawActivity::class.java) // DrawActivity로 이동
@@ -137,6 +139,8 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("originalsummary", originalsummary)
             intent.putExtra("selectedGenre", selectedGenre)
             intent.putExtra("selectedEra", selectedEra)
+            intent.putExtra("customEra", customEra)
+            intent.putExtra("customGenre", customGenre)
 
             startActivity(intent)
             overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
