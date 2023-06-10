@@ -127,7 +127,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:background="#FFFFFF"
-                    android:src="@drawable/color_search_btn"
+                    android:src="@drawable/baseline_format_color_text_24"
                     android:text="Button" />
             </LinearLayout>
 
