@@ -36,8 +36,8 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
         this.itemClickListener = onItemClickListener
     }
 
+    //onClick 중 삭제하기 기능 수행 시 선택된 recycler 의 position 저장
     private var deletePosition: Int = -1
-
     fun setDeletePosition(position: Int) {
         deletePosition = position
         notifyDataSetChanged()
@@ -81,7 +81,5 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
 
         val formattedDate = "$year/$month/$day"
         binding.bookDate.text = formattedDate
-
-
     }
 }
