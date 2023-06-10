@@ -23,8 +23,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                startActivity(Intent(this, MainActivity::class.java))
                 overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
+                finish()
                 return true
             }
         }
@@ -156,8 +156,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "cLqY4SrZ4TCuEwkhHNLL2aP62UAFavIVJTanSi1T")
             .post(requestBody)
             .build()
 
@@ -202,8 +202,8 @@ class SettingActivity : AppCompatActivity() {
         val request = Request.Builder()
             .url(url)
             .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-            .addHeader("X-NCP-APIGW-API-KEY-ID", "mykey")
-            .addHeader("X-NCP-APIGW-API-KEY", "pw")
+            .addHeader("X-NCP-APIGW-API-KEY-ID", "2bszv6u23p")
+            .addHeader("X-NCP-APIGW-API-KEY", "cLqY4SrZ4TCuEwkhHNLL2aP62UAFavIVJTanSi1T")
             .post(requestBody)
             .build()
 
@@ -245,7 +245,7 @@ class SettingActivity : AppCompatActivity() {
             .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
-        val apiKey = "mykey "
+        val apiKey = "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"
         val url = "https://api.openai.com/v1/chat/completions"
 
         // gpt에 보내는 role
