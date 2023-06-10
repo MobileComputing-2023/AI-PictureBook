@@ -17,6 +17,7 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
 
@@ -33,6 +34,10 @@ class DrawActivity : AppCompatActivity() {
     private lateinit var bookId: String
     private var lastPageId: Int = 0
     private lateinit var title: String
+
+    // 2초 내에 두 번 backpress하면 sub로 이동
+    private var backPressedTime: Long = 0
+    private val backPressedTimeout: Long = 2000
 
     inner class Point(var x: Float, var y: Float, var check: Boolean, var color: Int)
 
@@ -65,15 +70,26 @@ class DrawActivity : AppCompatActivity() {
             invalidate()
             return true
         }
-
     }
+
     override fun onBackPressed() {
-        // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
-        myDatabase.deleteBook(bookId)
+        if (currentPageId == 0) {
+            if (System.currentTimeMillis() - backPressedTime < backPressedTimeout) {
+                myDatabase.deleteBook(bookId)
 
-        super.onBackPressed()
-        overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+                super.onBackPressed()
+                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+            } else {
+                backPressedTime = System.currentTimeMillis()
+                Toast.makeText(this, "한 번 더 누르면 이전 단계로 이동합니다.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            // currentPageId가 0이 아닌 경우에는 백 프레스 막기
+            Toast.makeText(this, "상단 바의 뒤로가기 버튼을 눌러 이전 단계로 이동합니다.", Toast.LENGTH_SHORT).show()
+        }
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityDrawBinding.inflate(layoutInflater)

@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -43,24 +44,23 @@ class CreateActivity : AppCompatActivity() {
     private var apiCall: Call? = null
 
     override fun onBackPressed() {
-        // api 호출 중단
-        apiCall?.cancel()
-        // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
-        myDatabase.deleteBook(bookId)
-        super.onBackPressed()
-        overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+        Toast.makeText(this, "상단 바의 뒤로가기 버튼을 눌러\n처음으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                val intent = Intent(this, SettingActivity::class.java)
+                startActivity(intent)
+
                 overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+                finish()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,7 +161,7 @@ class CreateActivity : AppCompatActivity() {
 
         val client = OkHttpClient()
 
-        val role = "sentence: ${prompt}, The genre of this image is ${customGenre}, and the era is ${customEra}."
+        val role = "illustration book background image suitable for sentence: ${prompt}, Note that The genre of this image is ${customGenre}, and the era is ${customEra}."
 
         val requests  = listOf(
             role
@@ -227,21 +227,23 @@ class CreateActivity : AppCompatActivity() {
 
     // 이미지 띄워 줌
     private fun displayImages(imageUrls: List<String>, prompt: String) {
-        val imageViews: List<ImageView> = listOf(imageView1, imageView2, imageView3, imageView4)
+        if (!isFinishing) {
+            val imageViews: List<ImageView> = listOf(imageView1, imageView2, imageView3, imageView4)
 
-        for (i in imageUrls.indices) {
-            val url = imageUrls[i]
-            val imageView = imageViews[i]
+            for (i in imageUrls.indices) {
+                val url = imageUrls[i]
+                val imageView = imageViews[i]
 
-            Glide.with(this)
-                .load(url)
-                .apply(RequestOptions.overrideOf(200, 200))
-                .into(imageView)
+                Glide.with(this)
+                    .load(url)
+                    .apply(RequestOptions.overrideOf(200, 200))
+                    .into(imageView)
+            }
+
+            shimmerLayout.visibility = View.GONE
+            shimmerLayout.stopShimmer()
+            generatedImagesGrid.visibility = View.VISIBLE
         }
-
-        shimmerLayout.visibility = View.GONE
-        shimmerLayout.stopShimmer()
-        generatedImagesGrid.visibility = View.VISIBLE
     }
 
     // 이미지 하나하나당 clickListener 달아 줌

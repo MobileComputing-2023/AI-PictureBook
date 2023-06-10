@@ -12,20 +12,20 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.myapplication.databinding.ActivityReadBinding
+import com.example.myapplication.databinding.ActivityAiEditBinding
 
 class AI_EditActivity : AppCompatActivity() {
 
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
     private lateinit var title: String
-    private lateinit var binding: ActivityReadBinding
+    private lateinit var binding: ActivityAiEditBinding
     private lateinit var gestureDetector: GestureDetector
     private var currentPageId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityReadBinding.inflate(layoutInflater)
+        binding = ActivityAiEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bookId = intent.getStringExtra("bookId") ?: ""
         myDatabase = MyDatabase.getInstance(this)
@@ -63,7 +63,7 @@ class AI_EditActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun displayImageForPage(binding: ActivityReadBinding) {
+    private fun displayImageForPage(binding: ActivityAiEditBinding) {
         val totalPages = myDatabase.getTotalPages(bookId)
 
         if (currentPageId > totalPages) {
