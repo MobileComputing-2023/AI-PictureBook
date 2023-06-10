@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.example.myapplication.ErrorActivity
 import com.example.myapplication.databinding.FragmentTextboxBinding
 import yuku.ambilwarna.AmbilWarnaDialog
 
@@ -37,7 +36,7 @@ class TextBoxFragment : DialogFragment() {
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
     private lateinit var db: SQLiteDatabase
-    private var currentPage = 0 //읽기 위해 현재 위치 count
+    private var currentPage = 0 // 읽기 위해 현재 위치 count
 
     private var yCoordinate = 0f
 
@@ -49,7 +48,7 @@ class TextBoxFragment : DialogFragment() {
         builder.setView(view)
 
         myDatabase = MyDatabase.getInstance(requireContext())
-        db = myDatabase.db // Initialize the db variable with the SQLiteDatabase instance
+        db = myDatabase.db
 
         return builder.create()
     }
@@ -90,7 +89,7 @@ class TextBoxFragment : DialogFragment() {
             }
         })
 
-        binding.colorBtn1.setOnClickListener {
+        binding.colorBtn1.setOnClickListener { // textbox 전체 배경 색상
 
             val color = Color.parseColor("#E55B62")
             binding.textBox.setBackgroundColor(color)
@@ -123,7 +122,7 @@ class TextBoxFragment : DialogFragment() {
             Log.d("TextBoxFragment", "TextBox text: $textBoxText")
         }
 
-        binding.colorBtn5.setOnClickListener {
+        binding.colorBtn5.setOnClickListener { // text 색상 변경
             openColorPicker()
         }
 
@@ -156,7 +155,7 @@ class TextBoxFragment : DialogFragment() {
             val (bitmap, yCoordinate) = captureFragmentContent()
             val outputStream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            val byteArray = outputStream.toByteArray()
+            val byteArray = outputStream.toByteArray() // byteArray로 변환
 
             saveImageToDB(bookId, currentPage, byteArray, yCoordinate)
 

@@ -1,20 +1,13 @@
 package com.example.myapplication
 
-import MyDatabase
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import com.example.myapplication.databinding.ActivityPopupBinding
-import com.example.myapplication.databinding.ActivityReadallpopBinding
 import com.example.myapplication.databinding.ActivityTermspopBinding
 
 class TermsPopFragment : DialogFragment() {
@@ -45,7 +38,7 @@ class TermsPopFragment : DialogFragment() {
     }
     override fun onDestroy() {
         super.onDestroy()
-        // 다이얼로그를 닫기 위해 onDestroy에서 호출합니다.
+        // 다이얼로그를 닫기 위해 onDestroy에서 호출
         dismiss()
         alertDialog?.dismiss()
     }
@@ -54,10 +47,10 @@ class TermsPopFragment : DialogFragment() {
         // 팝업창 생성
         val builder = AlertDialog.Builder(requireActivity())
 
-        //버튼 외 화면, backpress 눌러도 화면 꺼지지않음
+        //버튼 외 화면, backpress 눌러도 화면 꺼지지 않음
         builder.setCancelable(false)
 
-        // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
+        // LinearLayout을 생성하고 binding의 루트 뷰를 추가
         val container = LinearLayout(requireActivity())
 
         // Remove the view from its current parent

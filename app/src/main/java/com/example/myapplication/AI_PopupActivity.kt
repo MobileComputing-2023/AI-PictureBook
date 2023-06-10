@@ -36,7 +36,7 @@ class AI_PopupActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // 다이얼로그를 닫기 위해 onDestroy에서 호출합니다.
+        // 다이얼로그를 닫기 위해 onDestroy에서 호출
         alertDialog?.dismiss()
     }
 
@@ -47,10 +47,10 @@ class AI_PopupActivity : AppCompatActivity() {
         // 팝업창 생성
         val builder = AlertDialog.Builder(this)
 
-        //버튼 외 화면, backpress 눌러도 화면 꺼지지않음
+        // 버튼 외 화면, backpress 눌러도 화면 꺼지지 않음
         builder.setCancelable(false)
 
-        // LinearLayout을 생성하고 binding의 루트 뷰를 추가합니다.
+        // LinearLayout을 생성하고 binding의 루트 뷰를 추가.
         val container = LinearLayout(this)
 
         // view를 현재 parent에서 제거
@@ -68,8 +68,6 @@ class AI_PopupActivity : AppCompatActivity() {
         container.addView(binding.root)
 
         binding.saveBtn.setOnClickListener {
-            // 저장 버튼 클릭 시 동작을 구현
-            // TODO: 저장 버튼 동작 구현
 
             // 팝업창 닫기
             finish()
@@ -91,7 +89,7 @@ class AI_PopupActivity : AppCompatActivity() {
             // 팝업창 닫기
             finish()
             // Toast 메시지 표시
-            Toast.makeText(this, "동화가 저장되지 않았습니다.\n메인화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "동화가 저장되지 않았습니다.\n메인 화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
 
             // 메인 화면으로 돌아가기
             val intent = Intent(this, MainActivity::class.java)

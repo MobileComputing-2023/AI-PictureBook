@@ -31,8 +31,10 @@ class SubActivity : AppCompatActivity() {
         setContentView(binding.root)
         overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
 
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true); //뒤로가기
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true); // 뒤로가기
         getSupportActionBar()?.setTitle("그림책 콘티 확인하기");
+
+        // 레이아웃 화면에 띄움
         val numMan = intent.getIntExtra("NumMan", 0)
         binding.NManView.text = "남자 수: $numMan"
 
@@ -52,13 +54,13 @@ class SubActivity : AppCompatActivity() {
 
         val originalsummary = intent.getStringExtra("originalsummary")
 
-        binding.btnDraw.setOnClickListener {
-            val intent: Intent = Intent(this, DrawActivity::class.java)
+        binding.btnDraw.setOnClickListener { // 직접 그리기
+            val intent: Intent = Intent(this, DrawActivity::class.java) // DrawActivity로 이동
             startActivity(intent)
         }
 
-        binding.btnAI.setOnClickListener {
-            val intent: Intent = Intent(this, CreateActivity::class.java)
+        binding.btnAI.setOnClickListener { // AI 그리기
+            val intent: Intent = Intent(this, CreateActivity::class.java) // CreateActivity로 이동
             startActivity(intent)
         }
 
@@ -74,12 +76,12 @@ class SubActivity : AppCompatActivity() {
         saveButton.setOnClickListener {
             val bookId = generateBookId()
             val title = extractTitle(summary ?: "") // 첫 줄을 타이틀로 추출
-            val textLines = summary?.split("[.!?\\r\\n]".toRegex())
-                ?.filter { it.isNotBlank()}
-                ?.map { if (it.startsWith("제목:")) it.substring(4) else it }
-                ?.map { if (it.startsWith("제목 :")) it.substring(4) else it }
+            val textLines = summary?.split("[.!?\\r\\n]".toRegex()) // summary 자름
+                ?.filter { it.isNotBlank()} // 공백 삭제
+                ?.map { if (it.startsWith("제목:")) it.substring(4) else it } // 제목에서 제목: 삭제
+                ?.map { if (it.startsWith("제목 :")) it.substring(4) else it } // 제목에서 제목 : 삭제
                 ?.map { it.replace("\"", "")}// 각 줄을 나누어 리스트로 가져옴(공백, "", 제목: 는 무시)
-            val textLinesCount = textLines?.size ?: 0 //0부터 세니까 -1 해서 넘겨야함
+            val textLinesCount = textLines?.size ?: 0 // 0부터 세니까 -1 해서 넘겨야 함
             // DB에 Book 데이터 삽입
             insertBookData(bookId, title)
 
@@ -91,12 +93,13 @@ class SubActivity : AppCompatActivity() {
                     insertDrawData(pageId, bookId, line.trim())
                 }
             }
-            val intent: Intent = Intent(this, DrawActivity::class.java)
+            val intent: Intent = Intent(this, DrawActivity::class.java) // DrawActivity로 값 넘김
             intent.putExtra("bookId", bookId)
             intent.putExtra("title", title)
-            intent.putExtra("lastPageId", textLinesCount-1)
+            intent.putExtra("lastPageId", textLinesCount - 1)
             startActivity(intent)
-            overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
+
+            overridePendingTransition(R.anim.fromright_toleft, R.anim.none) // 화면 전환 애니메이션
         }
 
         // AI 그리기 부분
@@ -126,7 +129,7 @@ class SubActivity : AppCompatActivity() {
 
             Toast.makeText(this, "Data saved successfully.", Toast.LENGTH_SHORT).show()
 
-            val intent: Intent = Intent(this, CreateActivity::class.java)
+            val intent: Intent = Intent(this, CreateActivity::class.java) // CreateActivity에 값을 넘김
             intent.putExtra("bookId", bookId)
             intent.putExtra("title", title)
             intent.putExtra("lastPageId", textLinesCount-1)
@@ -134,9 +137,6 @@ class SubActivity : AppCompatActivity() {
             intent.putExtra("originalsummary", originalsummary)
             intent.putExtra("selectedGenre", selectedGenre)
             intent.putExtra("selectedEra", selectedEra)
-
-            val lastPageId = textLinesCount-1
-            Log.d("lastPageId는 이렇게 만들어졌습니다", lastPageId.toString())
 
             startActivity(intent)
             overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
@@ -158,7 +158,6 @@ class SubActivity : AppCompatActivity() {
 
     }
 
-
     private fun insertBookData(bookId: String, title: String) {
         val values = ContentValues().apply {
             put(MyDatabase.MyDBContract.BookEntry.COLUMN_BOOK_ID, bookId)
@@ -173,7 +172,7 @@ class SubActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean { //같은 DB 데이터가 있는지 확인.
+    private fun checkDrawDataExists(bookId: String, pageId: Int): Boolean { // 같은 DB 데이터가 있는지 확인
         val selection = "${MyDatabase.MyDBContract.DrawEntry.COLUMN_BOOK_ID} = ? AND ${MyDatabase.MyDBContract.DrawEntry.COLUMN_PAGE_ID} = ?"
         val selectionArgs = arrayOf(bookId, pageId.toString())
 
@@ -224,7 +223,7 @@ class SubActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    //bookid는 생성 시점의 년월분초
+    // bookid는 생성 시점의 년월분초
     private fun generateBookId(): String {
         val currentTime = System.currentTimeMillis()
         val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault())
@@ -233,7 +232,7 @@ class SubActivity : AppCompatActivity() {
         return formattedTime
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { // 액션 바에 있는 뒤로가기 버튼
         when (item.itemId) {
             android.R.id.home -> {
                 //뒤로 가기 버튼 누르면 setting으로 이동

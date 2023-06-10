@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.databinding.ActivityPopupBinding
 
@@ -73,10 +72,9 @@ class PopupFragment : DialogFragment() {
         val parent = binding.root.parent as? ViewGroup
         parent?.removeView(binding.root)
 
-        // Disable clicks and focus for the root view
         binding.root.isClickable = false
         binding.root.isFocusable = false
-        val image=myDatabase.getImageForPage(bookId, 0)
+        val image = myDatabase.getImageForPage(bookId, 0)
         binding.cover.setImageBitmap(image)
         binding.titleText.text = "『$title』의\n 마지막 페이지입니다."
 
@@ -88,7 +86,7 @@ class PopupFragment : DialogFragment() {
             // Toast 메시지 표시
             Toast.makeText(requireContext(), "동화가 생성되었습니다.", Toast.LENGTH_SHORT).show()
 
-            // 동화읽는 화면으로 가기
+            // ReadActivity로 가기
             val intent = Intent(requireContext(), ReadActivity::class.java)
             intent.putExtra("bookId", bookId) // Pass the bookId as an extra
             requireActivity().startActivity(intent)
@@ -97,10 +95,10 @@ class PopupFragment : DialogFragment() {
 
         binding.deleteBtn.setOnClickListener {
             // DB 삭제
-            myDatabase.deleteBook(bookId)
+            myDatabase.deleteBook(bookId) // DB에서 bookId 삭제
 
             // Toast 메시지 표시
-            Toast.makeText(requireContext(), "동화가 저장되지 않았습니다.\n메인화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "동화가 저장되지 않았습니다.\n메인 화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
 
             // 메인 화면으로 돌아가기
             val intent = Intent(requireContext(), MainActivity::class.java)

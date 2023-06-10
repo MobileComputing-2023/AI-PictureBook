@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import MyDatabase
-import android.graphics.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,7 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
         this.itemClickListener = onItemClickListener
     }
 
-    //onClick 중 삭제하기 기능 수행 시 선택된 recycler 의 position 저장
+    // onClick 중 삭제하기 기능 수행 시 선택된 recycler의 position 저장
     private var deletePosition: Int = -1
     fun setDeletePosition(position: Int) {
         deletePosition = position
@@ -64,7 +63,7 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
             itemClickListener.onClick(it, position)
         }
 
-        ///8글자 넘으면 8글자...으로 표현
+        // 8글자 넘으면 8글자...으로 표현
         val title = dataSet[position].title
         val shortenedTitle = if (title.length > 8) {
             "${title.substring(0, 8)}..."
@@ -72,7 +71,6 @@ class MyAdapter(private var dataSet: MutableList<MyElement>) : RecyclerView.Adap
             title
         }
         binding.bookTitle.text = "『$shortenedTitle』"
-
 
         val bookId = dataSet[position].bookId
         val year = bookId.substring(2, 4) // 연도

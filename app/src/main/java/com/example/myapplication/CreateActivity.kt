@@ -43,7 +43,7 @@ class CreateActivity : AppCompatActivity() {
     private var apiCall: Call? = null
 
     override fun onBackPressed() {
-        //api 호출 중단
+        // api 호출 중단
         apiCall?.cancel()
         // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
         myDatabase.deleteBook(bookId)
@@ -258,29 +258,21 @@ class CreateActivity : AppCompatActivity() {
         }
     }
 
-    private fun showImageDetail(imageUrl: String, prompt: String) {
+    private fun showImageDetail(imageUrl: String, prompt: String) { // ImageDetailFragment 띄움
         val fragment = ImageDetailFragment()
         val bundle = Bundle().apply {
             putString("imageUrl", imageUrl)
             putString("prompt", prompt)
             putString("bookId", bookId) // bookId 전달
             putInt("lastPageId", lastPageId) // lastPageId 전달
-            putInt("nextPromptIndex", nextPromptIndex) // Pass the current nextPromptIndex value
+            putInt("nextPromptIndex", nextPromptIndex)
         }
         fragment.arguments = bundle
-
-        Log.d("showImageDetail에 전달되는 nextPromptIndex", nextPromptIndex.toString())
 
         supportFragmentManager.beginTransaction()
             .replace(android.R.id.content, fragment)
             .addToBackStack(null)
             .commit()
-    }
-
-
-    private fun showPopupActivity() {
-        val intent = Intent(this, PopupFragment::class.java)
-        startActivity(intent)
     }
 
 }
