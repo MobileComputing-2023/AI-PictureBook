@@ -79,8 +79,6 @@ class ReadAllPopFragment : DialogFragment() {
         container.addView(binding.root)
 
         binding.toListBtn.setOnClickListener {
-            // 팝업창 닫기
-            dismiss()
 
             // 동화리스트 화면으로 가기
             val intent = Intent(requireContext(), ListActivity::class.java)
@@ -89,8 +87,6 @@ class ReadAllPopFragment : DialogFragment() {
         }
 
         binding.toMainBtn.setOnClickListener {
-            // 팝업창 닫기
-            dismiss()
 
             // 메인 화면으로 돌아가기
             val intent = Intent(requireContext(), MainActivity::class.java)
