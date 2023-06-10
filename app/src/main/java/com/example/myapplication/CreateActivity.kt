@@ -40,7 +40,11 @@ class CreateActivity : AppCompatActivity() {
     private val apiKey = "mykey"
     private val numImages = 4
 
+    private var apiCall: Call? = null
+
     override fun onBackPressed() {
+        //api 호출 중단
+        apiCall?.cancel()
         // DB 삭제- 뒤로 갔다가 다시 버튼 누르면 같은 거 또 DB에 들어옴
         myDatabase.deleteBook(bookId)
         super.onBackPressed()
@@ -168,11 +172,14 @@ class CreateActivity : AppCompatActivity() {
             .post(requestBodyJson.toString().toRequestBody(mediaType))
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
+        // API call 변수로 지정
+        apiCall = client.newCall(request)
+        apiCall?.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // 요청 실패 처리
-                val intent: Intent = Intent(this@CreateActivity, ErrorActivity::class.java)
-                startActivity(intent)
+                if (!call.isCanceled()) {
+                    val intent: Intent = Intent(this@CreateActivity, ErrorActivity::class.java)
+                    startActivity(intent)
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -275,9 +282,5 @@ class CreateActivity : AppCompatActivity() {
         val intent = Intent(this, PopupFragment::class.java)
         startActivity(intent)
     }
-
-
-
-
 
 }
