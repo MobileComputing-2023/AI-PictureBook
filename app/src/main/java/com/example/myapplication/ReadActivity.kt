@@ -72,10 +72,17 @@ class ReadActivity : AppCompatActivity() {
         val totalPages = myDatabase.getTotalPages(bookId)
 
         if (currentPage > totalPages) {
+
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기
+
             showPopupFragment()
 
         } else if (currentPage == 0) { // 1페이지(표지)
             val image = myDatabase.getImageForPage(bookId, currentPage)
+
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기
 
             binding.imageView.setImageBitmap(image)
             val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
@@ -94,6 +101,9 @@ class ReadActivity : AppCompatActivity() {
 
             val image = myDatabase.getImageForPage(bookId, currentPage)
 
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기
+
             binding.imageView.setImageBitmap(image)
             val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
             if (textImageWithPosition != null) {
@@ -109,6 +119,9 @@ class ReadActivity : AppCompatActivity() {
 
         } else { //2-마지막장 앞
             val image = myDatabase.getImageForPage(bookId, currentPage)
+
+            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
+            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기
 
             binding.imageView.setImageBitmap(image)
 
