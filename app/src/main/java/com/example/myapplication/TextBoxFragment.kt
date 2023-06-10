@@ -159,10 +159,18 @@ class TextBoxFragment : DialogFragment() {
             val byteArray = outputStream.toByteArray()
 
             saveImageToDB(bookId, currentPage, byteArray, yCoordinate)
+
+            binding.unpinBtn.visibility = View.GONE
+            binding.pinBtn.visibility = View.GONE
+            binding.saveBtn.visibility = View.GONE
+            binding.editBtn.visibility = View.GONE
+
+            isEditing = false // 편집 모드 비활성화
+            isLinearLayoutDragging = false // 드래그 비활성화
         }
 
         binding.linearLayout.setOnTouchListener { view, event ->
-            if (isPinActivated) {
+            if (isPinActivated && !isEditing) {
                 return@setOnTouchListener false // 고정된 상태에서는 터치 이벤트를 처리하지 않음
             } else {
                 return@setOnTouchListener handleLinearLayoutTouch(view, event)
