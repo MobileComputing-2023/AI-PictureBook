@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
@@ -95,27 +96,27 @@ class SettingActivity : AppCompatActivity() {
             var customwritesumText: String
 
             translateToEnglish(writesumText) { translatedText ->
-                customwritesumText = translatedText
+                customwritesumText = translatedText // gpt에 넣은 번역된 줄거리
 
-                val intent = Intent(this@SettingActivity, LoadingActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
-
-                val customGenre = when (selectedGenre) { // 장르 영어로 변경
+                val customGenre = when (selectedGenre) { // gpt에 넣은 번역된 장르
                     "로맨스" -> "Romance"
                     "판타지" -> "Fantasy"
                     "공상 과학" -> "science fiction"
                     "스포츠" -> "sports"
-                    else -> "Feel free to fill it out" // 선택한 장르에 해당하지 않는 경우의 기본값 설정
+                    else -> "Feel free to fill it out"
                 }
 
-                val customEra = when (selectedEra) { // 시대 영어로 변경
+                val customEra = when (selectedEra) { // gpt에 넣은 번역된 시대
                     "현대" -> "Modern "
                     "미래" -> "Future"
                     "19세기" -> "19th century"
                     "르네상스" -> "the Renaissance"
-                    else -> "Feel free to fill it out" // 선택한 시대에 해당하지 않는 경우의 기본값 설정
+                    else -> "Feel free to fill it out"
                 }
+
+                val intent = Intent(this@SettingActivity, LoadingActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
 
                 runGPT3(customGenre, customEra, numMan, numWoman, customwritesumText) { responseBody ->
                     val originalResponseBody = responseBody
@@ -124,15 +125,15 @@ class SettingActivity : AppCompatActivity() {
                         // SubActivity로 전환
                         val subIntent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                             putExtra("next", "level")
-                            putExtra("selectedGenre", customGenre)
-                            putExtra("selectedEra", customEra)
+                            putExtra("selectedGenre", selectedGenre)
+                            putExtra("selectedEra", selectedEra)
                             putExtra("NumMan", numMan)
                             putExtra("NumWoman", numWoman)
                             putExtra("num", 30)
-                            putExtra("key", customwritesumText)
+                            putExtra("key", writesumText)
                             putExtra("summary", translatedResponseBody) // 번역 후 텍스트(전체 소설)
                             putExtra("originalsummary", originalResponseBody) // 번역 전의 텍스트 인텐트에 추가
-                        }
+                        } // layout에 띄워지는 건 한국어
 
                         // 번역 및 AI 모델 호출이 모두 완료된 후에 startActivity() 호출
                         startActivity(subIntent)
@@ -282,6 +283,9 @@ class SettingActivity : AppCompatActivity() {
                     val jsonObject = JSONObject(body)
                     val jsonArray = jsonObject.getJSONArray("choices")
                     val content = jsonArray.getJSONObject(0).getJSONObject("message").getString("content")
+
+                    Log.d("requestBody", requestBody)
+
                     callback(content)
                 }
             }
