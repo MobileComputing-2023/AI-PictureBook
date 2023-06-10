@@ -30,7 +30,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="top|left"
-                android:background="@drawable/baseline_save_24"
+                android:background="@drawable/baseline_check_24"
                 android:scaleType="fitCenter"
                 android:text="저장"
                 android:textSize="6sp" />
