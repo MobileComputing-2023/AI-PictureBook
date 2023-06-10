@@ -48,9 +48,7 @@ class PopupFragment : DialogFragment() {
 
         myDatabase = MyDatabase.getInstance(requireContext())
 
-        if (!requireActivity().isFinishing) {
-            showPopupDialog(bookId, title)
-        }
+        showPopupDialog(bookId, title)
     }
 
     override fun onDestroy() {
@@ -87,9 +85,6 @@ class PopupFragment : DialogFragment() {
         binding.saveBtn.setOnClickListener {
             // 저장 버튼 클릭 시 동작을 구현
 
-            // 팝업창 닫기
-            dismiss()
-
             // Toast 메시지 표시
             Toast.makeText(requireContext(), "동화가 생성되었습니다.", Toast.LENGTH_SHORT).show()
 
@@ -104,8 +99,6 @@ class PopupFragment : DialogFragment() {
             // DB 삭제
             myDatabase.deleteBook(bookId)
 
-            // 팝업창 닫기
-            dismiss()
             // Toast 메시지 표시
             Toast.makeText(requireContext(), "동화가 저장되지 않았습니다.\n메인화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
 
