@@ -79,8 +79,12 @@
                 android:id="@+id/seekBar"
                 android:layout_width="150dp"
                 android:layout_height="30sp"
+                android:thumb="@drawable/custom_seekbar_thumb"
+                android:splitTrack="false"
+                android:progressDrawable="@drawable/custom_seekbar"
                 android:layout_gravity="top|right"
                 android:background="@color/white"/>
+            <!-- splitTrack은 thumb 여백 없애는거. 아니면 네모로 뜸 -->
 
             <LinearLayout
                 android:id="@+id/buttons"
