@@ -73,12 +73,11 @@ class ReadActivity : AppCompatActivity() {
 
         if (currentPage > totalPages) {
             showPopupFragment()
+
         } else if (currentPage == 0) { // 1페이지(표지)
             val image = myDatabase.getImageForPage(bookId, currentPage)
+
             binding.imageView.setImageBitmap(image)
-            binding.imageView.adjustViewBounds = true
-            binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
-            binding.imageView.scaleType = ImageView.ScaleType.CENTER_CROP // 이미지 full로 띄우기, 아래 경우 전체 적용
             val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
             if (textImageWithPosition != null) {
                 val textImage = myDatabase.getTextImageForPage(bookId, currentPage)
@@ -86,11 +85,15 @@ class ReadActivity : AppCompatActivity() {
                 binding.textImageView.setImageBitmap(textImage)
                 binding.textImageView.translationY = yCoordinate?: 0f
             }
+
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.GONE
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
+
         } else if (currentPage == totalPages) { // 마지막 페이지
+
             val image = myDatabase.getImageForPage(bookId, currentPage)
+
             binding.imageView.setImageBitmap(image)
             val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
             if (textImageWithPosition != null) {
@@ -99,13 +102,18 @@ class ReadActivity : AppCompatActivity() {
                 binding.textImageView.setImageBitmap(textImage)
                 binding.textImageView.translationY = yCoordinate?: 0f
             }
+
             binding.previousBtn.visibility = View.VISIBLE
             binding.nextBtn.visibility = View.VISIBLE
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
+
         } else { //2-마지막장 앞
             val image = myDatabase.getImageForPage(bookId, currentPage)
+
             binding.imageView.setImageBitmap(image)
+
             val textImageWithPosition = myDatabase.getTextPositionForPage(bookId, currentPage)
+
             if (textImageWithPosition != null) {
                 val textImage = myDatabase.getTextImageForPage(bookId, currentPage)
                 val yCoordinate = myDatabase.getTextPositionForPage(bookId, currentPage)

@@ -7,6 +7,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Layout
+import android.text.StaticLayout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -36,6 +38,8 @@ class TextBoxFragment : DialogFragment() {
     private lateinit var myDatabase: MyDatabase
     private lateinit var db: SQLiteDatabase
     private var currentPage = 0 //읽기 위해 현재 위치 count
+
+    private var yCoordinate = 0f
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(requireActivity())
@@ -187,7 +191,7 @@ class TextBoxFragment : DialogFragment() {
         adjustTextBoxTransparency(0)
     }
 
-    private fun saveImageToDB(bookId: String, pageId: Int, byteArray: ByteArray, yCoordinate: Int) {
+    private fun saveImageToDB(bookId: String, pageId: Int, byteArray: ByteArray, yCoordinate: Float) {
         // Save the bitmap and y-coordinate to the database
         val values = ContentValues().apply {
             put(MyDatabase.MyDBContract.DrawEntry.COLUMN_TEXT_IMAGE, byteArray)
@@ -206,7 +210,7 @@ class TextBoxFragment : DialogFragment() {
         )
 
         if (rowsAffected > 0) {
-            // Update the visibility of UI elements
+
             binding.seekBar.visibility = View.GONE
             binding.colorBtn1.visibility = View.GONE
             binding.colorBtn2.visibility = View.GONE
@@ -226,34 +230,35 @@ class TextBoxFragment : DialogFragment() {
         }
     }
 
-    private fun captureFragmentContent(): Pair<Bitmap, Int> {
+    // TextBox의 크기만큼 비트맵을 생성하고, 그 위에 TextBox의 배경과 텍스트를 그려 저장
+    private fun captureFragmentContent(): Pair<Bitmap, Float> {
         val textBoxWidth = binding.textBox.width
         val textBoxHeight = binding.textBox.height
 
         val bitmap = Bitmap.createBitmap(textBoxWidth, textBoxHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
 
-        val textBoxLeft = binding.textBox.left
-        val textBoxTop = binding.textBox.top
-        val textBoxRight = textBoxLeft + textBoxWidth
-        val textBoxBottom = textBoxTop + textBoxHeight
-
-        // Draw the background of the textBox
         val background = binding.textBox.background
         if (background is ColorDrawable) {
             val backgroundColor = background.color
             canvas.drawColor(backgroundColor)
         }
 
-        // Draw the text on the canvas
         val textPaint = binding.textBox.paint
-        val textColor = binding.textBox.currentTextColor
-        val textY = binding.textBox.baseline.toFloat() // Use the baseline of the TextView
-        canvas.drawText(binding.textBox.text.toString(), 0f, textY, textPaint.apply {
-            color = textColor
-        })
 
-        val yCoordinate = textBoxTop // Use the top coordinate of the textBox as the y-coordinate
+        val textLayout = StaticLayout.Builder
+            .obtain(binding.textBox.text, 0, binding.textBox.length(), textPaint, textBoxWidth)
+            .setAlignment(Layout.Alignment.ALIGN_CENTER)
+            .build()
+
+        val textHeight = textLayout.height.toFloat()
+        val lineHeight = textLayout.getLineBottom(0) - textLayout.getLineTop(0)
+        val textY = (textBoxHeight - textHeight) / 2 + (lineHeight / 3) // textbox에 뜨는 text 위치 조정
+
+        canvas.save()
+        canvas.translate(0f, textY)
+        textLayout.draw(canvas)
+        canvas.restore()
 
         return Pair(bitmap, yCoordinate)
     }
@@ -269,7 +274,13 @@ class TextBoxFragment : DialogFragment() {
                 if (isLinearLayoutDragging) {
                     val dy = event.rawY - initialTouchLinearLayoutY
                     view.y = initialLinearLayoutY + dy
-                    Log.d("TextBoxFragment", "LinearLayout position: x=${view.x}, y=${view.y}")
+
+                    val centerY = view.height / 2 // TextView의 세로 중앙 좌표
+                    val screenHeight = binding.root.height // 화면의 세로 크기
+                    val adjustedY = view.y + centerY - screenHeight / 2
+
+                    yCoordinate = adjustedY.toFloat()
+                    Log.d("TextBoxFragment", "TextView position: y=$yCoordinate")
                 }
             }
             MotionEvent.ACTION_UP -> {
