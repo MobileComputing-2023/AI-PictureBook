@@ -55,7 +55,7 @@ class AI_EditActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        startActivity(Intent(this, ListActivity::class.java))
+        //백프레스 막음
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
