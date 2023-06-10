@@ -16,7 +16,7 @@ import android.widget.ImageView
 class ReadActivity : AppCompatActivity() {
     private lateinit var bookId: String
     private lateinit var myDatabase: MyDatabase
-    private var currentPage = 0 //읽기 위해 현재 위치 count
+    private var currentPage = 0 // 읽기 위해 현재 위치 count
     private lateinit var title: String
     private lateinit var binding: ActivityReadBinding
     private lateinit var gestureDetector: GestureDetector
@@ -44,7 +44,7 @@ class ReadActivity : AppCompatActivity() {
         }
 
         //제스쳐 감지
-        gestureDetector = GestureDetector(this, SwipeGestureListener())
+        gestureDetector = GestureDetector(this, SwipeGestureListener()) // 손가락으로 옆으로 넘겼을 때
 
         binding.root.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
@@ -57,7 +57,7 @@ class ReadActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean { // 액션 바 뒤로가기 버튼
         when (item.itemId) {
             android.R.id.home -> {
                 startActivity(Intent(this, ListActivity::class.java))
@@ -95,6 +95,7 @@ class ReadActivity : AppCompatActivity() {
 
             binding.nextBtn.visibility = View.VISIBLE
             binding.previousBtn.visibility = View.GONE
+
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
 
         } else if (currentPage == totalPages) { // 마지막 페이지
@@ -115,9 +116,10 @@ class ReadActivity : AppCompatActivity() {
 
             binding.previousBtn.visibility = View.VISIBLE
             binding.nextBtn.visibility = View.VISIBLE
+
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
 
-        } else { //2-마지막장 앞
+        } else { // 2페이지부터 - 마지막 페이지 앞까지
             val image = myDatabase.getImageForPage(bookId, currentPage)
 
             binding.imageView.scaleType = ImageView.ScaleType.FIT_XY
@@ -138,13 +140,14 @@ class ReadActivity : AppCompatActivity() {
             binding.imageView.alpha = 0f
 
             val fadeInAnimator = ObjectAnimator.ofFloat(binding.imageView, "alpha", 0f, 1f).apply {
-                duration = 500 // 애니메이션의 지속 시간
+                duration = 500 // 화면 전환 애니메이션의 지속 시간
             }
             fadeInAnimator.start()
 
             // 애니메이션 없이 즉시 버튼 나타내기
             binding.previousBtn.post { binding.previousBtn.visibility = View.VISIBLE }
             binding.nextBtn.post { binding.nextBtn.visibility = View.VISIBLE }
+
             Log.d("DB", "totalPage: $totalPages, currentPage: $currentPage, imgae: $image")
         }
     }

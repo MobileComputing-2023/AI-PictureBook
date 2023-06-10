@@ -17,10 +17,8 @@ import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.databinding.ActivityDrawBinding
-import com.example.myapplication.databinding.FragmentTextboxBinding
 
 import yuku.ambilwarna.AmbilWarnaDialog
 import java.io.ByteArrayOutputStream
@@ -105,7 +103,7 @@ class DrawActivity : AppCompatActivity() {
             openColorPicker(myView)
         }
 
-        binding.nextBtn.setOnClickListener {
+        binding.nextBtn.setOnClickListener { // next 버튼 누르면 작동
             // 그림 정보를 저장한 후, 다음 페이지로 이동
             saveDrawingDataAndMoveToNextPage()
         }
@@ -116,7 +114,7 @@ class DrawActivity : AppCompatActivity() {
 
     }
 
-    private fun showTextBoxEdit(bookId: String, currentPageId:Int) {
+    private fun showTextBoxEdit(bookId: String, currentPageId: Int) {
         val fragment = TextBoxFragment().apply {
             arguments = Bundle().apply {
                 putInt("currentPageID", currentPageId)
@@ -130,8 +128,7 @@ class DrawActivity : AppCompatActivity() {
             .commit()
     }
     private fun saveDrawingDataAndMoveToNextPage() {
-        val binding = ActivityDrawBinding.inflate(layoutInflater)
-        // 그림을 bitmap으로 저장
+
         val bitmap = Bitmap.createBitmap(myView.width, myView.height, Bitmap.Config.ARGB_8888)
         val bitmapCanvas = Canvas(bitmap)
         myView.draw(bitmapCanvas)

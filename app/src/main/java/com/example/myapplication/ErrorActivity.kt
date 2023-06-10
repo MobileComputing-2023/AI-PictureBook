@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.ActivityErrorBinding
 
 class ErrorActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityErrorBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

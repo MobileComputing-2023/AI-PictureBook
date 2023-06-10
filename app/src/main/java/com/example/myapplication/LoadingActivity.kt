@@ -40,6 +40,9 @@ class LoadingActivity : AppCompatActivity() {
         }, 7000) // 1초 후에 시작
     }
 
+    override fun onBackPressed() {
+    }
+
     private fun updateText() {
         txt.text = randomTxT[currentIndex]
         txt.gravity = Gravity.CENTER

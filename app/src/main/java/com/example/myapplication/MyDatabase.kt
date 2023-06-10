@@ -287,10 +287,10 @@ class MyDatabase private constructor(context: Context) {
                     readList.add(MyElement(title, bookId))
                 }
             }
+
             cursor.close()
             db.close()
             return readList
         }
-
     }
 }

@@ -128,21 +128,21 @@ class AI_EditActivity : AppCompatActivity() {
     }
 
     private inner class SwipeGestureListener : GestureDetector.SimpleOnGestureListener() {
-        private val SWIPE_THRESHOLD = 100 //스와이프로 간주 최소 거리
-        private val SWIPE_VELOCITY_THRESHOLD = 100 //스와이프로 간주 최소 속도
+        private val SWIPE_THRESHOLD = 100 // 스와이프로 간주 최소 거리
+        private val SWIPE_VELOCITY_THRESHOLD = 100 // 스와이프로 간주 최소 속도
 
         override fun onFling(
-            e1: MotionEvent, //시작점
-            e2: MotionEvent, //끝점
-            velocityX: Float, //x속도
-            velocityY: Float //y속도
+            e1: MotionEvent, // 시작점
+            e2: MotionEvent, // 끝점
+            velocityX: Float, // x속도
+            velocityY: Float // y속도
         ): Boolean {
             val diffX = e2.x - e1.x
             val diffY = e2.y - e1.y
 
-            if (Math.abs(diffX) > Math.abs(diffY)) { //좌우로 움직이는게 맞는지 확인
+            if (Math.abs(diffX) > Math.abs(diffY)) { // 좌우로 움직이는 게 맞는지 확인
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) { //x 기리 속도가 양수
+                    if (diffX > 0) { // x 길이 속도가 양수
                         onSwipeLeft()
                     } else {
                         onSwipeRight()

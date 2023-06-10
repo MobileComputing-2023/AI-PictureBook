@@ -75,12 +75,11 @@ class ReadAllPopFragment : DialogFragment() {
 
         binding.titleText.text = "『$title』을\n마지막 페이지까지 다 읽었습니다!"
 
-        // Add the view to the new parent
         container.addView(binding.root)
 
         binding.toListBtn.setOnClickListener {
 
-            // 동화리스트 화면으로 가기
+            // 동화 리스트 화면으로 가기
             val intent = Intent(requireContext(), ListActivity::class.java)
             requireActivity().startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.fromright_toleft, R.anim.none)
