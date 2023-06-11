@@ -49,14 +49,19 @@ class CreateActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (nextPromptIndex == 0) {
+            // api 호출 중단
+            apiCall?.cancel()
+            //DB 삭제
             myDatabase.deleteBook(bookId)
             finish()
             overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
         } else {
             // currentPageId가 0이 아닌 경우에는 두 번 누르면 뒤로 가기 가능
             if (System.currentTimeMillis() - backPressedTime < backPressedTimeout) {
+                apiCall?.cancel()
                 myDatabase.deleteBook(bookId)
-                finish()
+                val intent: Intent = Intent(this@CreateActivity, SettingActivity::class.java)
+                startActivity(intent)
                 overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
             } else {
                 backPressedTime = System.currentTimeMillis()
@@ -68,7 +73,10 @@ class CreateActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                apiCall?.cancel()
                 myDatabase.deleteBook(bookId)
+                val intent: Intent = Intent(this@CreateActivity, SettingActivity::class.java)
+                startActivity(intent)
                 finish()
                 overridePendingTransition(com.example.myapplication.R.anim.fromright_toleft, com.example.myapplication.R.anim.none)
                 return true
