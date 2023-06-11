@@ -74,18 +74,19 @@ class DrawActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (currentPageId == 0) {
+            myDatabase.deleteBook(bookId)
+            finish()
+            overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+        } else {
+            // currentPageId가 0이 아닌 경우에는 두 번 누르면 뒤로 가기 가능
             if (System.currentTimeMillis() - backPressedTime < backPressedTimeout) {
                 myDatabase.deleteBook(bookId)
-
-                super.onBackPressed()
+                finish()
                 overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
             } else {
                 backPressedTime = System.currentTimeMillis()
-                Toast.makeText(this, "한 번 더 누르면 이전 단계로 이동합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "한 번 더 누르면\n그림책이 저장되지 않고 종료됩니다.", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            // currentPageId가 0이 아닌 경우에는 백 프레스 막기
-            Toast.makeText(this, "상단 바의 뒤로가기 버튼을 눌러 이전 단계로 이동합니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -237,8 +238,8 @@ class DrawActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
                 finish()
+                overridePendingTransition(com.example.myapplication.R.anim.fromright_toleft, com.example.myapplication.R.anim.none)
                 return true
             }
         }
