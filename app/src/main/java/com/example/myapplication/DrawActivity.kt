@@ -238,6 +238,7 @@ class DrawActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                myDatabase.deleteBook(bookId)
                 finish()
                 overridePendingTransition(com.example.myapplication.R.anim.fromright_toleft, com.example.myapplication.R.anim.none)
                 return true
