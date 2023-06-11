@@ -43,18 +43,34 @@ class CreateActivity : AppCompatActivity() {
 
     private var apiCall: Call? = null
 
+    // 2초 내에 두 번 backpress하면 sub로 이동
+    private var backPressedTime: Long = 0
+    private val backPressedTimeout: Long = 2000
+
     override fun onBackPressed() {
-        Toast.makeText(this, "상단 바의 뒤로가기 버튼을 눌러\n처음으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
+        if (nextPromptIndex == 0) {
+            myDatabase.deleteBook(bookId)
+            finish()
+            overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+        } else {
+            // currentPageId가 0이 아닌 경우에는 두 번 누르면 뒤로 가기 가능
+            if (System.currentTimeMillis() - backPressedTime < backPressedTimeout) {
+                myDatabase.deleteBook(bookId)
+                finish()
+                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+            } else {
+                backPressedTime = System.currentTimeMillis()
+                Toast.makeText(this, "한 번 더 누르면\n그림책이 저장되지 않고 종료됩니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                val intent = Intent(this, SettingActivity::class.java)
-                startActivity(intent)
-
-                overridePendingTransition(com.example.myapplication.R.anim.fromleft_toright, com.example.myapplication.R.anim.none)
+                myDatabase.deleteBook(bookId)
                 finish()
+                overridePendingTransition(com.example.myapplication.R.anim.fromright_toleft, com.example.myapplication.R.anim.none)
                 return true
             }
         }
