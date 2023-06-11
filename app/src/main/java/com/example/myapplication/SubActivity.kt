@@ -129,8 +129,6 @@ class SubActivity : AppCompatActivity() {
                 }
             }
 
-            Toast.makeText(this, "Data saved successfully.", Toast.LENGTH_SHORT).show()
-
             val intent: Intent = Intent(this, CreateActivity::class.java) // CreateActivity에 값을 넘김
             intent.putExtra("bookId", bookId)
             intent.putExtra("title", title)
