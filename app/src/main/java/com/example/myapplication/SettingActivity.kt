@@ -24,8 +24,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
+                startActivity(Intent(this, MainActivity::class.java))
                 overridePendingTransition(R.anim.fromleft_toright, R.anim.none)
-                finish()
                 return true
             }
         }
