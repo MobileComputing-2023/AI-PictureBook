@@ -159,6 +159,9 @@ class TextBoxFragment : DialogFragment() {
 
             saveImageToDB(bookId, currentPage, byteArray, yCoordinate)
 
+            isPinActivated = false
+            binding.unpinBtn.performClick()
+
             binding.unpinBtn.visibility = View.GONE
             binding.pinBtn.visibility = View.GONE
             binding.saveBtn.visibility = View.GONE
