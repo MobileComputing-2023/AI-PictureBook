@@ -56,6 +56,29 @@ class DrawActivity : AppCompatActivity() {
                 canvas.drawLine(points[i - 1].x, points[i - 1].y, point.x, point.y, p)
             }
         }
+        fun undoLastAction() {
+            var lastIndex = -1 //되돌릴 대상이 되는 마지막 획의 인덱스를 저장
+            for (i in points.size - 1 downTo 0) {
+                if (!points[i].check) { //point 리스트 역순으로, check가 false면 그림 없는 거임
+                    lastIndex = i
+                    break
+                }
+            }
+            if (lastIndex != -1) { //ㅣlastindex가 -1아니면 지울 그림있음
+                val removedPoints = points.subList(lastIndex, points.size).toMutableList() //기존의 리스트나 배열을 변경 가능한 리스트로 변환
+                points.removeAll(removedPoints) //지우기
+                invalidate() //뷰를 다시 요청. 화면에 변경된 그림 표시
+
+                // 삭제된 획 이전 획으로 마지막 획 인덱스 변경
+                lastIndex = -1
+                for (i in points.size - 1 downTo 0) {
+                    if (!points[i].check) {
+                        lastIndex = i
+                        break
+                    }
+                }
+            }
+        }
 
         override fun onTouchEvent(event: MotionEvent): Boolean {
             val x = event.x
@@ -123,6 +146,10 @@ class DrawActivity : AppCompatActivity() {
         binding.nextBtn.setOnClickListener { // next 버튼 누르면 작동
             // 그림 정보를 저장한 후, 다음 페이지로 이동
             saveDrawingDataAndMoveToNextPage()
+        }
+        binding.undoBtn.setOnClickListener{
+            // 직전에 그린 획 지우기
+            myView.undoLastAction()
         }
 
         if (currentPageId == 0) {

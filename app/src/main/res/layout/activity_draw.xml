@@ -32,6 +32,15 @@
             android:layout_alignParentLeft="true" />
 
         <ImageButton
+            android:id="@+id/undoBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@id/clearBtn"
+            android:src="@drawable/baseline_undo_24"
+            android:contentDescription="색상 선택"
+            android:background="@android:color/transparent"/>
+
+        <ImageButton
             android:id="@+id/clearBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
