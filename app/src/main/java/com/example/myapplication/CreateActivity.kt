@@ -195,7 +195,7 @@ class CreateActivity : AppCompatActivity() {
         val requestBodyJson = JSONObject()
         requestBodyJson.put("n", numImages)
         requestBodyJson.put("prompt", requests)
-        requestBodyJson.put("size", "256x256")
+        requestBodyJson.put("size", "1024X1024")
 
         Log.d("CreateActivity", "Request Body: $requestBodyJson")
 
