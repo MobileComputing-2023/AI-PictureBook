@@ -98,6 +98,12 @@ class SettingActivity : AppCompatActivity() {
             translateToEnglish(writesumText) { translatedText ->
                 customwritesumText = translatedText // gpt에 넣은 번역된 줄거리
 
+                Log.d("customwritesumText", customwritesumText)
+
+                customwritesumText = customwritesumText.replace("\"", " ").replace("'", " ") // 따옴표 오류 막기 위해 공백으로 바꿈
+
+                Log.d("customwritesumText", customwritesumText)
+
                 val customGenre = when (selectedGenre) { // gpt에 넣은 번역된 장르
                     "로맨스" -> "Romance"
                     "판타지" -> "Fantasy"
@@ -122,6 +128,9 @@ class SettingActivity : AppCompatActivity() {
                     val originalResponseBody = responseBody
 
                     translateToKorean(responseBody) { translatedResponseBody ->
+
+                        Log.d("After Translation", translatedResponseBody)
+
                         // SubActivity로 전환
                         val subIntent = Intent(this@SettingActivity, SubActivity::class.java).apply {
                             putExtra("next", "level")
@@ -290,6 +299,11 @@ class SettingActivity : AppCompatActivity() {
                     Log.d("requestBody", requestBody)
 
                     callback(content)
+                } else {
+                    // response.body가 null인 경우 에러 처리
+                    Log.d("DB", "Failed to update image data, gpt가 소설을 제작할 수 없는 단어를 입력했을 경우")
+                    val intent: Intent = Intent(this@SettingActivity, ErrorActivity::class.java)
+                    startActivity(intent)
                 }
             }
         })
