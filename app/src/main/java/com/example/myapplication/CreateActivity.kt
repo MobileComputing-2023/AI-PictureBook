@@ -38,7 +38,7 @@ class CreateActivity : AppCompatActivity() {
     private lateinit var imageView4: ImageView
     private lateinit var generatedImagesGrid: GridLayout
 
-    private val apiKey = "mykey"
+    private val apiKey = "mykey "
     private val numImages = 4
 
     private var apiCall: Call? = null
@@ -195,7 +195,7 @@ class CreateActivity : AppCompatActivity() {
         val requestBodyJson = JSONObject()
         requestBodyJson.put("n", numImages)
         requestBodyJson.put("prompt", requests)
-        requestBodyJson.put("size", "1024X1024")
+        requestBodyJson.put("size", "1024x1024")
 
         Log.d("CreateActivity", "Request Body: $requestBodyJson")
 
