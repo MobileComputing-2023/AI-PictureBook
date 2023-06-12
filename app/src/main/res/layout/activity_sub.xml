@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/NManView"
             android:textSize="15dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black" />
         <TextView
             android:layout_width="match_parent"
@@ -25,6 +26,7 @@
             android:id="@+id/NWomanView"
             tools:ignore="MissingConstraints"
             android:textSize="15dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -33,6 +35,7 @@
             android:id="@+id/genreView"
             tools:ignore="MissingConstraints"
             android:textSize="15dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -41,6 +44,7 @@
             android:id="@+id/eraView"
             tools:ignore="MissingConstraints"
             android:textSize="15dp"
+            android:layout_marginBottom="5dp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -50,15 +54,17 @@
             tools:ignore="MissingConstraints"
             android:textSize="15dp"
             android:textColor="@color/black"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="15dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:text="생성된 소설은 다음과 같습니다."
-            android:textSize="15dp"
-            android:layout_marginBottom="1dp"/>
+            android:textStyle="bold"
+            android:textSize="18dp"
+
+            android:layout_marginBottom="3dp"/>
 
         <ScrollView
             android:layout_width="match_parent"
