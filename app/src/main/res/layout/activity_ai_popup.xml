@@ -62,7 +62,7 @@
                     android:elevation="20dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/save_round_button_white"
-                    android:text="취소"/>
+                    android:text="삭제"/>
 
                 <Button
                     android:id="@+id/saveBtn"
