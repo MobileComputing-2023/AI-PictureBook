@@ -138,7 +138,8 @@ class CreateActivity : AppCompatActivity() {
     private fun generateLinesFromSummary(summary: String?, index: Int) {
         // summary를 문장 단위로 분할해 textLines에 저장
         val textLines = summary?.split("[.!?\\r\\n]".toRegex())
-            ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") }
+            ?.filter { it.isNotBlank() }
+            ?.map { it.replace("[\"']".toRegex(), "") }
 
         textLines?.let { lines ->
             if (index >= 0 && index < lines.size) {
@@ -154,7 +155,8 @@ class CreateActivity : AppCompatActivity() {
     private fun generateImagesFromSummary(originalSummary: String?, index: Int) {
         // originalSummary를 문장 단위로 분할해 textLines에 저장
         val textLines = originalSummary?.split("[.!?\\r\\n]".toRegex())
-            ?.filter { it.isNotBlank() && !it.contains("'") && !it.contains("\"") }
+            ?.filter { it.isNotBlank() }
+            ?.map { it.replace("[\"']".toRegex(), "") }
 
         textLines?.let { lines ->
             if (index >= 0 && index < lines.size) {
