@@ -64,9 +64,8 @@ implementation 'com.github.yukuku:ambilwarna:2.0.1'
  
 
 
-
-
-
-
 ## Demo
-https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/1e3239c3-b6e9-4655-938f-3901a251907d
+|AI Drawing|Hand Drawing|
+|:---:|:---:|
+|https://github.com/gus1043/AI-PictureBook/assets/80878955/d79e5f01-800c-4d2e-9fb5-af9ae8fe04f7|https://github.com/gus1043/AI-PictureBook/assets/80878955/5c5e877f-c840-4fd8-a359-7b15a11772bf|
+
