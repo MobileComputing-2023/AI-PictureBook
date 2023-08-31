@@ -60,4 +60,13 @@ implementation 'com.github.yukuku:ambilwarna:2.0.1'
 ⏪️ [RENAME] : 파일 이름 변경  
 ♻️ [REFACTOR] : 전면 수정  
 📝 [DOCS] : README나 WIKI 등의 문서 개정  
+ 
+ 
 
+
+
+
+
+
+## Demo
+https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/1e3239c3-b6e9-4655-938f-3901a251907d
