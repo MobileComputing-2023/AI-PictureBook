@@ -1,5 +1,7 @@
 # AI-PictureBook
 Create picture books using OpenAI
+
+<a href="https://docs.google.com/presentation/d/1iH0y-OXpsJ4uSkhQqAYEzfUcmvgIvnLSPulZ7FzCBsw/edit?usp=sharing">최종 발표자료<a>
 <p align="center">
   <img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/023a861d-f599-4aec-9d48-6d0967939784">
   <img src="https://github.com/MobileComputing-2023/AI-PictureBook/assets/80878955/861bf3c9-3551-4102-97f2-fac04fc9f3af">
